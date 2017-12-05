@@ -8,6 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/css/main.css'
 
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDLIhRlCDvTBqZiRm21BWLHixwX6jL72Do',
+    libraries: 'places'
+  }
+})
+
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
