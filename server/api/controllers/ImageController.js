@@ -8,18 +8,30 @@ exports.list_all_images = function(req, res) {
     res.json(image);
   });
 };
-exports.upload_an_image=function(req,res,next){
-  // res.send(req.files);
-  var imagepath = {};
-  imagepath['userId']=1;
-  imagepath['path'] = req.files[0].path;
-  imagepath['originalname'] = req.files[0].originalname;
-  var upload_image = new Image(imagepath);
-  upload_image.save(function(err, user) {
-    if (err)
-      res.send(err);
-    res.send('Image upload successfully');
-  });
+  exports.upload_an_image=function(req,res,next){
+    var imagename=req.files[0].originalname;
+    try {
+      new ExifImage({ image :'api/uploads/'+imagename}, function (error, exifData) {
+        var generated_exifDate=exifData;
+        var insertObj={};
+        insertObj['path']=req.files[0].path;
+        insertObj['originalname']=imagename;
+        insertObj['userId']=1;
+        insertObj['metadata']=generated_exifDate;
+        if (error)
+          res.send('Error: '+error.message);
+        else
+          var upload_image = new Image(insertObj);
+        upload_image.save(function(err, image) {
+          if (err)
+            res.send(err);
+          res.send('Image upload successfully');
+        });
+
+      });
+    } catch (error) {
+      res.send('Error: ' + error.message);
+    }
 };
 exports.read_an_image = function(req, res) {
   Image.findById(req.params.ImageId, function(err, image) {
