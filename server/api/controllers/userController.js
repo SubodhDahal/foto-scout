@@ -15,7 +15,7 @@ exports.create_a_user = function(req, res){
       new_user.save(function(err, user) {
         if (err)
           res.send(err);
-        res.json(user);
+        res.json({success: 'true', message: 'Registration is successful'});
       });
     }
     else{
@@ -31,11 +31,11 @@ exports.sign_in = function(req, res) {
     if (err) throw err;
     if (!user) {
       res.json({ message: 'Authentication failed. User not found.' });
-    } else if (user) if (!user.comparePassword(req.body.password)) {
-      res.json({message: 'Authentication failed. Wrong password.'})
+    } else if (user) if (!user.comparePassword(req.body.passcode)) {
+      res.json({message: 'Authentication failed. Wrong passcode.'})
     } else {
       return res.json({
-        token: jwt.sign({
+        access_token: jwt.sign({
           firstname: user.firstname,
           lastname: user.lastname,
           _id: user._id
