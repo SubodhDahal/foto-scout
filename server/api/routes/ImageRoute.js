@@ -13,17 +13,17 @@ var upload = multer({
   storage: storage
 });
 module.exports = function(app) {
-  var imageList = require('../controllers/ImageUploadController');
+  var image = require('../controllers/ImageController');
 
   // Image Upload  Routes
   app.route('/upload')
-    .get(imageList.list_all_images)
-    .post(upload.any(),imageList.upload_an_image);
+    .get(image.list_all_images)
+    .post(upload.any(),image.upload_an_image);
 
 
   app.route('/upload/:ImageId')
-    .get(imageList.read_an_image)
-    .put(imageList.update_an_image)
-    .delete(imageList.delete_an_image);
+    .get(image.read_an_image)
+    .put(image.update_an_image)
+    .delete(image.delete_an_image);
 
 };

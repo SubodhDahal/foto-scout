@@ -1,29 +1,22 @@
 var express = require('express'),
-    port = process.env.PORT||3000,
-    app = express(),
-    mongoose = require('mongoose'),
-    User = require('./api/models/userModel'), //created model loading here
-    bodyParser = require('body-parser');
-
-// mongoose instance connection url connection
+app = express();
+var router = express.Router();
+var multer = require('multer');
+path=require('path');
+port = process.env.PORT || 3000,
+mongoose = require('mongoose'),
+Image = require('./api/models/ImageModel'),
+  User = require('./api/models/userModel'),
+  bodyParser = require('body-parser');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/FotoScoudDB');
-
-var db = mongoose.connection;
-
-app.use(stormpath.init(app, {
-  // Optional configuration, see documentation
-}));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-
-var routes = require('./api/routes/userRoute'); //importing route
-routes(app); //register the route
-
-
+var routes = require('./api/routes/ImageRoute'); //importing route
+var routes1 = require('./api/routes/userRoute');
+routes(app);
+routes1(app);
+//app.use('/', routes);
 app.listen(port);
-console.log('server running on ' +port);
-
+console.log('Scout RESTful API server started on: ' + port);
 
