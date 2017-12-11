@@ -1,17 +1,36 @@
 var express = require('express'),
-app = express();
-var router = express.Router();
-var multer = require('multer');
-path=require('path');
-port = process.env.PORT || 8080,
-mongoose = require('mongoose'),
-Image = require('./api/models/ImageModel'),
-  User = require('./api/models/userModel'),
-  bodyParser = require('body-parser');
+    port = process.env.PORT||3000,
+    app = express(),
+    mongoose = require('mongoose'),
+    User = require('./api/models/userModel'), //created model loading here
+    jwt = require("jsonwebtoken"),
+    Image = require('./api/models/ImageModel'),  
+    bodyParser = require('body-parser'),
+    path=require('path'),
+    router = express.Router(),
+    multer = require('multer');
+
+// mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/FotoScoudDB');
+mongoose.connect('mongodb://localhost/FotoScoutDB');
+
+var db = mongoose.connection;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(function(req, res, next){
+  if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
+    jwt.verify(req.headers.authorization.split('')[1], 'RESTFULAPIS', function(err, decode){
+      req.user = decode;
+      next();
+    });
+  }else{
+    req.user = undefined;
+    next();
+  }
+});
+
 var routes = require('./api/routes/ImageRoute'); //importing route
 var routes1 = require('./api/routes/userRoute');
 routes(app);
