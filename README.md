@@ -28,4 +28,4 @@ npm test
 ```
 
 #Image Upload
-> To Upload,Update, Display and Delete   an image, point URL on localhost:8080/upload
+> To Upload,Update, Display and Delete an image, point URL on localhost:8080/upload
