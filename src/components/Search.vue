@@ -19,11 +19,6 @@
   export default {
     methods: {
       getAddressData (addressData) {
-        // addressData = {
-        //   id: 2,
-        //   lat: 3,
-        //   lng: 5
-        // }
         this.$store.commit('SET_LOCATION', {
           location: addressData
         })
