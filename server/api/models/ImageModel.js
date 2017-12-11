@@ -14,6 +14,12 @@ var imageSchema = new mongoose.Schema({
   userId:{
     type:Number,
     required:false
-  }
+  },
+  metadata:
+    {
+      type: Object,
+      required: true
+    }
+
 });
 module.exports = mongoose.model('ImageUpload', imageSchema);
