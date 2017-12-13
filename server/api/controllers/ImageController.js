@@ -1,6 +1,7 @@
 'use strict';
 var multer = require('multer');
 var mongoose = require('mongoose');
+var ExifImage = require('exif').ExifImage;
 exports.list_all_images = function(req, res) {
   Image.find({}, function(err, image) {
     if (err)
