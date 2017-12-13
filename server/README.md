@@ -1,47 +1,69 @@
-# Authentication with JSONWEBTOKEN
-This is a NodeJS API that supports username and password authentication with jsonwebtoken.
+# FotoScout API
+API for the FotoScout system
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# run the node server
+node app.js
+```
 
 ## Available APIs
-### User Regisrtration API
 
-### POST/register
-You can do a POST to http://localhost:3000/register to create a new user.
+ - User Registration
 
-The body must have:
+## User Registration
 
-- firstname: The first name
-- lastname: The last name
-- email: The email
-- passcode: The passcode
+This is a NodeJS API that supports username and password authentication with JSON Web Tokens.
 
-It returns the following:
-        
-  {
-  
-      "success": "true",  
-      "message": "Registration is successful"
-      
-  }
+### Register user
+Register a new user
 
-### POST/login
-You can do a POST to http://localhost:3000/login to login 
-
-The body must have:
-
-- email: The email
-- passcode: The passcode
-
-It returns the following
-
-{
-
-    "access_token": "JWT"
+- **URL**
     
-}
+    `/register`
 
-use "access_token" in authorization header to access protected routes.
+- **Method**
 
-## Running it
-To run the server run the following commands
-1. npm install
-2. node app.js
+    `POST`
+    
+- **Body parameters**
+
+    - `firstname`: The first name
+    - `lastname`: The last name
+    - `email`: The email
+    - `passcode`: The passcode
+
+- **Success Response**
+        
+      {
+          "success": "true",  
+          "message": "Registration is successful"      
+      }
+
+### Login user
+Login a user into the system
+
+- **URL**
+    
+    `/login`
+
+- **Method**
+
+    `POST`
+    
+- **Body parameters**
+
+    - `email`: The email
+    - `passcode`: The passcode
+
+- **Success Response**
+
+      {
+         "access_token": "JWT"    
+      }
+
+Use `access_token` in authorization header to access protected routes.

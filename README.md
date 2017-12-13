@@ -26,6 +26,3 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-#Image Upload
-> To Upload,Update, Display and Delete an image, point URL on localhost:8080/upload
