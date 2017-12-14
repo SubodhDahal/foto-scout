@@ -1,12 +1,10 @@
 <template>
-  <div class="row">
-    <div v-for="image in images" class="col-md-4 col-sm-4">
-      <img :src="image">
-
-
+  <div class="container">
+    <div class="row">
+      <div v-for="image in images" class="col-md-4 col-sm-4">
+        <img :src="image">
+      </div>
     </div>
-
-
   </div>
 </template>
 
