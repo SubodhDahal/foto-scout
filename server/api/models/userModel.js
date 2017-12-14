@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    bcrypt = require('bcrypt');
 
 var UserSchema = new Schema({
     firstname:{
@@ -15,6 +16,10 @@ var UserSchema = new Schema({
         type: String
     }
 });
+
+  UserSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.passcode);
+}
 
 module.exports = mongoose.model('User', UserSchema);
 
