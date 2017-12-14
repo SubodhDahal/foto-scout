@@ -13,7 +13,7 @@ var upload = multer({
   storage: storage
 });
 module.exports = function(app) {
-  var imageList = require('../controllers/ImageUploadController');
+  var imageList = require('../controllers/ImageController');
 
   // Image Upload  Routes
   app.route('/upload')
