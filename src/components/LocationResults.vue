@@ -19,14 +19,7 @@
   export default {
     computed: {
       location () {
-        let center = {
-          lat: 51.1657,
-          lng: 10.4515
-        }
-
-        if (this.$store.state.location.id) {
-          center = this.$store.getters.locationCoordinates
-        }
+        let center = this.$store.getters.locationCoordinates
 
         return {
           center,

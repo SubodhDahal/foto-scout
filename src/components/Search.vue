@@ -3,6 +3,7 @@
     <gmap-autocomplete
       class="form-control p-3 mr-2 search-box"
       placeholder="Enter location to search"
+      :value="locationName"
       @place_changed="getAddressData"
     >
     </gmap-autocomplete>
@@ -16,7 +17,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
+    computed: {
+      ...mapGetters([
+        'locationName'
+      ])
+    },
+
     methods: {
       getAddressData (addressData) {
         this.$store.commit('setLocation', {
