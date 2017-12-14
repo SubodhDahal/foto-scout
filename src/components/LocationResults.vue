@@ -25,10 +25,7 @@
         }
 
         if (this.$store.state.location.id) {
-          center = {
-            lat: this.$store.state.location.geometry.location.lat,
-            lng: this.$store.state.location.geometry.location.lng
-          }
+          center = this.$store.getters.locationCoordinates
         }
 
         return {
