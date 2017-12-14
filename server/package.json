@@ -12,6 +12,8 @@
     "bcrypt": "^1.0.3",
     "body-parser": "*",
     "express": "*",
-    "mongoose": "*"
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "*",
+    "multer": "*"
   }
 }

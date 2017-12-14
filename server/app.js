@@ -14,6 +14,8 @@ mongoose.connect('mongodb://localhost/FotoScoutDB');
 var db = mongoose.connection;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+var db = mongoose.connection;
 app.use(function(req, res, next){
   if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
     jwt.verify(req.headers.authorization.split('')[1], 'RESTFULAPIS', function(err, decode){
@@ -32,6 +34,4 @@ routes1(app);
 //app.use('/', routes);
 app.listen(port);
 console.log('Scout RESTful API server started on: ' + port);
-
-
 
