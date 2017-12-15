@@ -26,7 +26,8 @@ exports.list_all_images = function(req, res) {
         upload_image.save(function(err, image) {
           if (err)
             res.send(err);
-          res.send('Image upload successfully');
+          res.json({success: 'true', message: 'Image upload successfully'});
+        //  res.send('Image upload successfully');
         });
 
       });
@@ -60,6 +61,7 @@ exports.delete_an_image = function(req, res) {
   }, function(err, image) {
     if (err)
       res.send(err);
-    res.json({ message: 'Image successfully deleted' });
+    res.json({success: 'true', message: 'Image  deleted successfully'});
+   // res.json({ message: 'Image successfully deleted' });
   });
 };

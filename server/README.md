@@ -1,3 +1,4 @@
+
 # FotoScout API
 API for the FotoScout system
 
@@ -87,10 +88,12 @@ User can upload the foto.
 
     - `image`: Brows and select foto
 
-- **Success Response**
+ **Success Response**
 
-    " Image upload successfully"
-
+      {
+          "success": "true",
+          "message": "Image upload successfully"
+      }
 ### List of Fotos
 User can view fotos list.
 
@@ -102,17 +105,25 @@ User can view fotos list.
 
     `GET`
 
+ **Success Response**
+
+      {
+          Display uploaded images list.
+      }
  ### **Delete Foto**
 User can delete foto by foto id.
 
 - **URL**
 
-    `/upload/deleted_foto_id
+    `/upload/foto_id
 
 - **Method**
 
     `DELETE`
 
- - **Success Response**
+  **Success Response**
 
-   { "message": "Image  deleted successfully"}
+      {
+          "success": "true",
+          "message": "Image successfully deleted"
+      }
