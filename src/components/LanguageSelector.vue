@@ -1,25 +1,16 @@
 <template>
   <div>
-    <a href="#" @click.prevent="changeLanguage('en')">English</a>
-    |
-    <a href="#" @click.prevent="changeLanguage('de')">Deutsch</a>
+    <Language name="English" locale="en" /> |
+    <Language name="Deutsch" locale="de" />
   </div>
 </template>
 
 <script>
-  export default {
-    methods: {
-      /**
-       * Change the system language
-       * @param  {String} language
-       */
-      changeLanguage (language) {
-        this.$store.commit('changeLanguage', {
-          language
-        })
+  import Language from './Language'
 
-        this.$i18n.set(language)
-      }
+  export default {
+    components: {
+      Language
     }
   }
 </script>
