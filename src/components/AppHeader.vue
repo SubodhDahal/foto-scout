@@ -1,11 +1,21 @@
 <template>
-  <header id="header" class="display-3 text-center mt-3 mb-1">
-    <img src="/static/images/logo.png" alt="Foto Scout">
+  <header id="header">
+    <div class="display-3 text-center mt-3 mb-1">
+      <img src="/static/images/logo.png" alt="Foto Scout">
+    </div>
+
+    <div class="float-right">
+      <LanguageSelector />
+    </div>
   </header><!-- /header -->
 </template>
 
 <script>
-  export default {
+  import LanguageSelector from './LanguageSelector'
 
+  export default {
+    components: {
+      LanguageSelector
+    }
   }
 </script>
