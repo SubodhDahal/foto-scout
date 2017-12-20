@@ -1,5 +1,5 @@
 <template>
-  <a href="#" @click.prevent="change(locale)">
+  <a href="#" @click.prevent="change(locale)" :class="{'selected-language': isSelected}">
     {{ name }}
   </a>
 </template>
@@ -14,6 +14,12 @@
       name: {
         type: String,
         default: 'English'
+      }
+    },
+
+    computed: {
+      isSelected () {
+        return this.locale === this.$store.getters.language
       }
     },
 
@@ -32,3 +38,9 @@
     }
   }
 </script>
+
+<style>
+  .selected-language {
+    font-weight: bold;
+  }
+</style>

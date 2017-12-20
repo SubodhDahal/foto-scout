@@ -1,5 +1,14 @@
 export default {
   /**
+   * Get the selected language for the system
+   * @param  {State} state
+   * @return {String}
+   */
+  language (state) {
+    return state.language
+  },
+
+  /**
    * Get the name of the selected location
    * @param  {Object} state
    * @return {String}
