@@ -1,6 +1,6 @@
 <template>
   <a href="#" @click.prevent="change(locale)" :class="{'selected-language': isSelected}">
-    {{ name }}
+    <img :src="`/static/images/flags/${flag}.png`" :alt="name">
   </a>
 </template>
 
@@ -10,6 +10,10 @@
       locale: {
         type: String,
         default: 'en'
+      },
+      flag: {
+        type: String,
+        default: 'UK'
       },
       name: {
         type: String,
@@ -41,6 +45,7 @@
 
 <style>
   .selected-language {
-    font-weight: bold;
+    padding: 0 1px 2px 1px;
+    box-shadow: -1px -1px 0px #fff, 1px 1px 4px #000;
   }
 </style>
