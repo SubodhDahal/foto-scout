@@ -2,7 +2,7 @@
   <div class="form-group form-inline mt-5">
     <gmap-autocomplete
       class="form-control p-3 mr-2 search-box"
-      placeholder="Enter location to search"
+      :placeholder="$t('searchText')"
       :value="locationName"
       @place_changed="getAddressData"
     >
