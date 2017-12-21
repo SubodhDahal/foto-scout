@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Language name="English" locale="en" /> |
-    <Language name="Deutsch" locale="de" />
+    <Language name="English" locale="en" flag="UK" />
+    <Language name="Deutsch" locale="de" flag="DE" />
   </div>
 </template>
 
