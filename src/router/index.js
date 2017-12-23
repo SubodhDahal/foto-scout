@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import SearchResults from '@/components/SearchResults'
 
 
+
 Vue.use(Router)
 
 export default new Router({
