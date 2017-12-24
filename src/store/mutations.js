@@ -5,7 +5,16 @@ export default {
    * @param {Object} payload
    */
   setLocation (state, payload) {
-    state.location = { ...state.location, ...payload.location }
+    state.search.location = { ...state.search.location, ...payload.location }
+  },
+
+  /**
+   * Set the selected search options
+   * @param {Object} state
+   * @param {Object} payload
+   */
+  setSearchOptions (state, payload) {
+    state.search.options = {...state.search.options, ...payload.options}
   },
 
   /**

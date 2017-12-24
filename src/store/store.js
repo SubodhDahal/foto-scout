@@ -12,7 +12,10 @@ import mutations from './mutations'
 const store = new Vuex.Store({
   state: {
     language: 'en',
-    location: {}
+    search: {
+        location: {},
+        options: {}
+    }
   },
 
   getters,
