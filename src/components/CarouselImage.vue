@@ -1,10 +1,19 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div v-for="item in items" class="col-md-4">
-      <img :src="item.imageUrl" class="img-fluid" height="250"/>
-      </div>
-    </div>
+    <b-carousel id="carousel1"
+                style="text-shadow: 1px 1px 2px #333;"
+                controls
+                indicators
+                background="#ababab"
+                :interval="4000"
+                img-width="1024"
+                img-height="480"
+                v-model="slide"
+                @sliding-start="onSlideStart"
+                @sliding-end="onSlideEnd"
+    >
+      <b-carousel-slide v-for="item in items" :img-src="item.imageUrl" :key="item.id"></b-carousel-slide>
+    </b-carousel>
   </div>
 </template>
 
@@ -31,5 +40,3 @@
   }
 
 </script>
-
-
