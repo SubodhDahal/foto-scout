@@ -5,12 +5,10 @@
                 controls
                 indicators
                 background="#ababab"
-                :interval="4000"
+                :interval="0"
                 img-width="1024"
                 img-height="480"
-                v-model="slide"
-                @sliding-start="onSlideStart"
-                @sliding-end="onSlideEnd"
+                :value="currentSlide"
     >
       <b-carousel-slide v-for="item in items" :img-src="item.imageUrl" :key="item.id"></b-carousel-slide>
     </b-carousel>
@@ -33,10 +31,17 @@
             id: '3',
             title: 'India'
           }
-
         ]
+      }
+    },
+    computed: {
+      currentSlide () {
+        var found = this.items.find((item) => {
+          return item.id === this.$route.params.id
+        })
+
+        return this.items.indexOf(found)
       }
     }
   }
-
 </script>

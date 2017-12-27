@@ -20,7 +20,7 @@ export default new Router({
       component:SearchResults
     },
     {
-      path:'/carousel-image',
+      path:'/carousel-image/:id',
       name:'CarouselImage',
       component:CarouselImage
     }
