@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>Chat Room</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- socket library -->
+  <script src="../node_modules/socket.io/lib/socket.io.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+          <div class="col-md-4">
+              <div class="well">
+                <h3>Online Users</h3>
+                <ul class="list-group" id="users"></ul>
+              </div>
+          </div>
+          <div class="col-md-8">
+              <div class="chat" id="chat"></div>
+
+            <form id="messageForm">
+              <div class="form-group">
+                <textarea class="form-control input-sm" id="message btn-input" placeholder="Type Your message here"></textarea>
+                <br />
+                <input type="submit" class="btn btn-primary pull-right" value="Send Message" />
+              </div>
+            </form>
+          </div>
+    </div>
+  </div>
+
+  <script>
+    $(function(){
+        var socket = io.connect();
+    });
+  </script>
+</body>
+</html>
