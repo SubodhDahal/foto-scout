@@ -4,8 +4,6 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-users = [];
-connections = [];
 
 server.listen(process.env.PORT || 3000);
 console.log ('Server is running.....');
@@ -15,11 +13,17 @@ app.get ('/', function(req, res){
 });
 
 //to connect socket.io
-io.sockets.on = ('connection', function(socket){
-  connections.push(socket);
-  console.log('Connected: %s user connected', connections.length);
-
-  // Disconnect
-  connections.splice(connections.indexOf(socket), 1);
-  console.log('Disonnected: %s user connected', connections.length);
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 });
+//to boardcast message
+io.emit('some event', { for: 'everyone' });
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
