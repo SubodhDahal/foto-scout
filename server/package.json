@@ -11,11 +11,15 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "*",
+<<<<<<< HEAD
     "cors": "^2.8.4",
+=======
+>>>>>>> ae4572435117e752e6931a4caa8fdc68a8e223a1
     "exif": "^0.6.0",
     "express": "*",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "*",
-    "multer": "*"
+    "multer": "*",
+    "socket.io": "^2.0.4"
   }
 }

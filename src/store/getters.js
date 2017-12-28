@@ -1,11 +1,20 @@
 export default {
   /**
+   * Get the selected language for the system
+   * @param  {State} state
+   * @return {String}
+   */
+  language (state) {
+    return state.language
+  },
+
+  /**
    * Get the name of the selected location
    * @param  {Object} state
    * @return {String}
    */
   locationName (state) {
-    return state.location.id ? state.location.formatted_address : ''
+    return state.search.location.id ? state.search.location.formatted_address : ''
   },
 
   /**
@@ -14,10 +23,10 @@ export default {
    * @return {Object}
    */
   locationCoordinates (state) {
-    if (state.location.id) {
+    if (state.search.location.id) {
       return {
-        lat: state.location.geometry.location.lat,
-        lng: state.location.geometry.location.lng
+        lat: state.search.location.geometry.location.lat,
+        lng: state.search.location.geometry.location.lng
       }
     } else {
       return {
@@ -25,5 +34,14 @@ export default {
         lng: 10.4515
       }
     }
+  },
+
+  /**
+   * Get the selected search options
+   * @param  {Object} state
+   * @return {Object}
+   */
+  searchOptions (state) {
+    return state.search.options
   }
 }

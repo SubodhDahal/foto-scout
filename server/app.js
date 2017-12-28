@@ -1,26 +1,25 @@
 var express = require('express'),
-    port = process.env.PORT||3000,
-    app = express(),
-    mongoose = require('mongoose'),
-    User = require('./api/models/userModel'), //created model loading here
-    jwt = require("jsonwebtoken"),
-    Image = require('./api/models/ImageModel'),
-    bodyParser = require('body-parser'),
-    path=require('path'),
-    router = express.Router(),
-    multer = require('multer'),
-    cors=require('cors');
+  app = express(),
+  router = express.Router(),
+  multer = require('multer');
+  path=require('path'),
+  port = process.env.PORT||3000,
+  mongoose = require('mongoose'),
+  Image = require('./api/models/ImageModel'),
+  User = require('./api/models/userModel'), //created model loading here
+  Group = require('./api/models/groupModel'),
+  bodyParser = require('body-parser'),
+  jwt = require("jsonwebtoken");
 
-// mongoose instance connection url connection
 mongoose.Promise = global.Promise;
+
 mongoose.connect('mongodb://localhost/FotoScoutDB');
-
 var db = mongoose.connection;
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+var db = mongoose.connection;
 app.use(function(req, res, next){
   if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
     jwt.verify(req.headers.authorization.split('')[1], 'RESTFULAPIS', function(err, decode){
@@ -32,11 +31,12 @@ app.use(function(req, res, next){
     next();
   }
 });
-
 var routes = require('./api/routes/ImageRoute'); //importing route
 var routes1 = require('./api/routes/userRoute');
+var routes2 = require('./api/routes/groupRoute');
 routes(app);
 routes1(app);
+routes2(app);
 //app.use('/', routes);
 app.listen(port);
 console.log('Scout RESTful API server started on: ' + port);

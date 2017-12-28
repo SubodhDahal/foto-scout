@@ -19,8 +19,6 @@ module.exports = function(app) {
   app.route('/upload')
     .get(image.list_all_images)
     .post(upload.any(),image.upload_an_image);
-
-
   app.route('/upload/:ImageId')
     .get(image.read_an_image)
     .put(image.update_an_image)
