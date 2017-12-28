@@ -2,7 +2,9 @@
   <div class="container">
     <div class="row">
       <div v-for="item in items" class="col-md-4">
-      <img :src="item.imageUrl" class="img-fluid" height="250"/>
+         <router-link :to="{name:'CarouselImage',params:{id:item.id}}">
+           <img :src="item.imageUrl" class="img-fluid" height="250"/>
+         </router-link>
       </div>
     </div>
   </div>
