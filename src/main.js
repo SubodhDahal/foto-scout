@@ -8,10 +8,6 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/css/main.css'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.css'
-
-Vue.use(Vuetify)
 
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
