@@ -9,13 +9,15 @@ var express = require('express'),
   User = require('./api/models/userModel'), //created model loading here
   Group = require('./api/models/groupModel'),
   bodyParser = require('body-parser'),
-  jwt = require("jsonwebtoken"),
-  mongoose.Promise = global.Promise;
+  jwt = require("jsonwebtoken");
+
+mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/FotoScoutDB');
 var db = mongoose.connection;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 var db = mongoose.connection;
 app.use(function(req, res, next){

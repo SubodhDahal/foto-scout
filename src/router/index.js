@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
-
+import UploadImage from '@/components/UploadImage'
 
 Vue.use(Router)
 
@@ -23,6 +23,11 @@ export default new Router({
       path:'/carousel-image/:id',
       name:'CarouselImage',
       component:CarouselImage
+    },
+    {
+      path:'/upload-image',
+      name:'UploadImage',
+      component:UploadImage
     }
   ]
 })
