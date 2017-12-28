@@ -2,14 +2,16 @@ var express = require('express'),
   app = express(),
   router = express.Router(),
   multer = require('multer');
-path=require('path'),
+  path=require('path'),
   port = process.env.PORT||3000,
   mongoose = require('mongoose'),
   Image = require('./api/models/ImageModel'),
   User = require('./api/models/userModel'), //created model loading here
+  Group = require('./api/models/groupModel'),
   bodyParser = require('body-parser'),
   jwt = require("jsonwebtoken"),
   mongoose.Promise = global.Promise;
+
 mongoose.connect('mongodb://localhost/FotoScoutDB');
 var db = mongoose.connection;
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,8 +31,10 @@ app.use(function(req, res, next){
 });
 var routes = require('./api/routes/ImageRoute'); //importing route
 var routes1 = require('./api/routes/userRoute');
+var routes2 = require('./api/routes/groupRoute');
 routes(app);
 routes1(app);
+routes2(app);
 //app.use('/', routes);
 app.listen(port);
 console.log('Scout RESTful API server started on: ' + port);
