@@ -4,11 +4,12 @@ var express = require('express'),
     mongoose = require('mongoose'),
     User = require('./api/models/userModel'), //created model loading here
     jwt = require("jsonwebtoken"),
-    Image = require('./api/models/ImageModel'),  
+    Image = require('./api/models/ImageModel'),
     bodyParser = require('body-parser'),
     path=require('path'),
     router = express.Router(),
-    multer = require('multer');
+    multer = require('multer'),
+    cors=require('cors');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -18,6 +19,7 @@ var db = mongoose.connection;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(function(req, res, next){
   if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
