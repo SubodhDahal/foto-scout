@@ -3,12 +3,41 @@ var multer = require('multer');
 var mongoose = require('mongoose');
 var ExifImage = require('exif').ExifImage;
 
-exports.list_all_images = function(req, res) {
-  Image.find({}, function(err, image) {
-    if (err)
-      res.send(err);
-    res.json(image);
-  });
+/**
+ * Search an image within certain radius of an location
+ * @param  {Object} req
+ * @param  {Object} res
+ * @return {Object}
+ */
+exports.search_image_by_location = function(req, res) {
+  var latitude = req.query.latitude,
+    longitude = req.query.longitude,
+    maxDistance = req.query.radius,
+    EARTH_RADIUS = 6384;  // radius of the earth in kilometers
+
+  // The maximum distance we want to search in kim
+  maxDistance /= EARTH_RADIUS;
+
+  // The center and the size of the sphere from which we want to search
+  var centerSphere = [[
+                      parseFloat(longitude),
+                      parseFloat(latitude)
+                    ], maxDistance];
+
+  return Image.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: centerSphere
+      }
+    }}).limit(10).exec(function(err, locations) {
+      if (err) {
+        return res.status(500)
+                  .json(err);
+      }
+
+      return res.status(200)
+                .json(locations);
+    });
 };
 
 /**
@@ -110,36 +139,4 @@ exports.read_an_image = function(req, res) {
       res.send(err);
     res.json(image);
   });
-};
-
-/**
- * Search an image within certain radius of an location
- * @param  {Object} req
- * @param  {Object} res
- * @return {Object}
- */
-exports.search_image_by_location = function(req, res) {
-  var latitude = req.params.latitude,
-    longitude = req.params.longitude,
-    maxDistance = req.params.radius,
-    EARTH_RADIUS = 6384;  // radius of the earth in kilometers
-
-  maxDistance /= EARTH_RADIUS;
-
-  var centerSphere = [[ parseFloat(longitude), parseFloat(latitude) ], maxDistance ];
-
-  return Image.find({
-    location: {
-      $geoWithin: {
-        $centerSphere: centerSphere
-      }
-    }}).limit(10).exec(function(err, locations) {
-      if (err) {
-        return res.status(500)
-                  .json(err);
-      }
-
-      return res.status(200)
-                .json(locations);
-    });
 };
