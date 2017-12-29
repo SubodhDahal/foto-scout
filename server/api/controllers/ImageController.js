@@ -126,7 +126,7 @@ exports.search_image_by_location = function(req, res) {
 
   maxDistance /= EARTH_RADIUS;
 
-  var centerSphere = [[ -73, 40 ], maxDistance ];
+  var centerSphere = [[ parseFloat(longitude), parseFloat(latitude) ], maxDistance ];
 
   return Image.find({
     location: {
