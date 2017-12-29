@@ -1,5 +1,6 @@
 'use strict';
 var multer = require('multer');
+
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './api/uploads/')
@@ -12,6 +13,7 @@ var storage = multer.diskStorage({
 var upload = multer({
   storage: storage
 });
+
 module.exports = function(app) {
   var image = require('../controllers/ImageController');
 

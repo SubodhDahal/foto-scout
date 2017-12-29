@@ -13,14 +13,14 @@ const descriptionValidator = [
 
 
 var imageSchema = new mongoose.Schema({
-  path: {
-    type: String,
-    required: [true, 'Path is required.'],
-  },
-  originalname: {
-    type: String,
-    required: true
-  },
+  // path: {
+  //   type: String,
+  //   required: [true, 'Path is required.'],
+  // },
+  // originalname: {
+  //   type: String,
+  //   required: true
+  // },
   userId:{
     type:Number,
     required:false
