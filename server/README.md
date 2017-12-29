@@ -97,22 +97,45 @@ User can upload the photo.
           "success": "true",
           "message": "Image upload successfully"
       }
-### List of Photos
-User can view photos list.
+
+### Query photos by location
+Get the photos that are within certain range of the location
 
 - **URL**
 
-    `/upload`
+    `/images/search`
 
 - **Method**
 
     `GET`
 
- **Success Response**
+- **Query parameters**
 
+    - `latitude`: The geographical latitude coordinate
+    - `latitude`: The geographical latitude coordinate
+    - `radius`: The radius range(in km) to search
+    
+ **Success Response**(sample)
+  
     {
-        "success": "true",
-        "message": "Display uploaded images list."
+        "status": "success",
+        "images": [
+            {
+                "_id": "5a469b3c27435203c926b44a",
+                "path": "api/uploads/xmas-2928142_1280.jpg",
+                "originalname": "xmas-2928142_1280.jpg",
+                "description": "test",
+                "userId": 1,
+                "location": {
+                    "coordinates": [
+                        54.3285731,
+                        10.1267113
+                    ],
+                    "type": "Point"
+                },
+                "__v": 0
+            }
+        ]
     }
 
 ### **Delete Photo**
