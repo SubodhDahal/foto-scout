@@ -4,41 +4,29 @@
       <div class="col-md-6">
         <b-form-group
           id="bformimageupload"
-          :label="$t('labelforimage')">
-          <b-form-file id="file_input1" v-model="file" accept="image/*" @change="onFilePicked"
-                       ref="fileInput"></b-form-file>
+          label="Choose Image to upload">
+          <b-form-file
+            id="file_input1"
+            v-model="file"
+            accept="image/*"
+            @change="onFilePicked"
+           ref="fileInput">
+         </b-form-file>
         </b-form-group>
 
-        <b-form-group :label="$t('labelfordescription')">
+        <b-form-group label="Description">
           <b-form-textarea
-            id="description"
+            id="descriptiontext"
             v-model="text"
             rows="4"
-            :placeholder="$t('descriptiontext')"
+            placeholder="Write description about this image"
           >
           </b-form-textarea>
         </b-form-group>
-        <b-form-group :label="$t('labelforlocation')"
-                      id="location"
-                      v-model="location">
-          <gmap-autocomplete
-            class="form-control p-3 mr-2 search-box"
-            :placeholder="$t('locationname')"
-            :value="locationName"
-            @place_changed="getAddressData"
-          >
-          </gmap-autocomplete>
-        </b-form-group>
-
 
         <b-form-group>
-          <b-button type="submit" @click="uploadImage" variant="primary">
-            {{$t('labelforsubmit')}}
-          </b-button>
-
-          <b-button type="reset" variant="danger" @click="onReset">
-            {{$t('labelforreset')}}
-          </b-button>
+          <b-button type="submit" @click="uploadImage" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
         </b-form-group>
       </div>
       <div class="col-md-6">
@@ -56,10 +44,10 @@
       return {
         file: null,
         imageUrl: null,
-        text: '',
-        location: ''
+        text: ''
       }
     },
+
     methods: {
       onFilePicked (event) {
         const files = event.target.files
@@ -82,13 +70,12 @@
         let formData = new FormData()
         formData.append('image', this.file)
 
-        axios.post('http://localhost:3000/upload', {
-          formData
-        })
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        axios.post('http://localhost:3000/upload', formData, config)
           .then(response => console.log(response.data))
-      },
-      getAddressData (addressData) {
-        this.location = addressData
       }
     }
   }
