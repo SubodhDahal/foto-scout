@@ -2,6 +2,7 @@
 var multer = require('multer');
 var mongoose = require('mongoose');
 var ExifImage = require('exif').ExifImage;
+
 exports.list_all_images = function(req, res) {
   Image.find({}, function(err, image) {
     if (err)
@@ -9,39 +10,63 @@ exports.list_all_images = function(req, res) {
     res.json(image);
   });
 };
-exports.upload_an_image=function(req,res,next){
-  var imagename = req.files[0].originalname;
+
+/**
+ * Extract EXIF data from image
+ * @param  {String}   imagename
+ * @param  {Function} callback
+ * @param  {Function}   errorCallback
+ */
+function extractExifData (imagename, callback, errorCallback) {
+  new ExifImage({
+    image: 'api/uploads/' + imagename
+  }, function (error, exifData) {
+    if (error && error.code !== 'NO_EXIF_SEGMENT') {
+      errorCallback(error);
+      return;
+    }
+
+    callback(exifData)
+  });
+}
+
+exports.upload_an_image = function (req,res,next) {
+  var file = req.files[0],
+    imagename = file.originalname,
+    filePath = file.path;
+
   try {
-    new ExifImage({image: 'api/uploads/' + imagename}, function (error, exifData) {
-      var generated_exifDate = exifData;
-      var locations=[];
-      var insertObj = {};
-      insertObj['path'] = req.files[0].path;
+    var insertObj = {};
+
+    extractExifData(imagename, function (exifData) {
+      insertObj['path'] = filePath;
       insertObj['originalname'] = imagename;
       insertObj['description'] = req.body.description;
       insertObj['userId'] = 1;
-      insertObj['GPSLatitude']=req.body.latitude;
-      insertObj['GPSLongitude']=req.body.longitude;
-      //insertObj['GPSLatitude'] = generated_exifDate.gps.GPSLatitude[2];
-      // insertObj['GPSLongitude'] = generated_exifDate.gps.GPSLongitude[2];
-      // locations[0]=generated_exifDate.gps.GPSLatitude[2];
-      //locations[1]=generated_exifDate.gps.GPSLongitude[2];
-      // insertObj['location']=locations;
-      //insertObj['metadata'] = generated_exifDate;
-      if (error)
-        res.send('Error: ' + error.message);
-      else
-        var upload_image = new Image(insertObj);
+      insertObj['GPSLatitude'] = req.body.latitude;
+      insertObj['GPSLongitude'] = req.body.longitude;
+
+      var upload_image = new Image(insertObj);
       upload_image.save(function (err, image) {
         if (err)
           res.send(err);
-        res.json({success: 'true', message: 'Image upload successfully'});
-        //  res.send('Image upload successfully');
-      });
 
-    });
+        res.json({
+          success: 'true',
+          message: 'Image uploaded successfully'
+        });
+      });
+    }, function(error) {
+      res.json({
+        status: 'error',
+        message: error.message
+      });
+    })
   } catch (error) {
-    res.send('Error: ' + error.message);
+    res.json({
+      status: 'error',
+      message: error.message
+    });
   }
 };
 

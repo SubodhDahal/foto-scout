@@ -5,8 +5,13 @@
         <b-form-group
           id="bformimageupload"
           label="Choose Image to upload">
-          <b-form-file id="file_input1" v-model="file" accept="image/*" @change="onFilePicked"
-                       ref="fileInput"></b-form-file>
+          <b-form-file
+            id="file_input1"
+            v-model="file"
+            accept="image/*"
+            @change="onFilePicked"
+           ref="fileInput">
+         </b-form-file>
         </b-form-group>
 
         <b-form-group label="Description">
@@ -42,6 +47,7 @@
         text: ''
       }
     },
+
     methods: {
       onFilePicked (event) {
         const files = event.target.files
@@ -64,9 +70,11 @@
         let formData = new FormData()
         formData.append('image', this.file)
 
-        axios.post('http://localhost:3000/upload', {
-          formData
-        })
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        axios.post('http://localhost:3000/upload', formData, config)
           .then(response => console.log(response.data))
       }
     }
