@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <b-form-group
           id="bformimageupload"
-          label="Choose Image to upload">
+          :label="$t('labelforimage')">
           <b-form-file
             id="file_input1"
             v-model="file"
@@ -14,14 +14,25 @@
           </b-form-file>
         </b-form-group>
 
-        <b-form-group label="Description">
+        <b-form-group :label="$t('labelfordescription')">
           <b-form-textarea
-            id="descriptiontext"
+            id="description"
             v-model="text"
             rows="4"
-            placeholder="Write description about this image"
+            :placeholder="$t('descriptiontext')"
           >
           </b-form-textarea>
+        </b-form-group>
+        <b-form-group :label="$t('labelforlocation')"
+                      id="location"
+                      v-model="location">
+          <gmap-autocomplete
+            class="form-control p-3 mr-2 search-box"
+            :placeholder="$t('locationname')"
+            :value="locationName"
+            @place_changed="getAddressData"
+          >
+          </gmap-autocomplete>
         </b-form-group>
 
         <b-form-group>
@@ -48,7 +59,8 @@
         file: null,
         imageUrl: null,
         text: '',
-        isImageuploaded: false
+        isImageuploaded: false,
+        location: ''
       }
     },
 
@@ -85,6 +97,9 @@
               this.isImageuploaded = true
             }
           })
+      },
+      getAddressData (addressData) {
+        this.location = addressData
       }
     }
   }
