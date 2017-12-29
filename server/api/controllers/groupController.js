@@ -38,14 +38,20 @@ exports.update_group = function (req, res) {
   });
 };
 
-exports.delete_group = function (req, res) {
-  group.remove({_id: req.params.groupId}, function (err, group) {
+exports.delete_group = function(req, res) {
+  group.remove({
+    _id: req.params.id
+  }, function(err, group) {
     if (err)
       res.send(err);
-    res.json({success: 'true', message: 'group  deleted successfully'});
+    res.json({success: 'true', message: 'Successfully deleted group'});
     // res.json({ message: 'group successfully deleted' });
   });
 };
+
+
+
+
 
 /*exports.add_user = function(req, res) {
   User.findOne({
