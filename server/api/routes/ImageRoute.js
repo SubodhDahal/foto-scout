@@ -1,5 +1,6 @@
 'use strict';
 var multer = require('multer');
+
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './api/uploads/')
@@ -12,6 +13,7 @@ var storage = multer.diskStorage({
 var upload = multer({
   storage: storage
 });
+
 module.exports = function(app) {
   var image = require('../controllers/ImageController');
 
@@ -19,11 +21,10 @@ module.exports = function(app) {
   app.route('/upload')
     .get(image.list_all_images)
     .post(upload.any(),image.upload_an_image);
-
-
   app.route('/upload/:ImageId')
     .get(image.read_an_image)
     .put(image.update_an_image)
     .delete(image.delete_an_image);
-
+  app.route('/search/:latitude/:longitude')
+    .get(image.search_image_by_location);
 };

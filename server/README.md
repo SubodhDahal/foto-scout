@@ -1,47 +1,132 @@
-# Authentication with JSONWEBTOKEN
-This is a NodeJS API that supports username and password authentication with jsonwebtoken.
+
+# FotoScout API
+API for the FotoScout system
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# run the node server
+node app.js
+```
 
 ## Available APIs
-### User Regisrtration API
 
-### POST/register
-You can do a POST to http://localhost:3000/register to create a new user.
+ - User Registration
+ - Photo Management
+ 
+## User Registration
 
-The body must have:
+This is a NodeJS API that supports username and password authentication with JSON Web Tokens.
 
-- firstname: The first name
-- lastname: The last name
-- email: The email
-- passcode: The passcode
+### Register user
+Register a new user
 
-It returns the following:
-        
-  {
-  
-      "success": "true",  
-      "message": "Registration is successful"
-      
-  }
+- **URL**
 
-### POST/login
-You can do a POST to http://localhost:3000/login to login 
+    `/register`
 
-The body must have:
+- **Method**
 
-- email: The email
-- passcode: The passcode
+    `POST`
 
-It returns the following
+- **Body parameters**
 
-{
+    - `firstname`: The first name
+    - `lastname`: The last name
+    - `email`: The email
+    - `passcode`: The passcode
 
-    "access_token": "JWT"
-    
-}
+- **Success Response**
 
-use "access_token" in authorization header to access protected routes.
+      {
+          "success": "true",
+          "message": "Registration is successful"
+      }
 
-## Running it
-To run the server run the following commands
-1. npm install
-2. node app.js
+### Login user
+Login a user into the system
+
+- **URL**
+
+    `/login`
+
+- **Method**
+
+    `POST`
+
+- **Body parameters**
+
+    - `email`: The email
+    - `passcode`: The passcode
+
+- **Success Response**
+
+      {
+         "access_token": "JWT"
+      }
+
+Use `access_token` in authorization header to access protected routes.
+
+## Photo management
+
+In this photo management API, user can view their uploaded photos, add new photos and delete their own desire photos.
+
+### Add New Photo
+User can upload the photo.
+
+- **URL**
+
+    `/upload`
+
+- **Method**
+
+    `POST`
+
+- **Body parameters**
+
+    - `image`: Browse and select photo
+
+ **Success Response**
+
+      {
+          "success": "true",
+          "message": "Image upload successfully"
+      }
+### List of Photos
+User can view photos list.
+
+- **URL**
+
+    `/upload`
+
+- **Method**
+
+    `GET`
+
+ **Success Response**
+
+    {
+        "success": "true",
+        "message": "Display uploaded images list."
+    }
+
+### **Delete Photo**
+User can delete photo by photo id.
+
+- **URL**
+
+    `/upload/:photo_id`
+
+- **Method**
+
+    `DELETE`
+
+ - **Success Response**
+
+        {
+            "success": "true",
+            "message": "Image successfully deleted"
+        }
