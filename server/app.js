@@ -22,8 +22,6 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
-var db = mongoose.connection;
-global.db = db
 app.use(function(req, res, next){
   if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
     jwt.verify(req.headers.authorization.split('')[1], 'RESTFULAPIS', function(err, decode){
