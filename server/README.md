@@ -64,11 +64,13 @@ Login a user into the system
 
 - **Success Response**
 
-      {
-         "access_token": "JWT"
-      }
+      [{
+         "access": "auth",
+         "token" :"JWT",
+         "_id" : "_id"
+      }]
 
-Use `access_token` in authorization header to access protected routes.
+Use `token` in header with key `x-auth` to access protected routes.
 
 ## Photo management
 
