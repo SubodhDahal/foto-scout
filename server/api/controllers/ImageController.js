@@ -29,14 +29,19 @@ exports.search_image_by_location = function(req, res) {
       $geoWithin: {
         $centerSphere: centerSphere
       }
-    }}).limit(10).exec(function(err, locations) {
+    }}).limit(10).exec(function(err, images) {
       if (err) {
         return res.status(500)
                   .json(err);
       }
 
+      var response = {
+        status: 'success',
+        images: images
+      }
+
       return res.status(200)
-                .json(locations);
+                .json(response);
     });
 };
 
