@@ -39,12 +39,19 @@ exports.upload_an_image = function (req,res,next) {
     var insertObj = {};
 
     extractExifData(imagename, function (exifData) {
-      insertObj['path'] = filePath;
-      insertObj['originalname'] = imagename;
-      insertObj['description'] = req.body.description;
-      insertObj['userId'] = 1;
-      insertObj['GPSLatitude'] = req.body.latitude;
-      insertObj['GPSLongitude'] = req.body.longitude;
+      insertObj = {
+        path: filePath,
+        originalname: imagename,
+        description: req.body.description,
+        userId: 1,
+        location: {
+          coordinates: [
+            parseFloat(req.body.longitude),
+            parseFloat(req.body.latitude),
+          ],
+          type: 'Point'
+        }
+      }
 
       var upload_image = new Image(insertObj);
       upload_image.save(function (err, image) {
@@ -69,8 +76,6 @@ exports.upload_an_image = function (req,res,next) {
     });
   }
 };
-
-
 
 /*exports.update_an_image = function(req, res) {
   Image.findOneAndUpdate({_id: req.params.ImageId}, req.body, {new: true}, function(err, image) {
