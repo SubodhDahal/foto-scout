@@ -12,8 +12,12 @@
     "bcrypt": "^1.0.3",
     "body-parser": "*",
     "express": "*",
+    "express-validator": "^4.3.0",
     "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
     "mongoose": "*",
-    "multer": "*"
+    "multer": "*",
+    "shortid": "^2.2.8",
+    "validator": "^9.2.0"
   }
 }
