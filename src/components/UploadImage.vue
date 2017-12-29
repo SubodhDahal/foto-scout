@@ -4,24 +4,41 @@
       <div class="col-md-6">
         <b-form-group
           id="bformimageupload"
-          label="Choose Image to upload">
+          :label="$t('labelforimage')">
           <b-form-file id="file_input1" v-model="file" accept="image/*" @change="onFilePicked"
                        ref="fileInput"></b-form-file>
         </b-form-group>
 
-        <b-form-group label="Description">
+        <b-form-group :label="$t('labelfordescription')">
           <b-form-textarea
-            id="descriptiontext"
+            id="description"
             v-model="text"
             rows="4"
-            placeholder="Write description about this image"
+            :placeholder="$t('descriptiontext')"
           >
           </b-form-textarea>
         </b-form-group>
+        <b-form-group :label="$t('labelforlocation')"
+                      id="location"
+                      v-model="location">
+          <gmap-autocomplete
+            class="form-control p-3 mr-2 search-box"
+            :placeholder="$t('locationname')"
+            :value="locationName"
+            @place_changed="getAddressData"
+          >
+          </gmap-autocomplete>
+        </b-form-group>
+
 
         <b-form-group>
-          <b-button type="submit" @click="uploadImage" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
+          <b-button type="submit" @click="uploadImage" variant="primary">
+            {{$t('labelforsubmit')}}
+          </b-button>
+
+          <b-button type="reset" variant="danger" @click="onReset">
+            {{$t('labelforreset')}}
+          </b-button>
         </b-form-group>
       </div>
       <div class="col-md-6">
@@ -39,7 +56,8 @@
       return {
         file: null,
         imageUrl: null,
-        text: ''
+        text: '',
+        location: ''
       }
     },
     methods: {
@@ -68,6 +86,9 @@
           formData
         })
           .then(response => console.log(response.data))
+      },
+      getAddressData (addressData) {
+        this.location = addressData
       }
     }
   }

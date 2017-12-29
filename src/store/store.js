@@ -27,13 +27,29 @@ const store = new Vuex.Store({
 Vue.use(vuexI18n.plugin, store)
 
 const translationsEn = {
-  'searchText': 'Enter location to search'
+  'searchText': 'Enter location to search',
+  'locationname':'Enter location name',
+  'descriptiontext':'Write description about this image',
+  'labelforimage':'Choose an image to upload',
+  'labelfordescription':'Description',
+  'labelforlocation':'Location',
+  'labelforsubmit':'Submit',
+  'labelforreset':'Reset'
+
+
 }
 
 // translations can be kept in separate files for each language
 // i.e. resources/i18n/de.json.
 const translationsDe = {
-  'searchText': 'Geben Sie den zu suchenden Ort ein'
+  'searchText': 'Geben Sie den zu suchenden Ort ein',
+  'locationname': 'Geben Sie den Ortsnamen ein',
+  'descriptiontext':'schreiben Sie eine Beschreibung über dieses Bild',
+  'labelforimage':'Wähle ein Bild zum Hochladen aus',
+  'labelfordescription':'Beschreibung',
+  'labelforlocation':'Ort',
+  'labelforsubmit':'Einreichen',
+  'labelforreset': 'zurücksetzen'
 }
 
 // Add translations directly to the application
