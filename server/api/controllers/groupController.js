@@ -3,33 +3,43 @@
 var mongoose = require('mongoose'),
   group = mongoose.model('Group');
 
-exports.create_a_group = function(req, res){
+exports.create_a_group = function (req, res) {
   var new_group = new group(req.body);
-  new_group.save(function(err,group) {
+  new_group.save(function (err, group) {
     if (err)
       res.send(err);
     res.json({success: 'true', message: 'group created'});
   });
 };
 
-exports.read_group = function(req, res) {
-  group.findById(req.params.Id, function(err, group) {
+exports.read_group = function (req, res) {
+  group.findById({
+    _id: req.params.id
+  }, function (err, group) {
     if (err)
       res.send(err);
     res.json(group);
+  })
+};
+
+exports.update_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $set: {
+      name: req.body.name,
+      description: req.body.description
+    }
+  }, {new: false}, function (err, group) {
+    if (err) res.send(err);
+
+    res.send({
+      message: 'Group updated successfully',
+      group: group
+    });
   });
 };
 
-/*exports.update_group = function(req, res){
-  group.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, group) {
-    if (err)
-      res.send(err);
-    res.json(group);
-  });
-};
-
-exports.delete_group = function(req, res) {
-  group.remove({_id: req.params.Id}, function(err, group) {
+exports.delete_group = function (req, res) {
+  group.remove({_id: req.params.groupId}, function (err, group) {
     if (err)
       res.send(err);
     res.json({success: 'true', message: 'group  deleted successfully'});
