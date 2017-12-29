@@ -23,5 +23,6 @@ module.exports = function(app) {
     .get(image.read_an_image)
     .put(image.update_an_image)
     .delete(image.delete_an_image);
-
+  app.route('/search/:latitude/:longitude')
+    .get(image.search_image_by_location);
 };
