@@ -107,34 +107,34 @@ exports.read_an_image = function(req, res) {
   });
 };
 
-/*exports.search_image_by_location = function(req, res) {
-  // Image.findOne({$match:{ $and: [ { GPSLatitude:req.params.latitude},{ GPSLongitude:req.params.longitude}]}},
-  Image.find({ $and:[{GPSLatitude: req.params.latitude},{GPSLongitude:req.params.longitude}]}, function (err, location) {
-    if (err) throw err;
-    res.json(location);
-  })
-};*/
-
-
-//db.neighborhoods.findOne({ geometry: { $geoIntersects: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] } } } })
-
-//var METERS_PER_MILE = 1609.34
-//db.restaurants.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] }, $maxDistance: 5 * METERS_PER_MILE } } })
+/**
+ * Search an image within certain radius of an location
+ * @param  {Object} req
+ * @param  {Object} res
+ * @return {Object}
+ */
 exports.search_image_by_location = function(req, res) {
-  Image.aggregate([
-    { "$geoNear": {
-      "near": {
-        "type": "Point",
-        "location": [40.093699, 32.074673 ]
-      },
-      "maxDistance": 500 * 1609,
-      "spherical": true,
-      "distanceField": "distance",
-      "distanceMultiplier": 0.000621371
-    }}
-  ],function (err,image) {
-    if(err)
-      throw err;
-    res.json(image);
-  })
+  var latitude = req.params.latitude,
+    longitude = req.params.longitude,
+    maxDistance = req.params.radius,
+    EARTH_RADIUS = 6384;  // radius of the earth in kilometers
+
+  maxDistance /= EARTH_RADIUS;
+
+  var centerSphere = [[ -73, 40 ], maxDistance ];
+
+  return Image.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: centerSphere
+      }
+    }}).limit(10).exec(function(err, locations) {
+      if (err) {
+        return res.status(500)
+                  .json(err);
+      }
+
+      return res.status(200)
+                .json(locations);
+    });
 };
