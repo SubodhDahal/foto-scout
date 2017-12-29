@@ -10,8 +10,8 @@
             v-model="file"
             accept="image/*"
             @change="onFilePicked"
-           ref="fileInput">
-         </b-form-file>
+            ref="fileInput">
+          </b-form-file>
         </b-form-group>
 
         <b-form-group label="Description">
@@ -28,6 +28,9 @@
           <b-button type="submit" @click="uploadImage" variant="primary">Submit</b-button>
           <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
         </b-form-group>
+        <b-alert :show="isImageuploaded" ref="imgalert">
+          Image uploaded successfully
+        </b-alert>
       </div>
       <div class="col-md-6">
         <img :src="imageUrl" class="img-fluid" v-if="imageUrl">
@@ -44,7 +47,8 @@
       return {
         file: null,
         imageUrl: null,
-        text: ''
+        text: '',
+        isImageuploaded: false
       }
     },
 
@@ -64,6 +68,7 @@
         this.text = ''
         this.imageUrl = ''
         this.$refs.fileInput.reset()
+        this.isImageuploaded = false
       },
 
       uploadImage () {
@@ -71,11 +76,15 @@
         formData.append('image', this.file)
 
         const config = {
-          headers: { 'content-type': 'multipart/form-data' }
+          headers: {'content-type': 'multipart/form-data'}
         }
 
         axios.post('http://localhost:3000/upload', formData, config)
-          .then(response => console.log(response.data))
+          .then((response) => {
+            if (response.data.success === 'true') {
+              this.isImageuploaded = true
+            }
+          })
       }
     }
   }
