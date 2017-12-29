@@ -32,7 +32,7 @@ exports.create_a_user = [
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
           if (err) return res.send({message: 'we are having problem at the moment please try again later'});
-          res.send(new_user);
+          res.send({success: 'true',message: 'Registration is successful'});
         })
       }
       else {
