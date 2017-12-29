@@ -49,7 +49,9 @@ exports.delete_group = function(req, res) {
   });
 };
 
-
+exports.list_group = function(req, res) {
+  res.send('NOT IMPLEMENTED: list group');
+};
 
 
 

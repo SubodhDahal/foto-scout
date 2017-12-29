@@ -4,6 +4,7 @@ module.exports = function (app) {
   var group = require('../controllers/groupController');
 
   app.route('/group')
+    .get(group.list_group)
     .post(group.create_a_group);
 
   app.route('/group/:id')
@@ -12,6 +13,7 @@ module.exports = function (app) {
   app.route('/group/:id')
     .put(group.update_group)
     .delete(group.delete_group);
+
 }
 
 
