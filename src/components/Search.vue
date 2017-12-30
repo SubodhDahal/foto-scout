@@ -31,7 +31,9 @@
   export default {
     computed: {
       ...mapGetters([
-        'locationName'
+        'locationName',
+        'locationCoordinates',
+        'searchOptions'
       ])
     },
 
@@ -44,6 +46,19 @@
         this.$store.commit('setLocation', {
           location: addressData
         })
+
+        let payload = {
+          ...this.locationCoordinates,
+          radius: this.searchOptions.radius
+        }
+
+        this.$store.dispatch('getImageResults', payload)
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
       }
     }
   }

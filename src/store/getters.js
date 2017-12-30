@@ -43,5 +43,14 @@ export default {
    */
   searchOptions (state) {
     return state.search.options
+  },
+
+  /**
+   * Get the images search results
+   * @param  {Object} state
+   * @return {Object}
+   */
+  images (state) {
+    return state.images
   }
 }

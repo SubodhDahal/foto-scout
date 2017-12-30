@@ -8,19 +8,25 @@ import vuexI18n from 'vuex-i18n'
 import getters from './getters'
 import setters from './setters'
 import mutations from './mutations'
+import actions from './actions'
 
 const store = new Vuex.Store({
   state: {
     language: 'en',
     search: {
         location: {},
-        options: {}
-    }
+        options: {
+          categories: {},
+          radius: 100 // in km
+        }
+    },
+    images: {}
   },
 
   getters,
   setters,
-  mutations
+  mutations,
+  actions
 })
 
 // Initialize the internationalization plugin on the vue instance
