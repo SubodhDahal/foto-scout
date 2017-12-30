@@ -39,7 +39,7 @@ var imageSchema = new mongoose.Schema({
     required:false
   },
   location:{
-    type:Array
+    type:Object
   },
   metadata:
     {

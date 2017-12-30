@@ -2,50 +2,114 @@
 var multer = require('multer');
 var mongoose = require('mongoose');
 var ExifImage = require('exif').ExifImage;
-exports.list_all_images = function(req, res) {
-  Image.find({}, function(err, image) {
-    if (err)
-      res.send(err);
-    res.json(image);
-  });
+
+/**
+ * Search an image within certain radius of an location
+ * @param  {Object} req
+ * @param  {Object} res
+ * @return {Object}
+ */
+exports.search_image_by_location = function(req, res) {
+  var latitude = req.query.latitude,
+    longitude = req.query.longitude,
+    maxDistance = req.query.radius,
+    EARTH_RADIUS = 6384;  // radius of the earth in kilometers
+
+  // The maximum distance we want to search in kim
+  maxDistance /= EARTH_RADIUS;
+
+  // The center and the size of the sphere from which we want to search
+  var centerSphere = [[
+                      parseFloat(longitude),
+                      parseFloat(latitude)
+                    ], maxDistance];
+
+  return Image.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: centerSphere
+      }
+    }}).limit(10).exec(function(err, images) {
+      if (err) {
+        return res.status(500)
+                  .json(err);
+      }
+
+      var response = {
+        status: 'success',
+        images: images
+      }
+
+      return res.status(200)
+                .json(response);
+    });
 };
-exports.upload_an_image=function(req,res,next){
-  var imagename = req.files[0].originalname;
+
+/**
+ * Extract EXIF data from image
+ * @param  {String}   imagename
+ * @param  {Function} callback
+ * @param  {Function}   errorCallback
+ */
+function extractExifData (imagename, callback, errorCallback) {
+  new ExifImage({
+    image: 'api/uploads/' + imagename
+  }, function (error, exifData) {
+    if (error && error.code !== 'NO_EXIF_SEGMENT') {
+      errorCallback(error);
+      return;
+    }
+
+    callback(exifData)
+  });
+}
+
+exports.upload_an_image = function (req,res,next) {
+  var file = req.files[0],
+    imagename = file.originalname,
+    filePath = file.path;
+
   try {
-    new ExifImage({image: 'api/uploads/' + imagename}, function (error, exifData) {
-      var generated_exifDate = exifData;
-      var locations=[];
-      var insertObj = {};
-      insertObj['path'] = req.files[0].path;
-      insertObj['originalname'] = imagename;
-      insertObj['description'] = req.body.description;
-      insertObj['userId'] = 1;
-      insertObj['GPSLatitude']=req.body.latitude;
-      insertObj['GPSLongitude']=req.body.longitude;
-      //insertObj['GPSLatitude'] = generated_exifDate.gps.GPSLatitude[2];
-      // insertObj['GPSLongitude'] = generated_exifDate.gps.GPSLongitude[2];
-      // locations[0]=generated_exifDate.gps.GPSLatitude[2];
-      //locations[1]=generated_exifDate.gps.GPSLongitude[2];
-      // insertObj['location']=locations;
-      //insertObj['metadata'] = generated_exifDate;
-      if (error)
-        res.send('Error: ' + error.message);
-      else
-        var upload_image = new Image(insertObj);
+    var insertObj = {};
+
+    extractExifData(imagename, function (exifData) {
+      insertObj = {
+        path: filePath,
+        originalname: imagename,
+        description: req.body.description,
+        userId: 1,
+        location: {
+          coordinates: [
+            parseFloat(req.body.longitude),
+            parseFloat(req.body.latitude),
+          ],
+          type: 'Point'
+        }
+      }
+
+      var upload_image = new Image(insertObj);
       upload_image.save(function (err, image) {
         if (err)
           res.send(err);
-        res.json({success: 'true', message: 'Image upload successfully'});
-        //  res.send('Image upload successfully');
-      });
 
-    });
+        res.json({
+          success: 'true',
+          message: 'Image uploaded successfully'
+        });
+      });
+    }, function(error) {
+      res.json({
+        status: 'error',
+        message: error.message
+      });
+    })
   } catch (error) {
-    res.send('Error: ' + error.message);
+    res.json({
+      status: 'error',
+      message: error.message
+    });
   }
 };
-
-
 
 /*exports.update_an_image = function(req, res) {
   Image.findOneAndUpdate({_id: req.params.ImageId}, req.body, {new: true}, function(err, image) {
@@ -80,36 +144,4 @@ exports.read_an_image = function(req, res) {
       res.send(err);
     res.json(image);
   });
-};
-
-/*exports.search_image_by_location = function(req, res) {
-  // Image.findOne({$match:{ $and: [ { GPSLatitude:req.params.latitude},{ GPSLongitude:req.params.longitude}]}},
-  Image.find({ $and:[{GPSLatitude: req.params.latitude},{GPSLongitude:req.params.longitude}]}, function (err, location) {
-    if (err) throw err;
-    res.json(location);
-  })
-};*/
-
-
-//db.neighborhoods.findOne({ geometry: { $geoIntersects: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] } } } })
-
-//var METERS_PER_MILE = 1609.34
-//db.restaurants.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] }, $maxDistance: 5 * METERS_PER_MILE } } })
-exports.search_image_by_location = function(req, res) {
-  Image.aggregate([
-    { "$geoNear": {
-      "near": {
-        "type": "Point",
-        "location": [40.093699, 32.074673 ]
-      },
-      "maxDistance": 500 * 1609,
-      "spherical": true,
-      "distanceField": "distance",
-      "distanceMultiplier": 0.000621371
-    }}
-  ],function (err,image) {
-    if(err)
-      throw err;
-    res.json(image);
-  })
 };
