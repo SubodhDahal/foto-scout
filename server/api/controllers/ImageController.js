@@ -1,14 +1,49 @@
 'use strict';
-var multer = require('multer');
-var mongoose = require('mongoose');
-var ExifImage = require('exif').ExifImage;
+var multer = require('multer'),
+  mongoose = require('mongoose'),
+  Image = mongoose.model('ImageUpload'),
+  ExifImage = require('exif').ExifImage;
 
-exports.list_all_images = function(req, res) {
-  Image.find({}, function(err, image) {
-    if (err)
-      res.send(err);
-    res.json(image);
-  });
+/**
+ * Search an image within certain radius of an location
+ * @param  {Object} req
+ * @param  {Object} res
+ * @return {Object}
+ */
+exports.search_image_by_location = function(req, res) {
+  var latitude = req.query.latitude,
+    longitude = req.query.longitude,
+    maxDistance = req.query.radius,
+    EARTH_RADIUS = 6384;  // radius of the earth in kilometers
+
+  // The maximum distance we want to search in kim
+  maxDistance /= EARTH_RADIUS;
+
+  // The center and the size of the sphere from which we want to search
+  var centerSphere = [[
+                      parseFloat(longitude),
+                      parseFloat(latitude)
+                    ], maxDistance];
+
+  return Image.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: centerSphere
+      }
+    }}).limit(10).exec(function(err, images) {
+      if (err) {
+        return res.status(500)
+                  .json(err);
+      }
+
+      var response = {
+        status: 'success',
+        images: images
+      }
+
+      return res.status(200)
+                .json(response);
+    });
 };
 
 /**
@@ -39,12 +74,19 @@ exports.upload_an_image = function (req,res,next) {
     var insertObj = {};
 
     extractExifData(imagename, function (exifData) {
-      insertObj['path'] = filePath;
-      insertObj['originalname'] = imagename;
-      insertObj['description'] = req.body.description;
-      insertObj['userId'] = 1;
-      insertObj['GPSLatitude'] = req.body.latitude;
-      insertObj['GPSLongitude'] = req.body.longitude;
+      insertObj = {
+        path: filePath,
+        originalname: imagename,
+        description: req.body.description,
+        userId: 1,
+        location: {
+          coordinates: [
+            parseFloat(req.body.longitude),
+            parseFloat(req.body.latitude),
+          ],
+          type: 'Point'
+        }
+      }
 
       var upload_image = new Image(insertObj);
       upload_image.save(function (err, image) {
@@ -69,8 +111,6 @@ exports.upload_an_image = function (req,res,next) {
     });
   }
 };
-
-
 
 /*exports.update_an_image = function(req, res) {
   Image.findOneAndUpdate({_id: req.params.ImageId}, req.body, {new: true}, function(err, image) {
@@ -105,36 +145,4 @@ exports.read_an_image = function(req, res) {
       res.send(err);
     res.json(image);
   });
-};
-
-/*exports.search_image_by_location = function(req, res) {
-  // Image.findOne({$match:{ $and: [ { GPSLatitude:req.params.latitude},{ GPSLongitude:req.params.longitude}]}},
-  Image.find({ $and:[{GPSLatitude: req.params.latitude},{GPSLongitude:req.params.longitude}]}, function (err, location) {
-    if (err) throw err;
-    res.json(location);
-  })
-};*/
-
-
-//db.neighborhoods.findOne({ geometry: { $geoIntersects: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] } } } })
-
-//var METERS_PER_MILE = 1609.34
-//db.restaurants.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ -73.93414657, 40.82302903 ] }, $maxDistance: 5 * METERS_PER_MILE } } })
-exports.search_image_by_location = function(req, res) {
-  Image.aggregate([
-    { "$geoNear": {
-      "near": {
-        "type": "Point",
-        "location": [40.093699, 32.074673 ]
-      },
-      "maxDistance": 500 * 1609,
-      "spherical": true,
-      "distanceField": "distance",
-      "distanceMultiplier": 0.000621371
-    }}
-  ],function (err,image) {
-    if(err)
-      throw err;
-    res.json(image);
-  })
 };

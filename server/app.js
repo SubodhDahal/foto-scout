@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   router = express.Router(),
-  multer = require('multer');
+  multer = require('multer'),
   path = require('path'),
   port = process.env.PORT||3000,
   mongoose = require('mongoose'),
@@ -11,6 +11,7 @@ var express = require('express'),
 
   // Loading models
   Image = require('./api/models/ImageModel'),
+  ImageCategory = require('./api/models/ImageCategoryModel'),
   User = require('./api/models/userModel'),
   Group = require('./api/models/groupModel');
 
@@ -21,19 +22,6 @@ var db = mongoose.connection;
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-
-var db = mongoose.connection;
-app.use(function(req, res, next){
-  if(req.headers && req.headers.authorization && req.headers.authorization.split('')[0] === 'JWT'){
-    jwt.verify(req.headers.authorization.split('')[1], 'RESTFULAPIS', function(err, decode){
-      req.user = decode;
-      next();
-    });
-  }else{
-    req.user = undefined;
-    next();
-  }
-});
 
 /* Importing routes */
 var routes = require('./api/routes/ImageRoute');
