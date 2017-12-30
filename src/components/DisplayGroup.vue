@@ -1,10 +1,23 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-8 offset-2">
+      <div class="col-md-2 offset-md-8">
+        /* router-link to link another component */
+        <router-link :to="{name:'CreateGroup'}">
+          <b-button class="danger float-right">
+            Create Group
+          </b-button>
+        </router-link>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 offset-2 mt-4">
+
         <b-card no-body>
           <b-tabs pills card vertical>
-            <b-tab :title="group.groupname" v-for="(group,i) in groups" :active="i==0">
+            <b-tab :title="group.groupname" v-for="(group,i) in groups" :key=group.id :active="i==0">
               {{group.description}}
             </b-tab>
           </b-tabs>
