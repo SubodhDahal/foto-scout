@@ -5,9 +5,14 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import store from './store/store.js'
 import router from './router'
+import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/css/main.css'
+
+// make axios accessible in global scope
+window.axios = axios
+
 import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(VueGoogleMaps, {

@@ -2,7 +2,9 @@
   <header id="header" class="container">
     <div class="row mt-3 mb-1">
       <div class="col-md-8 offset-md-2 text-center">
-        <img src="/static/images/logo.png" class="img-fluid" alt="Foto Scout">
+        <router-link :to="{name:'Home'}">
+          <img src="/static/images/logo.png" class="img-fluid" alt="Foto Scout">
+        </router-link>
       </div>
 
       <div class="col-12 col-md-2 text-center">
