@@ -20,7 +20,7 @@ const store = new Vuex.Store({
           radius: 100 // in km
         }
     },
-    images: {}
+    images: []
   },
 
   getters,

@@ -32,7 +32,6 @@ export default {
    * @param {Object} payload
    */
   setImages (state, payload) {
-    console.log(payload.images)
-    state.images = {...state.images, ...payload.images}
+    state.images = payload.images
   }
 }

@@ -5,13 +5,26 @@
     style="width: 100%; height: 350px"
   >
     <gmap-marker
-      :key="index"
-      v-for="(m, index) in location.markers"
-      :position="m.position"
+      :position="location.marker.position"
       :clickable="true"
       :draggable="true"
-      @click="location.center=m.position"
-    ></gmap-marker>
+      @click="location.center=location.marker.position"
+    >
+    </gmap-marker>
+
+    <gmap-info-window
+      :options="infoOptions"
+      :position="location.marker.position"
+      :opened="true"
+      @closeclick="infoWinOpen=false">
+        <p></p>
+        <p>{{ images.length }} image{{ images.length > 1 ? 's' : '' }}</p>
+        <p>
+          <router-link :to="{name:'SearchResults'}" v-if="images.length > 0">
+            View images
+          </router-link>
+        </p>
+    </gmap-info-window>
   </gmap-map>
 </template>
 
@@ -19,9 +32,22 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    data () {
+      return {
+        // make the info window appear on top of the marker
+        infoOptions: {
+          pixelOffset: {
+            width: 0,
+            height: -35
+          }
+        }
+      }
+    },
+
     computed: {
       ...mapGetters([
-        'locationCoordinates'
+        'locationCoordinates',
+        'images'
       ]),
 
       location () {
@@ -29,9 +55,9 @@
 
         return {
           center,
-          markers: [{
+          marker: {
             position: center
-          }]
+          }
         }
       }
     }
