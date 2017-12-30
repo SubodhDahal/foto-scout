@@ -8,6 +8,10 @@ export default {
     return state.language
   },
 
+  groups (state) {
+    return state.groups
+  },
+
   /**
    * Get the name of the selected location
    * @param  {Object} state

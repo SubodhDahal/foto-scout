@@ -14,14 +14,15 @@ import './assets/css/main.css'
 window.axios = axios
 
 import * as VueGoogleMaps from 'vue2-google-maps'
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDLIhRlCDvTBqZiRm21BWLHixwX6jL72Do',
     libraries: 'places'
   }
 })
-
 Vue.use(BootstrapVue)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
