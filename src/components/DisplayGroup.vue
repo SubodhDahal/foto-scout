@@ -1,0 +1,28 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-2">
+        <b-card no-body>
+          <b-tabs pills card vertical>
+            <b-tab :title="group.groupname" v-for="(group,i) in groups" :active="i==0">
+              {{group.description}}
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { mapGetters } from 'vuex'
+
+  export default {
+    computed: {
+      /* get groups from VueX Store */
+      ...mapGetters([
+        'groups'
+      ])
+    }
+  }
+</script>

@@ -15,7 +15,12 @@ const store = new Vuex.Store({
     search: {
         location: {},
         options: {}
-    }
+    },
+    groups: [
+      {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
+      {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},
+      {groupname: 'Dharan Group', id: '3', description: 'Dharan group is very famous group'}
+    ]
   },
 
   getters,

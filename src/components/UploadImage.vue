@@ -2,9 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
           :label="$t('labelforimage')">
+          <!--to choose file to upload pic-->
           <b-form-file
             id="file_input1"
             v-model="file"
@@ -15,6 +17,7 @@
         </b-form-group>
 
         <b-form-group :label="$t('labelfordescription')">
+          <!--textarea for description-->
           <b-form-textarea
             id="description"
             v-model="text"
