@@ -16,10 +16,16 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     computed: {
+      ...mapGetters([
+        'locationCoordinates'
+      ]),
+
       location () {
-        let center = this.$store.getters.locationCoordinates
+        let center = this.locationCoordinates
 
         return {
           center,
