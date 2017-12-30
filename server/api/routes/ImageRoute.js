@@ -23,7 +23,7 @@ module.exports = function(app) {
     .get(image.search_image_by_location);
 
   // Image Upload  Routes
-  app.route('/iupload')
+  app.route('/upload')
     .post(upload.any(),image.upload_an_image);
 
   app.route('/upload/:ImageId')
