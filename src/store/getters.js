@@ -12,6 +12,11 @@ export default {
     return state.groups
   },
 
+  images(state) {
+    return state.images
+  },
+
+
   /**
    * Get the name of the selected location
    * @param  {Object} state

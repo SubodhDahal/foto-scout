@@ -13,16 +13,30 @@ const store = new Vuex.Store({
   state: {
     language: 'en',
     search: {
-        location: {},
-        options: {}
+      location: {},
+      options: {}
     },
     groups: [
       {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
       {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},
       {groupname: 'Dharan Group', id: '3', description: 'Dharan group is very famous group'}
+    ],
+
+    images: [
+      {imageUrl: 'https://media.timeout.com/images/103678916/image.jpg', id: '1', title: 'Newyork'},
+      {
+        imageUrl: 'https://www.skr.de/fileadmin/_processed_/nepal_reisen_28198ee3a1.jpg',
+        id: '2',
+        title: 'Nepal'
+      },
+      {
+        imageUrl: 'http://s3.amazonaws.com/libapps/accounts/112538/images/Taj_Mahal.png',
+        id: '3',
+        title: 'India'
+      }
+
     ]
   },
-
   getters,
   setters,
   mutations
