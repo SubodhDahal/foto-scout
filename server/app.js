@@ -11,6 +11,7 @@ var express = require('express'),
 
   // Loading models
   Image = require('./api/models/ImageModel'),
+  ImageCategory = require('./api/models/ImageCategoryModel'),
   User = require('./api/models/userModel'),
   Group = require('./api/models/groupModel');
 

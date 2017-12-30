@@ -1,4 +1,5 @@
 
+
 # FotoScout API
 API for the FotoScout system
 
@@ -91,12 +92,12 @@ User can upload the photo.
 
     - `image`: Browse and select photo
 
- **Success Response**
+ - **Success Response**
 
-      {
-          "success": "true",
-          "message": "Image upload successfully"
-      }
+     {
+         "success": "true",
+         "message": "Image upload successfully"
+     }
 
 ### Query photos by location
 Get the photos that are within certain range of the location
@@ -138,7 +139,7 @@ Get the photos that are within certain range of the location
         ]
     }
 
-### **Delete Photo**
+### Delete Photo
 User can delete photo by photo id.
 
 - **URL**
@@ -150,8 +151,73 @@ User can delete photo by photo id.
     `DELETE`
 
  - **Success Response**
+ 
+     {
+         "success": "true",
+         "message": "Image successfully deleted"
+     }
 
+### List of Categories
+
+- **URL**
+
+    `/ImageCategory`
+
+- **Method**
+
+    `GET`
+
+ - **Success Response**
+
+    List of categories like:
+
+     [
         {
-            "success": "true",
-            "message": "Image successfully deleted"
-        }
+          "_id" : ObjectId("5a46c90ed81b8c29dce671a4"),
+          "categoryName" : "test1",
+          "__v" : 0
+        },
+      {
+          "_id" : ObjectId("5a46c916d81b8c29dce671a5"),
+          "categoryName" : "demo",
+          "__v" : 0
+       }
+     ]
+
+### **Delete Image Category**
+
+- **URL**
+
+   `/ImageCategory/:categoryId`
+
+- **Method**
+
+    `DELETE`
+
+ - **Success Response**
+
+     {
+         "success": "true",
+         "message": "Category successfully deleted"
+     }
+
+### **Update Category**
+
+- **URL**
+
+   `/ImageCategory/:categoryId`
+
+- **Method**
+
+   `PUT`
+
+-  **Parameters**
+
+   `categoryName`: Then name of the category
+
+  - **Success Response**
+
+      {
+          "success": "true",
+          "message": "Category Updated successfully"
+      }
