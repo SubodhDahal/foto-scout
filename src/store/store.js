@@ -39,7 +39,11 @@ const translationsEn = {
   'labelfordescription':'Description',
   'labelforlocation':'Location',
   'labelforsubmit':'Submit',
-  'labelforreset':'Reset'
+  'labelforreset':'Reset',
+  'labelforgroupname':'Group Name',
+  'placeholderforgroupname':'Enter your Group Name',
+  'labelforcreategroup':'Create Group'
+
 
 
 }
@@ -54,7 +58,10 @@ const translationsDe = {
   'labelfordescription':'Beschreibung',
   'labelforlocation':'Ort',
   'labelforsubmit':'Einreichen',
-  'labelforreset': 'zurücksetzen'
+  'labelforreset': 'zurücksetzen',
+  'labelforgroupname':'Gruppennamen',
+  'placeholderforgroupname':'Geben Sie Ihre Gruppennamen',
+  'labelforcreategroup':'Erstellen Gruppe'
 }
 
 // Add translations directly to the application

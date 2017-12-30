@@ -39,8 +39,8 @@
         </b-form-group>
 
         <b-form-group>
-          <b-button type="submit" @click="uploadImage" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
+          <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
+          <b-button type="reset" variant="danger" @click="onReset">{{ $t('labelforreset') }}</b-button>
         </b-form-group>
         <b-alert :show="isImageuploaded" ref="imgalert">
           Image uploaded successfully
