@@ -6,6 +6,7 @@ path=require('path'),
   port = process.env.PORT||3000,
   mongoose = require('mongoose'),
   Image = require('./api/models/ImageModel'),
+  ImageCategory = require('./api/models/ImageCategoryModel'),
   User = require('./api/models/userModel'), //created model loading here
   bodyParser = require('body-parser'),
   jwt = require("jsonwebtoken"),
