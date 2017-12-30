@@ -2,6 +2,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <b-alert :show="isImageuploaded">
+          Image uploaded successfully
+        </b-alert>
         <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
@@ -42,9 +45,6 @@
           <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
           <b-button type="reset" variant="danger" @click="onReset">{{ $t('labelforreset') }}</b-button>
         </b-form-group>
-        <b-alert :show="isImageuploaded">
-          Image uploaded successfully
-        </b-alert>
       </div>
       <div class="col-md-6">
         <img :src="imageUrl" class="img-fluid" v-if="imageUrl">
