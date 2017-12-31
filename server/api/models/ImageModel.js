@@ -45,7 +45,11 @@ var imageSchema = new mongoose.Schema({
     {
       type: Object,
       required: false
-    }
+    },
+  imageCategoryId:{
+    type: String,
+    required:false
+  }
 
 });
 module.exports = mongoose.model('ImageUpload', imageSchema);

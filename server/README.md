@@ -1,5 +1,6 @@
 
 
+
 # FotoScout API
 API for the FotoScout system
 
@@ -17,7 +18,7 @@ node app.js
 
  - User Registration
  - Photo Management
- 
+
 ## User Registration
 
 This is a NodeJS API that supports username and password authentication with JSON Web Tokens.
@@ -77,8 +78,8 @@ Use `token` in header with key `x-auth` to access protected routes.
 
 In this photo management API, user can view their uploaded photos, add new photos and delete their own desire photos.
 
-### Add New Photo
-User can upload the photo.
+### Add New Image
+User can upload new image.
 
 - **URL**
 
@@ -90,14 +91,70 @@ User can upload the photo.
 
 - **Body parameters**
 
-    - `image`: Browse and select photo
+    - `image`: browse and select image
+    -   `description`: description of image
+    -  `latitude` :  location latitude of uploaded image
+    -  `longitude`: location longitude of uploaded image
+    -  `imageCategory`:  category of image
 
  - **Success Response**
 
-     {
-         "success": "true",
-         "message": "Image upload successfully"
-     }
+		   {
+	          "success": "true",
+	          "message": "Image Uploaded Successfully"
+            }
+
+### **Update an Image**
+Update only image description and image category.
+- **URL**
+
+   `/upload/(imageId)`
+
+- **Method**
+
+   `PUT`
+
+-  **Parameters**
+
+   `description`: description of image
+   `imageCategoryId`: category of image
+
+  - **Success Response**
+
+	      {
+	          "success": "true",
+	          "message": "Image Updated Successfully"
+            }
+
+### **Uploaded Images List**
+
+- **URL**
+
+   `/upload
+
+- **Method**
+
+   `Get`
+
+  - **Success Response**
+Gives list of image:
+
+	      {
+	       "_id" : ObjectId("5a4830dbc5d528179826034c"),
+	        "path" : "api\\uploads\\profile.JPG",
+		    "originalname" : "profile.JPG",
+		    "description" : "this is test",
+		    "userId" : 1,
+		    "imageCategoryId" : "4",
+			    "location" : {
+		        "type" : "Point",
+		        "coordinates" : [
+			            55,
+			            50
+								]
+							 },
+				    "__v" : 0
+           }
 
 ### Query photos by location
 Get the photos that are within certain range of the location
@@ -115,9 +172,9 @@ Get the photos that are within certain range of the location
     - `latitude`: The geographical latitude coordinate
     - `latitude`: The geographical latitude coordinate
     - `radius`: The radius range(in km) to search
-    
+
  **Success Response**(sample)
-  
+
     {
         "status": "success",
         "images": [
@@ -139,24 +196,52 @@ Get the photos that are within certain range of the location
         ]
     }
 
-### Delete Photo
-User can delete photo by photo id.
+### Delete Image
+Delete an image by id.
 
 - **URL**
 
-    `/upload/:photo_id`
+    `/upload/(imageId)`
 
 - **Method**
 
     `DELETE`
 
  - **Success Response**
- 
-     {
+
+	     {
          "success": "true",
          "message": "Image successfully deleted"
-     }
+          }
 
+### Get an Image by Id
+
+- **URL**
+
+    `/upload/(imageId)`
+
+- **Method**
+
+    `Get`
+
+ - **Success Response**
+
+	       {
+	       "_id" : ObjectId("5a4830dbc5d528179826034c"),
+	        "path" : "api\\uploads\\profile.JPG",
+		    "originalname" : "profile.JPG",
+		    "description" : "this is test",
+		    "userId" : 1,
+		    "imageCategoryId" : "4",
+			    "location" : {
+		        "type" : "Point",
+		        "coordinates" : [
+			            55,
+			            50
+								]
+							 },
+				    "__v" : 0
+           }
 ### List of Categories
 
 - **URL**
@@ -171,24 +256,24 @@ User can delete photo by photo id.
 
     List of categories like:
 
-     [
-        {
-          "_id" : ObjectId("5a46c90ed81b8c29dce671a4"),
-          "categoryName" : "test1",
-          "__v" : 0
-        },
-      {
-          "_id" : ObjectId("5a46c916d81b8c29dce671a5"),
-          "categoryName" : "demo",
-          "__v" : 0
-       }
-     ]
+	     [
+	        {
+	          "_id" : ObjectId("5a46c90ed81b8c29dce671a4"),
+	          "categoryName" : "test1",
+	          "__v" : 0
+	        },
+	      {
+	          "_id" : ObjectId("5a46c916d81b8c29dce671a5"),
+	          "categoryName" : "demo",
+	          "__v" : 0
+	       }
+	     ]
 
 ### **Delete Image Category**
 
 - **URL**
 
-   `/ImageCategory/:categoryId`
+   `/ImageCategory/(categoryId`)
 
 - **Method**
 
@@ -196,16 +281,16 @@ User can delete photo by photo id.
 
  - **Success Response**
 
-     {
-         "success": "true",
-         "message": "Category successfully deleted"
-     }
+	     {
+	         "success": "true",
+	         "message": "Category successfully deleted"
+          }
 
 ### **Update Category**
 
 - **URL**
 
-   `/ImageCategory/:categoryId`
+   `/ImageCategory/(categoryId)`
 
 - **Method**
 
@@ -217,7 +302,7 @@ User can delete photo by photo id.
 
   - **Success Response**
 
-      {
-          "success": "true",
-          "message": "Category Updated successfully"
-      }
+	      {
+	          "success": "true",
+	          "message": "Category Updated successfully"
+            }

@@ -1,6 +1,7 @@
 'use strict';
 var multer = require('multer');
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+Image = mongoose.model('ImageUpload');
 var ExifImage = require('exif').ExifImage;
 
 /**
@@ -78,6 +79,7 @@ exports.upload_an_image = function (req,res,next) {
         originalname: imagename,
         description: req.body.description,
         userId: 1,
+        imageCategoryId:req.body.imageCategoryId,
         location: {
           coordinates: [
             parseFloat(req.body.longitude),
@@ -111,35 +113,39 @@ exports.upload_an_image = function (req,res,next) {
   }
 };
 
-/*exports.update_an_image = function(req, res) {
-  Image.findOneAndUpdate({_id: req.params.ImageId}, req.body, {new: true}, function(err, image) {
-    if (err)
-      res.send(err);
-    res.json(image);
-  });
-};*/
+//Update an image by id
 exports.update_an_image = function(req, res) {
-  Image.update({_id: req.params.ImageId},{$set: {description:req.body.description}},(err, image) => {
-    // updating that event
-    if (err)
-      res.send(err);
-    res.json("Image Updated successfully");
-  });
+  Image.update({_id: req.params.ImageId},
+    {$set:
+      {description:req.body.description,imageCategoryId:req.body.imageCategoryId}
+    },(err, image) => {
+      if (err)
+        res.send(err)
+      res.json("Image Updated successfully");
+    });
 };
-
+//Delete an image by id
 exports.delete_an_image = function(req, res) {
   Image.remove({
     _id: req.params.ImageId
   }, function(err, image) {
     if (err)
       res.send(err);
-    res.json({success: 'true', message: 'Successfully Updated Image'});
-    // res.json({ message: 'Image successfully deleted' });
+    res.json({success: 'true', message: 'Image successfully deleted'});
+  });
+};
+// Get an image by Id
+exports.read_an_image = function(req, res) {
+  Image.findById(req.params.ImageId, function(err, image) {
+    if (err)
+      res.send(err);
+    res.json(image);
   });
 };
 
-exports.read_an_image = function(req, res) {
-  Image.findById(req.params.ImageId, function(err, image) {
+//Get All Images list
+exports.list_all_images = function(req, res) {
+  Image.find({}, function(err, image) {
     if (err)
       res.send(err);
     res.json(image);
