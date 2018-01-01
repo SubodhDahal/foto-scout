@@ -24,6 +24,7 @@ module.exports = function(app) {
 
   // Image Upload  Routes
   app.route('/upload')
+    .get(image.list_all_images)
     .post(upload.any(),image.upload_an_image);
 
   app.route('/upload/:ImageId')

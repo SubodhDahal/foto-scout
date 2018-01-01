@@ -1,4 +1,6 @@
 'use strict';
+var mongoose = require('mongoose'),
+  ImageCategory = mongoose.model('category');
 //get all Image Category
 exports.get_category = function(req, res) {
   ImageCategory.find({}, function(err, category) {
