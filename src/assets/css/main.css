@@ -11,3 +11,7 @@ body {
 .main {
   margin-bottom: 50px;
 }
+
+.col-form-label, .col-form-legend {
+  font-weight: bold;
+}

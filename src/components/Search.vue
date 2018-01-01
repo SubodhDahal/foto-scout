@@ -18,9 +18,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
-      <SearchOptions />
-    </div>
+    <SearchOptions />
   </div>
 </template>
 

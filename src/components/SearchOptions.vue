@@ -1,9 +1,29 @@
 <template>
-  <div>
-    <a href="#" @click.prevent="toggle">Advanced options</a>
+  <div class="mb-4">
+    <div class="mx-3">
+      <a href="#" @click.prevent="toggle">
+        {{ isVisible ? 'Hide' : 'Show' }} Advanced Options
+      </a>
+    </div>
 
-    <div class="row" v-if="isVisible">
-      <div class="col-md-4">
+    <div v-if="isVisible" class="my-3">
+      <div class="col-md-12">
+        <b-form-group
+          label="Search Radius (in km):"
+          label-for="search-radius"
+          class="float-left pt-2 pr-2"
+        >
+        </b-form-group>
+        <b-form-input v-model="options.radius"
+          type="number"
+          id="search-radius"
+          class="float-left col-md-3"
+          min-value="1">
+        </b-form-input>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="col-md-12">
         <b-form-group label="Categories:">
           <b-form-checkbox-group
             id="categories"
@@ -13,10 +33,6 @@
           </b-form-checkbox-group>
         </b-form-group>
       </div>
-
-      <div class="col-md-4"></div>
-
-      <div class="col-md-4"></div>
     </div>
   </div>
 </template>
@@ -29,6 +45,7 @@
       return {
         isVisible: false,
         categoriesList: {
+          'all': 'All',
           'architecture': 'Architecture',
           'landscape': 'Landscape',
           'portait': 'Portait',
@@ -36,7 +53,8 @@
         },
 
         options: {
-          categories: []
+          categories: [],
+          radius: 50
         }
       }
     },
