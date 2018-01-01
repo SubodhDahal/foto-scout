@@ -1,8 +1,9 @@
 <template>
   <gmap-map
     :center="location.center"
-    :zoom="10"
-    style="width: 100%; height: 350px"
+    :zoom="8"
+    style="width: 100%; height: 400px"
+    @click="changeLocation"
   >
     <gmap-marker
       :position="location.marker.position"
@@ -12,11 +13,17 @@
     >
     </gmap-marker>
 
+    <gmap-circle
+      :center="location.marker.position"
+      :radius="overlayCircleRadius"
+      :options="circleOptions"
+    >
+    </gmap-circle>
+
     <gmap-info-window
       :options="infoOptions"
       :position="location.marker.position"
-      :opened="true"
-      @closeclick="infoWinOpen=false">
+      :opened="true">
         <p></p>
         <p>{{ images.length }} image{{ images.length > 1 ? 's' : '' }}</p>
         <p>
@@ -40,6 +47,13 @@
             width: 0,
             height: -35
           }
+        },
+
+        circleOptions: {
+          strokeColor: '#069',
+          strokeOpacity: 0.35,
+          fillColor: '#069',
+          fillOpacity: 0.35
         }
       }
     },
@@ -47,7 +61,8 @@
     computed: {
       ...mapGetters([
         'locationCoordinates',
-        'images'
+        'images',
+        'searchOptions'
       ]),
 
       location () {
@@ -59,7 +74,56 @@
             position: center
           }
         }
+      },
+
+      overlayCircleRadius () {
+        return (this.searchOptions.radius) * 1000
+      }
+    },
+
+    methods: {
+      /**
+       * Change the location based to the
+       * position clicked on the map
+       * @param  {Object} data
+       */
+      changeLocation (data) {
+        this.$store.commit('setLocation', {
+          location: {
+            lat: data.latLng.lat(),
+            lng: data.latLng.lng(),
+            name: ''
+          }
+        })
+
+        this.getImageResults()
+      },
+
+      /**
+       * Get the images for the selected location
+       */
+      getImageResults () {
+        let payload = {
+          ...this.locationCoordinates,
+          radius: this.searchOptions.radius
+        }
+
+        this.$store.dispatch('getImageResults', payload)
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
       }
     }
   }
 </script>
+
+<style>
+  .gm-style .gm-style-iw + div {
+    display: none; /* <-- this will generally work on the fly. */
+    visibility: hidden; /* this 2 lines below are just for hard hiding. :) */
+    opacity: 0;
+  }
+</style>

@@ -14,11 +14,15 @@ const store = new Vuex.Store({
   state: {
     language: 'en',
     search: {
-        location: {},
-        options: {
-          categories: {},
-          radius: 100 // in km
-        }
+      location: {
+        lat: 51.1657,
+        lng: 10.4515,
+        name: '',
+      },
+      options: {
+        categories: {},
+        radius: 50 // in km
+      }
     },
     images: [],
     groups: [

@@ -6,12 +6,12 @@
           class="form-control p-3 mr-2 search-box"
           :placeholder="$t('searchText')"
           :value="locationName"
-          @place_changed="getAddressData"
+          @place_changed="changeLocation"
         >
         </gmap-autocomplete>
 
         <button class="btn btn-primary p-3"
-                @click="getAddressData()"
+                @click="changeLocation()"
                 type="submit">
           Search
         </button>
@@ -42,11 +42,26 @@
     },
 
     methods: {
-      getAddressData (addressData) {
+      /**
+       * Change the location to the searched location
+       * @param  {Object} addressData
+       */
+      changeLocation (addressData) {
         this.$store.commit('setLocation', {
-          location: addressData
+          location: {
+            lat: addressData.geometry.location.lat(),
+            lng: addressData.geometry.location.lng(),
+            name: addressData.formatted_address
+          }
         })
 
+        this.getImageResults()
+      },
+
+      /**
+       * Get the images for the selected location
+       */
+      getImageResults () {
         let payload = {
           ...this.locationCoordinates,
           radius: this.searchOptions.radius
