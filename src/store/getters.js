@@ -49,5 +49,14 @@ export default {
    */
   images (state) {
     return state.images
+  },
+
+  /**
+   * Get the image categories
+   * @param  {Object} state
+   * @return {Object}
+   */
+  imageCategories (state) {
+    return state.imageCategories
   }
 }

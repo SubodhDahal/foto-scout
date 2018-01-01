@@ -25,6 +25,13 @@ const store = new Vuex.Store({
       }
     },
     images: [],
+    imageCategories: {
+      'all': 'All',
+      'architecture': 'Architecture',
+      'landscape': 'Landscape',
+      'portait': 'Portait',
+      'cityscape': 'Cityscape'
+    },
     groups: [
       {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
       {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},

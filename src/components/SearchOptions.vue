@@ -29,7 +29,7 @@
             id="categories"
             name="categories"
             v-model="options.categories"
-            :options="categoriesList">
+            :options="imageCategories">
           </b-form-checkbox-group>
         </b-form-group>
       </div>
@@ -44,13 +44,6 @@
     data () {
       return {
         isVisible: false,
-        categoriesList: {
-          'all': 'All',
-          'architecture': 'Architecture',
-          'landscape': 'Landscape',
-          'portait': 'Portait',
-          'cityscape': 'Cityscape'
-        },
 
         options: {
           categories: [],
@@ -61,6 +54,7 @@
 
     computed: {
       ...mapGetters([
+        'imageCategories',
         'searchOptions'
       ])
     },
