@@ -2,6 +2,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <b-alert :show="isImageuploaded">
+          Image uploaded successfully
+        </b-alert>
         <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
@@ -20,7 +23,7 @@
           <!--textarea for description-->
           <b-form-textarea
             id="description"
-            v-model="text"
+            v-model="descriptiontext"
             rows="4"
             :placeholder="$t('descriptiontext')"
           >
@@ -42,9 +45,6 @@
           <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
           <b-button type="reset" variant="danger" @click="onReset">{{ $t('labelforreset') }}</b-button>
         </b-form-group>
-        <b-alert :show="isImageuploaded" ref="imgalert">
-          Image uploaded successfully
-        </b-alert>
       </div>
       <div class="col-md-6">
         <img :src="imageUrl" class="img-fluid" v-if="imageUrl">
@@ -61,7 +61,7 @@
       return {
         file: null,
         imageUrl: null,
-        text: '',
+        descriptiontext: '',
         isImageuploaded: false,
         location: ''
       }
