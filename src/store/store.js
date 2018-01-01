@@ -21,7 +21,7 @@ const store = new Vuex.Store({
       },
       options: {
         categories: {},
-        radius: 100 // in km
+        radius: 50 // in km
       }
     },
     images: [],
