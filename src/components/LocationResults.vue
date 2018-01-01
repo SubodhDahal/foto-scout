@@ -9,9 +9,9 @@
       :position="location.marker.position"
       :clickable="true"
       :draggable="true"
-      @click="location.center=location.marker.position"
+      @drag="changeLocation"
     >
-    </gmap-marker>
+   </gmap-marker>
 
     <gmap-circle
       :center="location.marker.position"
