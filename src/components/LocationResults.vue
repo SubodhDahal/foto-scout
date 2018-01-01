@@ -3,7 +3,7 @@
     :center="location.center"
     :zoom="10"
     style="width: 100%; height: 350px"
-    @click="mapClicked"
+    @click="changeLocation"
   >
     <gmap-marker
       :position="location.marker.position"
@@ -48,7 +48,8 @@
     computed: {
       ...mapGetters([
         'locationCoordinates',
-        'images'
+        'images',
+        'searchOptions'
       ]),
 
       location () {
@@ -64,8 +65,39 @@
     },
 
     methods: {
-      mapClicked (data) {
-        console.log(data.latLng.lat(), data.latLng.lng())
+      /**
+       * Change the location based to the
+       * position clicked on the map
+       * @param  {Object} data
+       */
+      changeLocation (data) {
+        this.$store.commit('setLocation', {
+          location: {
+            lat: data.latLng.lat(),
+            lng: data.latLng.lng(),
+            name: ''
+          }
+        })
+
+        this.getImageResults()
+      },
+
+      /**
+       * Get the images for the selected location
+       */
+      getImageResults () {
+        let payload = {
+          ...this.locationCoordinates,
+          radius: this.searchOptions.radius
+        }
+
+        this.$store.dispatch('getImageResults', payload)
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
       }
     }
   }

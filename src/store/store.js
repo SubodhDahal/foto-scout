@@ -15,9 +15,9 @@ const store = new Vuex.Store({
     language: 'en',
     search: {
       location: {
-        name: '',
         lat: 51.1657,
-        lng: 10.4515
+        lng: 10.4515,
+        name: '',
       },
       options: {
         categories: {},
