@@ -102,3 +102,11 @@
     }
   }
 </script>
+
+<style>
+  .gm-style .gm-style-iw + div {
+    display: none; /* <-- this will generally work on the fly. */
+    visibility: hidden; /* this 2 lines below are just for hard hiding. :) */
+    opacity: 0;
+  }
+</style>

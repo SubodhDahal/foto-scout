@@ -6,12 +6,12 @@
           class="form-control p-3 mr-2 search-box"
           :placeholder="$t('searchText')"
           :value="locationName"
-          @place_changed="getImageResults"
+          @place_changed="changeLocation"
         >
         </gmap-autocomplete>
 
         <button class="btn btn-primary p-3"
-                @click="getImageResults()"
+                @click="changeLocation()"
                 type="submit">
           Search
         </button>
