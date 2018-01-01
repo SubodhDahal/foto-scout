@@ -8,19 +8,30 @@ import vuexI18n from 'vuex-i18n'
 import getters from './getters'
 import setters from './setters'
 import mutations from './mutations'
+import actions from './actions'
 
 const store = new Vuex.Store({
   state: {
     language: 'en',
     search: {
         location: {},
-        options: {}
-    }
+        options: {
+          categories: {},
+          radius: 100 // in km
+        }
+    },
+    images: [],
+    groups: [
+      {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
+      {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},
+      {groupname: 'Dharan Group', id: '3', description: 'Dharan group is very famous group'}
+    ]
   },
 
   getters,
   setters,
-  mutations
+  mutations,
+  actions
 })
 
 // Initialize the internationalization plugin on the vue instance
@@ -34,7 +45,11 @@ const translationsEn = {
   'labelfordescription':'Description',
   'labelforlocation':'Location',
   'labelforsubmit':'Submit',
-  'labelforreset':'Reset'
+  'labelforreset':'Reset',
+  'labelforgroupname':'Group Name',
+  'placeholderforgroupname':'Enter your Group Name',
+  'labelforcreategroup':'Create Group'
+
 
 
 }
@@ -49,7 +64,10 @@ const translationsDe = {
   'labelfordescription':'Beschreibung',
   'labelforlocation':'Ort',
   'labelforsubmit':'Einreichen',
-  'labelforreset': 'zurücksetzen'
+  'labelforreset': 'zurücksetzen',
+  'labelforgroupname':'Gruppennamen',
+  'placeholderforgroupname':'Geben Sie Ihre Gruppennamen',
+  'labelforcreategroup':'Erstellen Gruppe'
 }
 
 // Add translations directly to the application

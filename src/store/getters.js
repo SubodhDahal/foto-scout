@@ -8,6 +8,10 @@ export default {
     return state.language
   },
 
+  groups (state) {
+    return state.groups
+  },
+
   /**
    * Get the name of the selected location
    * @param  {Object} state
@@ -25,8 +29,8 @@ export default {
   locationCoordinates (state) {
     if (state.search.location.id) {
       return {
-        lat: state.search.location.geometry.location.lat,
-        lng: state.search.location.geometry.location.lng
+        lat: state.search.location.geometry.location.lat(),
+        lng: state.search.location.geometry.location.lng()
       }
     } else {
       return {
@@ -43,5 +47,14 @@ export default {
    */
   searchOptions (state) {
     return state.search.options
+  },
+
+  /**
+   * Get the images search results
+   * @param  {Object} state
+   * @return {Object}
+   */
+  images (state) {
+    return state.images
   }
 }

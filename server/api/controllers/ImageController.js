@@ -1,8 +1,8 @@
 'use strict';
-var multer = require('multer');
-var mongoose = require('mongoose'),
-Image = mongoose.model('ImageUpload');
-var ExifImage = require('exif').ExifImage;
+var multer = require('multer'),
+  mongoose = require('mongoose'),
+  Image = mongoose.model('ImageUpload'),
+  ExifImage = require('exif').ExifImage;
 
 /**
  * Search an image within certain radius of an location
