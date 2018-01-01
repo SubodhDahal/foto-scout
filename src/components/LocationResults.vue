@@ -3,6 +3,7 @@
     :center="location.center"
     :zoom="10"
     style="width: 100%; height: 350px"
+    @click="mapClicked"
   >
     <gmap-marker
       :position="location.marker.position"
@@ -59,6 +60,12 @@
             position: center
           }
         }
+      }
+    },
+
+    methods: {
+      mapClicked (data) {
+        console.log(data.latLng.lat(), data.latLng.lng())
       }
     }
   }

@@ -43,8 +43,14 @@
 
     methods: {
       getAddressData (addressData) {
+        console.log(addressData)
         this.$store.commit('setLocation', {
-          location: addressData
+          location: {
+            id: addressData.id,
+            lat: addressData.geometry.location.lat(),
+            lng: addressData.geometry.location.lng(),
+            name: addressData.formatted_address
+          }
         })
 
         let payload = {
