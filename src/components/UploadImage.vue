@@ -73,7 +73,7 @@
         location: {}
       }
     },
-
+    /* function to preview upload images */
     methods: {
       onFilePicked (event) {
         const files = event.target.files
@@ -85,6 +85,9 @@
         this.image = files[0]
       },
 
+      /**
+       *  reset the field of upload images
+       **/
       onReset () {
         this.file = null
         this.text = ''
@@ -114,6 +117,10 @@
           })
       },
 
+      /**
+       * save address data to location field
+       * @param addressData
+       */
       getAddressData (addressData) {
         this.location = {
           lat: addressData.geometry.location.lat(),
