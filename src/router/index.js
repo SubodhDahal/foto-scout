@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Registration from '@/components/Registration.vue'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
 import UploadImage from '@/components/UploadImage'
@@ -16,6 +17,11 @@ export default new Router({
       name: 'Home',
       component: Home
     },
+    {
+      path:'/register',
+       name:'Registration',
+       component:Registration
+     },
     {
      path:'/search-results',
       name:'SearchResults',
