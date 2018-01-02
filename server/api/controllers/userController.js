@@ -18,8 +18,9 @@ exports.create_a_user = [
 
     var errors = validationResult(req);
 
-    console.log(errors);
-    var new_user = new User(req.body);
+    //console.log(errors);
+    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
+      'passcode': req.body.passcode,'user_profile':{}});
     if (!errors.isEmpty()) {
       return res.send({errors: errors.array()});
     }
@@ -42,26 +43,40 @@ exports.create_a_user = [
   }
 ];
 
-exports.sign_in = (req, res)=>{
-  User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
-    return user.generateAuthToken().then((token) => {
-      res.header('x-auth', token).send(user.tokens);
+exports.sign_in =[
+
+  check('email','email required').isLength({min: 1}),
+  check('email','valid email required').isEmail(),
+  check('passcode','valid passcode is required').isLength({min: 6}),
+
+  (req, res)=>{
+
+    var errors = validationResult(req);
+
+    //console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.send({errors: errors.array()});
+    }
+    User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
+      return user.generateAuthToken().then((token) => {
+        res.header('x-auth', token).send(user.tokens);
+      });
+    }).catch((e) => {
+      res.status(400).send({message: 'sorry cant find you'});
     });
-  }).catch((e) => {
-    res.status(400).send({message: 'sorry cant find you'});
-  });
-};
+  }
+];
 
 exports.user_profile = (req, res) =>{
+
   var token = req.header('x-auth');
 
   User.findByToken(token).then((user) => {
 	if (!user) {
       return Promise.reject();
     }
-	//console.log('working');
-    var id = req.param.id;
-    res.send(user.profile.id(id));
+    //console.log('working');
+    res.send(user);
   }).catch((e) => {
     res.status(401).send();
   });
@@ -75,13 +90,12 @@ exports.log_out =(req, res) => {
     if (!user) {
       return Promise.reject();
     }
-    console.log('working');
+      //console.log('working');
       user.removeToken(token).then(() => {
-      res.status(200).send({message: 'Bye bye user'});
-    }, () => {
+       res.status(200).send({message: 'Bye bye user'});
+     },() => {
       res.status(400).send({message:'sorry we ar currently having problem please try again'});
     });
-
   }).catch((e) => {
     res.status(401).send({message: 'achtung'});
   });
