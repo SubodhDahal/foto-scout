@@ -2,6 +2,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 offset-3">
+        <div class="col-md-6 offset-10">
+          <router-link :to="{name:'DisplayGroup'}">
+            <b-button>Back</b-button>
+          </router-link>
+        </div>
+        <br>
         <b-alert :show="isGroupCreated">
           Group created successfully!
         </b-alert>
@@ -12,7 +18,6 @@
               <b-form-input type="text"
                             v-model="groupname"
                             :placeholder="$t('placeholderforgroupname')">
-
               </b-form-input>
             </b-form-group>
             <b-form-group :label="$t('labelfordescription')">
@@ -60,6 +65,7 @@
       onReset () {
         this.groupname = ''
         this.description = ''
+        this.isGroupCreated = false
       }
     }
   }
