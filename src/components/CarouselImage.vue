@@ -11,6 +11,7 @@
       <b-carousel-slide
         v-for="image in images"
         :img-src="`http://localhost:3000/${image.path}`"
+        :caption="image.description"
         :key="image.id">
       </b-carousel-slide>
     </b-carousel>
