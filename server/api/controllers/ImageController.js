@@ -54,7 +54,7 @@ exports.search_image_by_location = function(req, res) {
  */
 function extractExifData (imagename, callback, errorCallback) {
   new ExifImage({
-    image: 'api/uploads/' + imagename
+    image: 'public/uploads/' + imagename
   }, function (error, exifData) {
     if (error && error.code !== 'NO_EXIF_SEGMENT') {
       errorCallback(error);
