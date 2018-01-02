@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(express.static(process.cwd() + '/public'));
+
 /* Importing routes */
 var routes = require('./api/routes/ImageRoute');
 var routes1 = require('./api/routes/userRoute');

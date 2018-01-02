@@ -6,11 +6,13 @@
                 indicators
                 background="#ababab"
                 :interval="0"
-                img-width="1024"
-                img-height="480"
                 :value="currentSlide()"
     >
-      <b-carousel-slide v-for="image in images" :img-src="image.imageUrl" :key="image.id"></b-carousel-slide>
+      <b-carousel-slide
+        v-for="image in images"
+        :img-src="`http://localhost:3000/${image.path}`"
+        :key="image.id">
+      </b-carousel-slide>
     </b-carousel>
   </div>
 </template>
@@ -25,7 +27,12 @@
         'images'
       ])
     },
+
     methods: {
+      /**
+       * Get the index of current slide
+       * @return {Integer}
+       */
       currentSlide () {
         var found = this.images.find((image) => {
           return image.id === this.$route.params.id
@@ -35,3 +42,11 @@
     }
   }
 </script>
+
+<style>
+  .carousel-item img {
+    margin: 0 auto;
+    min-height: 500px;
+    width: auto !important;
+  }
+</style>
