@@ -10,54 +10,102 @@
   <!-- socket library -->
   <script src="/socket.io/socket.io.js"></script>
 
-  <style>
-
-  </style>
+  <!--<style>-->
+      <!--#messageArea{-->
+        <!--display: none;-->
+      <!--}-->
+  <!--</style>-->
 </head>
 <body>
 
-<div class="container" style="margin-top: 20px">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="well">
-        <h3> Online Users</h3>
-        <ul class="list-group" id="users"></ul>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="chat" id="chat">
+        <div class="container" style="margin-top: 20px">
 
-      </div>
+                <div id="userFormArea" class="row">
+                  <div class="col-md-12">
+                    <form id="userForm">
+                      <div class="form-group">
+                        <label>Enter Username</label>
+                        <input class="form-control" id="username"/>
+                        <br/>
+                        <input type="submit" class="btn btn-primary " value="Login">
+                      </div>
+                    </form>
+                  </div>
+                </div>
 
-      <form id="messageForm">
-        <div class="form-group">
-          <label>Enter Message</label>
-          <textarea class="form-control" id="message"></textarea>
-          <br>
-          <input type="submit" class="btn btn-success" value="Send Message" />
+
+                <div id="messageArea" class="row">
+                  <div class="col-md-4">
+                    <div class="well">
+                      <h3> Online Users</h3>
+                      <ul class="list-group" id="users"></ul>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="chat" id="chat">
+
+                    </div>
+
+                    <form id="messageForm">
+                      <div class="form-group">
+                        <label>Enter Message</label>
+                        <textarea class="form-control" id="message"></textarea>
+                        <br>
+                        <input type="submit" class="btn btn-success" value="Send Message" />
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
         </div>
-      </form>
-    </div>
-  </div>
-</div>
 
   <script>
     $(function(){
-        var socket = io.connect('http://localhost:3000');
-        var $messageForm = $('#messageForm');
-        var $message = $('#message');
-        var $chat = $('#chat');
+      var socket = io.connect();
+      var $messageForm = $('#messageForm');
+      var $message = $('#message');
+      var $chat = $('#chat');
+      var $messageArea = $('#messageAreaArea');
+      var $userFormArea = $('#userFormArea');
+      var $userForm = $('#userForm');
+      var $users = $('#users');
+      var $username = $('#username');
 
-        $messageForm.submit(function (a) {
-          a.preventDefault();
-          socket.emit('send message', $message.val());
-          $message.val('');
-        });
+      //function to send message
+      $messageForm.submit(function (a) {
+        a.preventDefault();
+        socket.emit('send message', $message.val());
+        $message.val('');
+      });
 
+      //function to add new message
       socket.on('new message', function(data){
         $chat.append('<div class="well">'+data.msg+'</div>');
-       });
+      });
+
+      //function to add new users
+      $userForm.submit(function (a) {
+        a.preventDefault();
+        socket.emit('new user', $username.val(), function (data) {
+          // if(data){
+          //   $userFormArea.hide();
+          //   $messageArea.show();
+          // }
+        });
+        $username.val('');
+      });
+
+      socket.on('get users', function(data){
+        var test ='';
+        for(i=0; i<data.length; i++){
+          test += '<li class="list-group-item">'+data[i]+'</li>'
+        }
+        $users.html(test);
+
+      });
+
     });
-  </script>
-</body>
-</html>
+
+</script>
+    </body>
+    </html>
