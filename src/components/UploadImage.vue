@@ -2,9 +2,15 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+        <b-alert :show="isImageuploaded">
+          Image uploaded successfully
+        </b-alert>
+
+        <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
           :label="$t('labelforimage')">
+          <!--to choose file to upload pic-->
           <b-form-file
             id="file_input1"
             v-model="file"
@@ -15,34 +21,34 @@
         </b-form-group>
 
         <b-form-group :label="$t('labelfordescription')">
+          <!--textarea for description-->
           <b-form-textarea
             id="description"
-            v-model="text"
+            v-model="description"
             rows="4"
             :placeholder="$t('descriptiontext')"
           >
           </b-form-textarea>
         </b-form-group>
+
         <b-form-group :label="$t('labelforlocation')"
                       id="location"
-                      v-model="location">
+                      v-model="location.name">
           <gmap-autocomplete
             class="form-control p-3 mr-2 search-box"
             :placeholder="$t('locationname')"
-            :value="locationName"
+            :value="location.name"
             @place_changed="getAddressData"
           >
           </gmap-autocomplete>
         </b-form-group>
 
         <b-form-group>
-          <b-button type="submit" @click="uploadImage" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger" @click="onReset">Reset</b-button>
+          <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
+          <b-button type="reset" variant="danger" @click="onReset">{{ $t('labelforreset') }}</b-button>
         </b-form-group>
-        <b-alert :show="isImageuploaded" ref="imgalert">
-          Image uploaded successfully
-        </b-alert>
       </div>
+
       <div class="col-md-6">
         <img :src="imageUrl" class="img-fluid" v-if="imageUrl">
       </div>
@@ -58,9 +64,9 @@
       return {
         file: null,
         imageUrl: null,
-        text: '',
+        description: '',
         isImageuploaded: false,
-        location: ''
+        location: {}
       }
     },
 
@@ -86,6 +92,9 @@
       uploadImage () {
         let formData = new FormData()
         formData.append('image', this.file)
+        formData.append('description', this.description)
+        formData.append('latitude', this.location.lat)
+        formData.append('longitude', this.location.lng)
 
         const config = {
           headers: {'content-type': 'multipart/form-data'}
@@ -98,8 +107,13 @@
             }
           })
       },
+
       getAddressData (addressData) {
-        this.location = addressData
+        this.location = {
+          lat: addressData.geometry.location.lat(),
+          lng: addressData.geometry.location.lng(),
+          name: addressData.formatted_address
+        }
       }
     }
   }

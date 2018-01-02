@@ -39,13 +39,17 @@ var imageSchema = new mongoose.Schema({
     required:false
   },
   location:{
-    type:Array
+    type:Object
   },
   metadata:
     {
       type: Object,
       required: false
-    }
+    },
+  imageCategoryId:{
+    type: String,
+    required:false
+  }
 
 });
 module.exports = mongoose.model('ImageUpload', imageSchema);

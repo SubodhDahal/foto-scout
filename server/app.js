@@ -11,6 +11,7 @@ var express = require('express'),
 
   // Loading models
   Image = require('./api/models/ImageModel'),
+  ImageCategory = require('./api/models/ImageCategoryModel'),
   User = require('./api/models/userModel'),
   Group = require('./api/models/groupModel');
 
@@ -21,7 +22,6 @@ var db = mongoose.connection;
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-
 
 /* Importing routes */
 var routes = require('./api/routes/ImageRoute');
