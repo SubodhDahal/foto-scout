@@ -101,6 +101,60 @@ View user profile
           ]
       }
 
+### Edit User Profile
+Editing user profile
+
+- **URL**
+
+    `/user/me/edit`
+
+- **Method**
+
+    `POST`
+    
+- **Body parameters**
+
+     Use returned token value in headers key 'x-auth' for authentication
+
+    - `firstname`: The First Name
+    - `lastname`: The Last Name
+    - `about_me`: Description of the User
+
+- **Success Response**
+
+      {
+          "_id": "id",
+          "firstname": "updated firstname",
+          "lastname": "updated lastname",
+          "email": "authorised user email",
+          "user_profile": [
+              {
+                  "_id": "id",
+                  "profile_pic": "profile picture",
+                  "about_me": "updated about me"
+              }
+          ]
+      }
+
+### Logging out
+Log out the user
+
+- **URL**
+
+    `/user/me/logout`
+
+- **Method**
+
+    `DELETE`
+
+- **Success Response**
+
+      {
+        "success": "true",
+        "message": "Bye bye user"
+      }
+
+
 ### Logging out
 Log out the user
 
