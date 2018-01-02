@@ -1,6 +1,6 @@
 <template>
  <div class="container">
-    <form class="form-horizontal" role="form" method="POST" action="/register">
+    <form class="form-horizontal" role="form">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -8,6 +8,15 @@
                 <hr>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <b-alert :show="isUserRegistered">
+                  User registration was successful. Please login.
+                </b-alert>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-3 field-label-responsive">
                 <label for="firstname">First Name</label>
@@ -79,7 +88,7 @@
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                        <input v-model="password" type="password" name="password" class="form-control" id="password"
+                        <input v-model="passcode" type="password" name="password" class="form-control" id="password"
                                placeholder="Password" required>
                     </div>
                 </div>
@@ -108,12 +117,15 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>
+                <button type="submit" class="btn btn-success" @click.prevent="onRegister">
+                    <i class="fa fa-user-plus"></i> Register
+                </button>
             </div>
         </div>
     </form>
 </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
@@ -126,13 +138,16 @@ export default {
       passcode: ''
     }
   },
+
   methods: {
     onRegister () {
-      let registerData = new FormData()
-      registerData.append('firstname', this.firstname)
-      registerData.append('lastname', this.lastname)
-      registerData.append('email', this.email)
-      registerData.append('passcode', this.passcode)
+      let registerData = {
+        'firstname': this.firstname,
+        'lastname': this.lastname,
+        'email': this.email,
+        'passcode': this.passcode
+      }
+
       axios.post('http://localhost:3000/register', registerData)
         .then((response) => {
           if (response.data.success === 'true') {
@@ -140,15 +155,16 @@ export default {
           }
         })
     }
-  }}
-
-</script>
-<style>
-  @media(min-width: 768px) {
-  .field-label-responsive {
-    padding-top: .5rem;
-    text-align: right;
   }
 }
+</script>
+
+<style>
+  @media(min-width: 768px) {
+    .field-label-responsive {
+      padding-top: .5rem;
+      text-align: right;
+    }
+  }
 </style>
 
