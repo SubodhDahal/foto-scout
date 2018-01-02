@@ -5,6 +5,9 @@
         <b-alert :show="isImageuploaded">
           Image uploaded successfully
         </b-alert>
+        <b-alert :show="errorMessage!=''" class="alert-danger">
+          ERROR: {{ errorMessage }}
+        </b-alert>
 
         <!--Form-group for entities-->
         <b-form-group
@@ -66,10 +69,11 @@
         imageUrl: null,
         description: '',
         isImageuploaded: false,
+        errorMessage: '',
         location: {}
       }
     },
-
+    /* function to preview upload images */
     methods: {
       onFilePicked (event) {
         const files = event.target.files
@@ -81,6 +85,9 @@
         this.image = files[0]
       },
 
+      /**
+       *  reset the field of upload images
+       **/
       onReset () {
         this.file = null
         this.text = ''
@@ -104,10 +111,16 @@
           .then((response) => {
             if (response.data.success === 'true') {
               this.isImageuploaded = true
+            } else {
+              this.errorMessage = response.data.message
             }
           })
       },
 
+      /**
+       * save address data to location field
+       * @param addressData
+       */
       getAddressData (addressData) {
         this.location = {
           lat: addressData.geometry.location.lat(),
