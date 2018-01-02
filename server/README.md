@@ -43,10 +43,13 @@ Register a new user
 
 - **Success Response**
 
-      {
-          "success": "true",
-          "message": "Registration is successful"
-      }
+      [
+          {
+              "access": "auth",
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTRiYjU5NzM2OGYzZjFkZWNjZmNiZTciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE0OTExMTI3fQ.empAZxbb5njgn8zCIsx2W0xAUm58Axluy6RurpBCNrg",
+              "_id": "5a4bb597368f3f1deccfcbe9"
+          }
+      ]
 
 ### Login user
 Login a user into the system
