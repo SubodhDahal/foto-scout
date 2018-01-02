@@ -8,13 +8,17 @@ export default {
     return state.language
   },
 
+  groups (state) {
+    return state.groups
+  },
+
   /**
    * Get the name of the selected location
    * @param  {Object} state
    * @return {String}
    */
   locationName (state) {
-    return state.search.location.id ? state.search.location.formatted_address : ''
+    return state.search.location.formatted_address
   },
 
   /**
@@ -23,16 +27,9 @@ export default {
    * @return {Object}
    */
   locationCoordinates (state) {
-    if (state.search.location.id) {
-      return {
-        lat: state.search.location.geometry.location.lat,
-        lng: state.search.location.geometry.location.lng
-      }
-    } else {
-      return {
-        lat: 51.1657,
-        lng: 10.4515
-      }
+    return {
+      lat: state.search.location.lat,
+      lng: state.search.location.lng
     }
   },
 
@@ -43,5 +40,23 @@ export default {
    */
   searchOptions (state) {
     return state.search.options
+  },
+
+  /**
+   * Get the images search results
+   * @param  {Object} state
+   * @return {Object}
+   */
+  images (state) {
+    return state.images
+  },
+
+  /**
+   * Get the image categories
+   * @param  {Object} state
+   * @return {Object}
+   */
+  imageCategories (state) {
+    return state.imageCategories
   }
 }

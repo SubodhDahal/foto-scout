@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
 import UploadImage from '@/components/UploadImage'
+import DisplayGroup from '@/components/DisplayGroup'
+import CreateGroup from '@/components/CreateGroup'
 
 Vue.use(Router)
 
@@ -28,6 +30,17 @@ export default new Router({
       path:'/upload-image',
       name:'UploadImage',
       component:UploadImage
+    },
+    {
+      path:'/group-display',
+      name:'DisplayGroup',
+      component: DisplayGroup
+    },
+    {
+      path:'/create-group',
+      name:'CreateGroup',
+      component:CreateGroup
     }
+
   ]
 })

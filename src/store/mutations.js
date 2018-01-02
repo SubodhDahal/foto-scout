@@ -24,5 +24,14 @@ export default {
    */
   changeLanguage (state, payload) {
     state.language = payload.language
+  },
+
+  /**
+   * Set the images search results
+   * @param {Object} state
+   * @param {Object} payload
+   */
+  setImages (state, payload) {
+    state.images = payload.images
   }
 }
