@@ -17,8 +17,8 @@
 
         <b-card no-body>
           <b-tabs pills card vertical>
-            <b-tab :title="group.groupname" v-for="(group,i) in groups" :key=group.id :active="i==0">
-              {{group.description}}
+            <b-tab v-for="group in groups">
+             {{ group }}
             </b-tab>
           </b-tabs>
         </b-card>

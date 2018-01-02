@@ -27,7 +27,6 @@ const store = new Vuex.Store({
       options: {
         categories: {},
         radius: 50 // in km
-      }
     },
     images: [],
     imageCategories: {
@@ -37,11 +36,7 @@ const store = new Vuex.Store({
       'portait': 'Portait',
       'cityscape': 'Cityscape'
     },
-    groups: [
-      {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
-      {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},
-      {groupname: 'Dharan Group', id: '3', description: 'Dharan group is very famous group'}
-    ]
+    groups: []
   },
 
   getters,
