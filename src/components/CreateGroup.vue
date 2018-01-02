@@ -45,7 +45,7 @@
     methods: {
       onSubmit () {
         let formData = new FormData()
-        formData.append('groupname', this.groupname)
+        formData.append('name', this.groupname)
         formData.append('description', this.description)
 
         const config = {

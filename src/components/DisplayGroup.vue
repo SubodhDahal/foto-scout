@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-2 offset-md-8">
-        /* router-link to link another component */
+        <!--routes to CreateGroup component-->
         <router-link :to="{name:'CreateGroup'}">
           <b-button class="danger float-right">
             Create Group
