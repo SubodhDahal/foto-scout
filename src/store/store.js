@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 Vue.use(Vuex)
 
 // Load vuex i18n module
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
       options: {
         categories: {},
         radius: 50 // in km
+      }
     },
     images: [],
     imageCategories: {
