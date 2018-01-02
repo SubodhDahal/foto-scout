@@ -3,7 +3,7 @@
     <div class="row">
       <div v-for="image in images" class="col-md-4">
         <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
-          <img :src="image.path" class="img-fluid" height="250"/>
+          <img :src="`http://localhost:3000/${image.path}`" class="img-fluid" height="250"/>
         </router-link>
       </div>
     </div>
