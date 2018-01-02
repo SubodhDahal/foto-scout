@@ -82,6 +82,36 @@ exports.user_profile = (req, res) =>{
   });
 };
 
+exports.profile_edit = [
+
+  check('firstname','firstname required').isLength({min: 1}),
+  check('lastname','lastname required').isLength({min: 1}),
+
+  (req, res) =>{
+
+  var token = req.header('x-auth');
+
+  User.findByToken(token).then((user) => {
+    if (!user) {
+        return Promise.reject();
+      }
+      console.log('working');
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      user.user_profile[0].about_me = req.body.about_me;
+      user.save(function(err){
+        console.log('updating');
+        if(err){
+          return res.status(401).send({message:'we are having trouble, please try again later'})
+        }
+        res.send(user);
+      })
+    }).catch((e) => {
+      res.status(401).send({message: 'unauthorised user'});
+    });
+  }
+]
+
 exports.log_out =(req, res) => {
 
   var token = req.header('x-auth');
@@ -92,7 +122,8 @@ exports.log_out =(req, res) => {
     }
       //console.log('working');
       user.removeToken(token).then(() => {
-       res.status(200).send({message: 'Bye bye user'});
+        res.status(200).send({
+         success: 'true', message: 'Bye bye user'});
      },() => {
       res.status(400).send({message:'sorry we ar currently having problem please try again'});
     });

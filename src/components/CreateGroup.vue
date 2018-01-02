@@ -44,17 +44,19 @@
     },
     methods: {
       onSubmit () {
-        let formData = new FormData()
-        formData.append('name', this.groupname)
-        formData.append('description', this.description)
+        let data = {
+          name: this.groupname,
+          description: this.description
+        }
 
-        axios.post('http://localhost:3000/group', formData)
+        axios.post('http://localhost:3000/group', data)
           .then((response) => {
             if (response.data.success === 'true') {
               this.isGroupCreated = true
             }
           })
       },
+
       onReset () {
         this.groupname = ''
         this.description = ''
