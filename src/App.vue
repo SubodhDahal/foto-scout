@@ -1,7 +1,10 @@
 <template>
   <div class="main">
     <AppHeader />
-    <router-view></router-view>
+
+    <div class="mt-4">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

@@ -9,6 +9,8 @@
 
       <div class="col-12 col-md-2 text-center">
         <LanguageSelector />
+        <br>
+        <router-link :to="{name:'Registration'}">{{ $t('register') }}</router-link>
       </div>
     </div>
   </header><!-- /header -->
