@@ -16,9 +16,10 @@ var groupSchema = new Schema({
 
 module.exports = mongoose.model('Group', groupSchema);
 
-var userschma = new schema({
-  name: {
-    tye: string
+ /*var userSchema = new Schema({
+  username: {
+    type: string,
   },
 });
- module.expoers = mongoose.model('user', userschema);
+ module.exports = mongoose.model('user', userSchema);*/
+
