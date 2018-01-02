@@ -1,8 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  group = mongoose.model('Group');
-
+  group = mongoose.model('Group'),
+user=mongoose.model('User');
 exports.create_a_group = function (req, res) {
   var new_group = new group(req.body);
   new_group.save(function (err, group) {
@@ -55,20 +55,13 @@ exports.list_group = function(req, res) {
 
 
 
-/*exports.add_user = function(req, res) {
-  User.findOne({
-    id: req.body.id
-  }, function (err, user) {
-    if (!user) {
-      var new_user = new User(req.body);
-      new_user.save(function (err, user) {
-        if (err)
-          res.send(err);
-        res.json({success: 'true', message: 'user added is successful'});
-      });
-    }
-    else {
-      return res.json({message: 'user already exist'})
-    }
-  })
-}*/
+ exports.add_user = function(req, res){
+  var add_user =  new  user(req.body);
+add_user.save(function (err, group) {
+    if (err)
+      res.send(err)
+    res.json({success: 'true', message: 'user added'});
+  });
+   };
+
+

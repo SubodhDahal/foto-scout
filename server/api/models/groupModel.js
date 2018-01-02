@@ -13,6 +13,12 @@ var groupSchema = new Schema({
 
 });
 
+
 module.exports = mongoose.model('Group', groupSchema);
 
-
+var userschma = new schema({
+  name: {
+    tye: string
+  },
+});
+ module.expoers = mongoose.model('user', userschema);
