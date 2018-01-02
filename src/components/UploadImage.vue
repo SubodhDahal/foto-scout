@@ -5,6 +5,9 @@
         <b-alert :show="isImageuploaded">
           Image uploaded successfully
         </b-alert>
+        <b-alert :show="errorMessage!=''" class="alert-danger">
+          ERROR: {{ errorMessage }}
+        </b-alert>
 
         <!--Form-group for entities-->
         <b-form-group
@@ -66,6 +69,7 @@
         imageUrl: null,
         description: '',
         isImageuploaded: false,
+        errorMessage: '',
         location: {}
       }
     },
@@ -104,6 +108,8 @@
           .then((response) => {
             if (response.data.success === 'true') {
               this.isImageuploaded = true
+            } else {
+              this.errorMessage = response.data.message
             }
           })
       },
