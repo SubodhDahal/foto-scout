@@ -22,7 +22,7 @@ exports.create_a_user = [
     var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
       'passcode': req.body.passcode,'user_profile':{}});
     if (!errors.isEmpty()) {
-      return res.send({errors: errors.array()});
+      return res.status(400).send({errors: errors.array()});
     }
     User.findOne({
       email: req.body.email
@@ -33,11 +33,15 @@ exports.create_a_user = [
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
           if (err) return res.send({message: 'we are having problem at the moment please try again later'});
-          res.send({success: 'true',message: 'Registration is successful'});
+          return new_user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(new_user.tokens);
+          }).catch((e) => {
+            res.status(400).send(e);
+          })
         })
       }
       else {
-        return res.json({message: 'Account already exist'})
+        return res.status(400).send({message: 'Account already exist'})
       }
     });
   }
