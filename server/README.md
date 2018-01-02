@@ -74,6 +74,51 @@ Login a user into the system
 
 Use `token` in header with key `x-auth` to access protected routes.
 
+### User Profile
+View user profile
+
+- **URL**
+
+    `/user/me`
+
+- **Method**
+
+    `GET`
+
+- **Success Response**
+
+      {
+          "_id": "id",
+          "firstname": "firstname",
+          "lastname": "lastname",
+          "email": "email",
+          "user_profile": [
+              {
+                  "_id": "id",
+                  "profile_pic": "profile picture",
+                  "about_me": "about me"
+              }
+          ]
+      }
+
+### Logging out
+Log out the user
+
+- **URL**
+
+    `/user/me/logout`
+
+- **Method**
+
+    `DELETE`
+
+- **Success Response**
+
+      {
+        "success": "true",
+        "message": "Bye bye user"
+      }
+
 ## Photo management
 
 In this photo management API, user can view their uploaded photos, add new photos and delete their own desire photos.

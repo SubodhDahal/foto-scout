@@ -92,7 +92,8 @@ exports.log_out =(req, res) => {
     }
       //console.log('working');
       user.removeToken(token).then(() => {
-       res.status(200).send({message: 'Bye bye user'});
+       res.status(200).send({
+         success: 'true', message: 'Bye bye user'});
      },() => {
       res.status(400).send({message:'sorry we ar currently having problem please try again'});
     });
