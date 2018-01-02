@@ -1,0 +1,13 @@
+{
+  "searchText": "Enter location to search",
+  "locationname": "Enter location name",
+  "descriptiontext": "Write description about this image",
+  "labelforimage": "Choose an image to upload",
+  "labelfordescription": "Description",
+  "labelforlocation": "Location",
+  "labelforsubmit": "Submit",
+  "labelforreset": "Reset",
+  "labelforgroupname": "Group Name",
+  "placeholderforgroupname": "Enter your Group Name",
+  "labelforcreategroup": "Create Group"
+}

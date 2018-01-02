@@ -1,36 +1,77 @@
 <template>
-  <div class="form-group form-inline mt-5">
-    <gmap-autocomplete
-      class="form-control p-3 mr-2 search-box"
-      :placeholder="$t('searchText')"
-      :value="locationName"
-      @place_changed="getAddressData"
-    >
-    </gmap-autocomplete>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group form-inline mt-5">
+        <gmap-autocomplete
+          class="form-control p-3 mr-2 search-box"
+          :placeholder="$t('searchText')"
+          :value="locationName"
+          @place_changed="changeLocation"
+        >
+        </gmap-autocomplete>
 
-    <button class="btn btn-primary p-3"
-            @click="getAddressData()"
-            type="submit">
-      Search
-    </button>
+        <button class="btn btn-primary p-3"
+                @click="changeLocation()"
+                type="submit">
+          Search
+        </button>
+      </div>
+    </div>
+
+    <SearchOptions />
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import SearchOptions from './SearchOptions'
 
   export default {
     computed: {
       ...mapGetters([
-        'locationName'
+        'locationName',
+        'locationCoordinates',
+        'searchOptions'
       ])
     },
 
+    components: {
+      SearchOptions
+    },
+
     methods: {
-      getAddressData (addressData) {
+      /**
+       * Change the location to the searched location
+       * @param  {Object} addressData
+       */
+      changeLocation (addressData) {
         this.$store.commit('setLocation', {
-          location: addressData
+          location: {
+            lat: addressData.geometry.location.lat(),
+            lng: addressData.geometry.location.lng(),
+            name: addressData.formatted_address
+          }
         })
+
+        this.getImageResults()
+      },
+
+      /**
+       * Get the images for the selected location
+       */
+      getImageResults () {
+        let payload = {
+          ...this.locationCoordinates,
+          radius: this.searchOptions.radius
+        }
+
+        this.$store.dispatch('getImageResults', payload)
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
       }
     }
   }

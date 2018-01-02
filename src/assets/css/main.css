@@ -7,3 +7,11 @@ body {
   color: #2c3e50;
   height: 100%;
 }
+
+.main {
+  margin-bottom: 50px;
+}
+
+.col-form-label, .col-form-legend {
+  font-weight: bold;
+}

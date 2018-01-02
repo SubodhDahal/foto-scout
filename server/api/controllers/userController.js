@@ -3,54 +3,131 @@
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   User = mongoose.model('User'),
-  bcrypt = require('bcrypt');
+  bcrypt = require('bcrypt'),
+  {validator,check,validationResult} = require('express-validator/check');
 
-exports.create_a_user = function(req, res){
-  User.findOne({
-    email: req.body.email
-  },function(err, user){
-    if(!user){
-      var new_user = new User(req.body);
-      new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
-      new_user.save(function(err, user) {
-        if (err)
-          res.send(err);
-        res.json({success: 'true', message: 'Registration is successful'});
-      });
+exports.create_a_user = [
+
+  check('firstname','firstname required').isLength({min: 1}),
+  check('lastname','lastname required').isLength({min:1}),
+  check('email','email required').isLength({min: 1}),
+  check('email','valid email required').isEmail(),
+  check('passcode','atleast 6 charater code is required').isLength({min: 6}),
+
+  (req, res)=> {
+
+    var errors = validationResult(req);
+
+    //console.log(errors);
+    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
+      'passcode': req.body.passcode,'user_profile':{}});
+    if (!errors.isEmpty()) {
+      return res.send({errors: errors.array()});
     }
-    else{
-      return res.json({message: 'Account already exist'})}
-  });
+    User.findOne({
+      email: req.body.email
+    }, (e, user) => {
+      if (!user) {
 
-};
-
-exports.sign_in = function(req, res) {
-  User.findOne({
-    email: req.body.email
-  }, function(err, user) {
-    if (err) throw err;
-    if (!user) {
-      res.json({ message: 'Authentication failed. User not found.' });
-    } else if (user) if (!user.comparePassword(req.body.passcode)) {
-      res.json({message: 'Authentication failed. Wrong passcode.'})
-    } else {
-      return res.json({
-        access_token: jwt.sign({
-          firstname: user.firstname,
-          lastname: user.lastname,
-          _id: user._id
-        }, 'RESTFULAPIS')
-      });
-    }
-  });
-};
-
-exports.loginRequired = function(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    return res.status(401).json({ message: 'Unauthorized user!' });
+        console.log('creating user');
+        new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
+        new_user.save(function (err, new_user) {
+          if (err) return res.send({message: 'we are having problem at the moment please try again later'});
+          res.send({success: 'true',message: 'Registration is successful'});
+        })
+      }
+      else {
+        return res.json({message: 'Account already exist'})
+      }
+    });
   }
+];
+
+exports.sign_in =[
+
+  check('email','email required').isLength({min: 1}),
+  check('email','valid email required').isEmail(),
+  check('passcode','valid passcode is required').isLength({min: 6}),
+
+  (req, res)=>{
+
+    var errors = validationResult(req);
+
+    //console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.send({errors: errors.array()});
+    }
+    User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
+      return user.generateAuthToken().then((token) => {
+        res.header('x-auth', token).send(user.tokens);
+      });
+    }).catch((e) => {
+      res.status(400).send({message: 'sorry cant find you'});
+    });
+  }
+];
+
+exports.user_profile = (req, res) =>{
+
+  var token = req.header('x-auth');
+
+  User.findByToken(token).then((user) => {
+	if (!user) {
+      return Promise.reject();
+    }
+    //console.log('working');
+    res.send(user);
+  }).catch((e) => {
+    res.status(401).send();
+  });
 };
 
+exports.profile_edit = [
 
+  check('firstname','firstname required').isLength({min: 1}),
+  check('lastname','lastname required').isLength({min: 1}),
+
+  (req, res) =>{
+
+  var token = req.header('x-auth');
+
+  User.findByToken(token).then((user) => {
+    if (!user) {
+        return Promise.reject();
+      }
+      console.log('working');
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      user.user_profile[0].about_me = req.body.about_me;
+      user.save(function(err){
+        console.log('updating');
+        if(err){
+          return res.status(401).send({message:'we are having trouble, please try again later'})
+        }
+        res.send(user);
+      })
+    }).catch((e) => {
+      res.status(401).send({message: 'unauthorised user'});
+    });
+  }
+]
+
+exports.log_out =(req, res) => {
+
+  var token = req.header('x-auth');
+
+  User.findByToken(token).then((user) => {
+    if (!user) {
+      return Promise.reject();
+    }
+      //console.log('working');
+      user.removeToken(token).then(() => {
+        res.status(200).send({
+         success: 'true', message: 'Bye bye user'});
+     },() => {
+      res.status(400).send({message:'sorry we ar currently having problem please try again'});
+    });
+  }).catch((e) => {
+    res.status(401).send({message: 'achtung'});
+  });
+};
