@@ -22,8 +22,8 @@
             ref="fileInput">
           </b-form-file>
         </b-form-group>
-         <strong>Image Category</strong>
-        <v-select multiple :options="imageCategory" placeholder="select an image category"></v-select>
+        <strong>{{ $t('labelforimagecategory') }}</strong>
+        <v-select multiple :options="imageCategory" :placeholder="$t('selectforimagecategory')"></v-select>
         <br>
         <b-form-group :label="$t('labelfordescription')">
           <!--textarea for description-->

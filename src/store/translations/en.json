@@ -10,5 +10,7 @@
   "labelforgroupname": "Group Name",
   "placeholderforgroupname": "Enter your Group Name",
   "labelforcreategroup": "Create Group",
-  "register": "Register"
+  "register": "Register",
+  "labelforimagecategory":"Image Category",
+  "selectforimagecategory":"Select Image Category"
 }
