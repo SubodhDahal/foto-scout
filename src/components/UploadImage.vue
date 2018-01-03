@@ -22,7 +22,9 @@
             ref="fileInput">
           </b-form-file>
         </b-form-group>
-
+         <strong>Image Category</strong>
+        <v-select multiple :options="imageCategory" placeholder="select an image category"></v-select>
+        <br>
         <b-form-group :label="$t('labelfordescription')">
           <!--textarea for description-->
           <b-form-textarea
@@ -61,17 +63,22 @@
 
 <script>
   import axios from 'axios'
+  import vSelect from 'vue-select'
 
   export default {
     data () {
       return {
         file: null,
         imageUrl: null,
+        imageCategory: ['Landscape', 'Portrait', 'Cityscape', 'Architecture', 'All'],
         description: '',
         isImageuploaded: false,
         errorMessage: '',
         location: {}
       }
+    },
+    components: {
+      vSelect
     },
     /* function to preview upload images */
     methods: {
