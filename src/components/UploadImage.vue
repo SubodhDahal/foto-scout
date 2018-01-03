@@ -5,6 +5,7 @@
         <b-alert :show="isImageuploaded">
           Image uploaded successfully
         </b-alert>
+        <!--Throw error message while uploading the image-->
         <b-alert :show="errorMessage!=''" class="alert-danger">
           ERROR: {{ errorMessage }}
         </b-alert>
@@ -23,7 +24,9 @@
           </b-form-file>
         </b-form-group>
         <strong>{{ $t('labelforimagecategory') }}</strong>
-        <v-select multiple :options="imageCategory" :placeholder="$t('selectforimagecategory')"></v-select>
+        <!--using vue-select plugin for image category-->
+        <v-select multiple :value.sync="selected" :options="imageCategories"
+                  :placeholder="$t('selectforimagecategory')"></v-select>
         <br>
         <b-form-group :label="$t('labelfordescription')">
           <!--textarea for description-->
@@ -64,18 +67,25 @@
 <script>
   import axios from 'axios'
   import vSelect from 'vue-select'
+  import { mapGetters } from 'vuex'
 
   export default {
     data () {
       return {
         file: null,
         imageUrl: null,
-        imageCategory: ['Landscape', 'Portrait', 'Cityscape', 'Architecture', 'All'],
         description: '',
         isImageuploaded: false,
         errorMessage: '',
-        location: {}
+        location: {},
+        selected: null
       }
+    },
+    computed: {
+      /* get groups from VueX Store */
+      ...mapGetters([
+        'imageCategories'
+      ])
     },
     components: {
       vSelect
@@ -134,6 +144,15 @@
           lng: addressData.geometry.location.lng(),
           name: addressData.formatted_address
         }
+      },
+      mounted () {
+        this.$store.dispatch('getImageCategories')
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
       }
     }
   }

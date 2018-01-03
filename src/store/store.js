@@ -31,13 +31,13 @@ const store = new Vuex.Store({
       }
     },
     images: [],
-    imageCategories: {
-      'all': 'All',
-      'architecture': 'Architecture',
-      'landscape': 'Landscape',
-      'portait': 'Portait',
-      'cityscape': 'Cityscape'
-    },
+    imageCategories: [
+      {value:'all',label:'All'},
+      {value:'architecture',label:'Architecture'},
+      {value:'landscape',label:'Landscape'},
+      {value:'portrait',label:'Portrait'},
+      {value:'cityscape',label:'Cityscape'}
+      ],
     groups: []
   },
 

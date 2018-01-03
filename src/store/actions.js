@@ -43,5 +43,21 @@ export default {
           reject(error)
         })
     })
-  }
+  },
+  getImageCategories (context) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/ImageCategory')
+        .then(function (response) {
+          // Save imageCategory to Vuex store
+          context.commit('setImageCategory', {
+            imageCategories: response.data.imageCategories
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
+  },
 }

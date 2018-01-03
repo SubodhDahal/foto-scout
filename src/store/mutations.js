@@ -37,5 +37,8 @@ export default {
 
   setGroups (state, payload) {
     state.groups = payload.groups
+  },
+  setImageCategory(state,payload){
+    state.imageCategories=payload.imageCategories
   }
 }
