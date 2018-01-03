@@ -68,9 +68,8 @@ function extractExifData (imagename, callback, errorCallback) {
 
 exports.upload_an_image = function (req,res,next) {
   var file = req.files[0],
-    imageName = file.originalname,
+    imageName = file.filename,
     filePath = file.path.replace("public\\", "");   // remove public\ from filepath
-
   try {
     var insertObj = {};
 
