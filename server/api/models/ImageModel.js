@@ -46,8 +46,8 @@ var imageSchema = new mongoose.Schema({
       type: Object,
       required: false
     },
-  imageCategoryId:{
-    type: String,
+  category:{
+    type: Array,
     required:false
   }
 

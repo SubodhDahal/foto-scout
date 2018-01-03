@@ -79,7 +79,8 @@ exports.upload_an_image = function (req,res,next) {
         originalname: imageName,
         description: req.body.description,
         userId: 1,
-        imageCategoryId:req.body.imageCategoryId,
+        category:req.body.category,
+
         location: {
           coordinates: [
             parseFloat(req.body.longitude),
