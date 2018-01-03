@@ -26,5 +26,22 @@ export default {
           reject(error)
         })
     })
+  },
+
+  getGroupList (context) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/group')
+        .then(function (response) {
+          // Save images data to Vuex store
+          context.commit('setGroups', {
+            groups: response.data
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
   }
 }

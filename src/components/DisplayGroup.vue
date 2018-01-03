@@ -17,8 +17,8 @@
 
         <b-card no-body>
           <b-tabs pills card vertical>
-            <b-tab v-for="group in groups" :key="group._id">
-             {{ group._id }}
+            <b-tab v-for="group in groups" :title="group.name" :key="group._id">
+             {{ group.description}}
             </b-tab>
           </b-tabs>
         </b-card>
@@ -36,6 +36,16 @@
       ...mapGetters([
         'groups'
       ])
+    },
+
+    mounted () {
+      this.$store.dispatch('getGroupList')
+        .then((res) => {
+          console.log('RES', res)
+        })
+        .catch((error) => {
+          console.log('ERROR', error)
+        })
     }
   }
 </script>
