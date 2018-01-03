@@ -33,5 +33,9 @@ export default {
    */
   setImages (state, payload) {
     state.images = payload.images
+  },
+
+  setGroups (state, payload) {
+    state.groups = payload.groups
   }
 }
