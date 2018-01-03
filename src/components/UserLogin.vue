@@ -20,7 +20,7 @@
                     <input name="remember" type="checkbox" value="Remember Me"> Remember Me
                   </label>
                 </div>
-                  <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
               </fieldset>
             </form>
           </div>
@@ -30,7 +30,14 @@
   </div>
 </template>
 <script>
-
+  export default {
+    data () {
+      return {
+        email: '',
+        password: ''
+      }
+    }
+  }
 </script>
 <style>
   body {

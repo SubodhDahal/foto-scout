@@ -18,7 +18,7 @@ export default {
    * @return {String}
    */
   locationName (state) {
-    return state.search.location.formatted_address
+    return state.search.location.name
   },
 
   /**
