@@ -19,7 +19,7 @@ exports.create_a_user = [
     var errors = validationResult(req);
 
     //console.log(errors);
-    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
+    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.lastname,'email': req.body.email,
       'passcode': req.body.passcode,'user_profile':{}});
     if (!errors.isEmpty()) {
       return res.status(400).send({errors: errors.array()});
