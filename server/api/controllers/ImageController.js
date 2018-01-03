@@ -56,7 +56,8 @@ function extractExifData (imagename, callback, errorCallback) {
   new ExifImage({
     image: 'public/uploads/' + imagename
   }, function (error, exifData) {
-    if (error && error.code !== 'NO_EXIF_SEGMENT') {
+    console.log(error);
+    if (error && error.code !== 'NO_EXIF_SEGMENT' && error.code !=='NOT_A_JPEG') {
       errorCallback(error);
       return;
     }
