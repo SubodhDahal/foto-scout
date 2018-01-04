@@ -32,7 +32,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/group')
         .then(function (response) {
-          // Save images data to Vuex store
+          // Save groups data to Vuex store
           context.commit('setGroups', {
             groups: response.data
           })
@@ -43,5 +43,21 @@ export default {
           reject(error)
         })
     })
-  }
+  },
+  getImageCategories (context) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/ImageCategory')
+        .then(function (response) {
+          // Save imageCategory to Vuex store
+          context.commit('setImageCategory', {
+            imageCategories: response.data.imageCategories
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
+  },
 }
