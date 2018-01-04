@@ -21,10 +21,6 @@ var imageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userId:{
-    type:Number,
-    required:false
-  },
   description: {
     type: String,
     required: false,
@@ -49,6 +45,12 @@ var imageSchema = new mongoose.Schema({
   category:{
     type: Array,
     required:false
+  },
+  likes:{
+    type:Object
+  },
+  comments:{
+    type:Object
   }
 
 });

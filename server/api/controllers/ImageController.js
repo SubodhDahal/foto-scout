@@ -66,10 +66,20 @@ function extractExifData (imagename, callback, errorCallback) {
   });
 }
 
+function generateUniqueImageId()
+{
+  var randtoken = require('rand-token').generator({
+    string: ''
+  });
+  var token = randtoken.generate(16);
+  return token;
+}
+
 exports.upload_an_image = function (req,res,next) {
   var file = req.files[0],
     imageName = file.filename,
     filePath = file.path.replace("public\\", "");   // remove public\ from filepath
+    var uniqueImageId=generateUniqueImageId();//generate unique image code
   try {
     var insertObj = {};
 
@@ -78,7 +88,6 @@ exports.upload_an_image = function (req,res,next) {
         path: filePath,
         originalname: imageName,
         description: req.body.description,
-        userId: 1,
         category:req.body.category,
 
         location: {
@@ -87,7 +96,18 @@ exports.upload_an_image = function (req,res,next) {
             parseFloat(req.body.latitude),
           ],
           type: 'Point'
-        }
+        },
+        likes:{
+          userId:"1",
+          imageId:uniqueImageId,
+          count:0
+        },
+        comments:{
+          userId:"1",
+          imageId:uniqueImageId,//generate unique image code
+          comment:'',
+          date:Date()
+        },
       }
 
       var upload_image = new Image(insertObj);
@@ -152,3 +172,27 @@ exports.list_all_images = function(req, res) {
     res.json(image);
   });
 };
+
+//Image like {'post': {$ne : ""}}
+exports.update_image_like_couter=function(req,res,next) {
+  Image.update({"likes.imageId":req.params.imageId} && {"likes.userId":{$ne:req.params.userId}} && {"likes.count":0},  //$ne=not equal
+    {$inc: {"likes.count": 1}}, (err, like) => {
+      if (err)
+        res.send(err)
+      res.json(like);
+    });
+
+};
+
+//Image comment
+/*exports.insert_comment=function(req,res,next){
+  var image_comment = new Image();
+  image_comment.comments.comment=req.body.comment;
+  image_comment.userId=req.body.userId;
+  image_comment.imageId=req.body.imageId;
+  image_comment.save(function (err, comment) {
+    if (err)
+      res.send(err);
+    res.json(comment);
+  });
+};*/

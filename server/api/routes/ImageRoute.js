@@ -65,4 +65,12 @@ module.exports = function(app) {
     .put(image_category.update_category)
     .delete(image_category.delete_category)
     .get(image_category.read_category_by_id);
+
+  //image like
+  app.route('/imageLike/:imageId/:userId')
+    .put(image.update_image_like_couter)
+
+  //image comment
+ /* app.route('/imageComment/:imageId/:userId')
+    .post(image.insert_comment)*/
 };
