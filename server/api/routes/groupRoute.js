@@ -3,6 +3,15 @@
 module.exports = function (app) {
   var group = require('../controllers/groupController');
 
+  app.route('/group/:id/users')
+    .post(group.add_user_to_group)
+    .delete(group.delete_user_from_group);
+
+
+  app.route('/group/:id/admin')
+    .post(group.add_admin_to_group)
+    .delete(group.delete_admin_from_group);
+
   app.route('/group')
     .get(group.list_all_group)
     .post(group.create_a_group);
@@ -12,8 +21,7 @@ module.exports = function (app) {
 
   app.route('/group/:id')
     .put(group.update_group)
-    .delete(group.delete_group)
-    //.post(group.add_user);
+    .delete(group.delete_group);
 };
 
 

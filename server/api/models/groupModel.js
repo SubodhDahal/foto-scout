@@ -11,15 +11,16 @@ var groupSchema = new Schema({
     type: String
   },
 
+  users: {
+    type: Array
+  },
+
+  admins:{
+    type: Array
+  },
+
 });
 
 
 module.exports = mongoose.model('Group', groupSchema);
-
- /*var userSchema = new Schema({
-  username: {
-    type: string,
-  },
-});
- module.exports = mongoose.model('user', userSchema);*/
 

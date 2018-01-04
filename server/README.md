@@ -261,13 +261,13 @@ Gives list of image:
 ### Query photos by location
 Get the photos that are within certain range of the location
 
-- **URL**
+**URL**
 
     `/images/search`
 
 - **Method**
 
-    `GET`
+    `GET`- 
 
 - **Query parameters**
 
@@ -344,6 +344,44 @@ Delete an image by id.
 							 },
 				    "__v" : 0
            }
+           
+### **Image Like**
+
+- **URL**
+
+   `/imageLike/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Like Updated Successfully"
+          }
+
+### **Image Comment**
+
+- **URL**
+
+   `/imageComment/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+- **Body  parameter**
+
+  `comment:comments of image.`
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Comment Updated Successfully"
+          }
+          
 ### List of Categories
 
 - **URL**
@@ -408,41 +446,182 @@ Delete an image by id.
 	          "success": "true",
 	          "message": "Category Updated successfully"
             }
-
-
-### **Image Like**
-
+            
+### **Create a group**
 - **URL**
 
-   `/imageLike/(imageId/userId`)
+    `/group`
+
+- **Method**
+    
+    ´post´    
+
+
+- **Success Response**
+
+	      {
+	          "success": "true",
+	          "message": "group created"
+            }
+            
+### Read group
+**URL**
+
+    `/group/:id`
 
 - **Method**
 
-    `put`
+    `GET`           
+    -  **Parameters**
+    
+       `_id`:group id
+       
+###update group  
+**URL**
 
- - **Success Response**
-
-	     {
-	         "success": "true",
-	         "message": "Like Updated Successfully"
-          }
-
-### **Image Comment**
-
-- **URL**
-
-   `/imageComment/(imageId/userId`)
+    `/group/:id`
 
 - **Method**
 
-    `put`
+    `put`     
+       
+     
+ **Parameters**
+ 
+ 
+ `_id`:group id
+ 
+ 
+ 
+ 
+ **body**
 
-- **Body  parameter**
+   - `name`: name of the group   
+      
+   - `description`: dscription of the group
 
-  `comment:comments of image.`
- - **Success Response**
+  - **Success Response**
 
-	     {
-	         "success": "true",
-	         "message": "Comment Updated Successfully"
-          }
+	      {
+	      
+	          "message": "group Updated Successfully"
+           
+            "group": "group"
+            }
+            
+ ### delete group  
+ Delete group by id.
+ 
+ - **URL**
+ 
+     `/group/:id`
+ 
+ - **Method**
+ 
+     `DELETE`
+ 
+  - **Success Response**
+ 
+ 	     {
+          "success": "true",
+          "message": "group successfully deleted"
+           }
+   
+   ### List of group
+   
+   - **URL**
+   
+       `/group`
+   
+   - **Method**
+   
+       `GET`
+   
+    - **Success Response**
+   
+       List of groups     
+         
+   
+  ####   add user 
+  add user to the group
+      
+ - **URL**
+ 
+     `/group/:id/
+     
+  -**Parameters**
+    
+    
+    `_id`:group id
+  -**body**
+   
+      - `user_id`: name of the user  
+ 
+ - **Method**
+ 
+     `POST`
+ 
+  - **Success Response**
+ 
+ 	     {
+          "success": "true",
+          "message": "user sucessfully added to group"
+           }
+
+
+###   delete user 
+  delete user from group
+      
+ - **URL**
+ 
+     `/group/:id/user
+     
+     
+  -**Parameters**
+   
+   
+   `_id`:group id
+  
+  -**body**
+   
+      - `user_id`: name of the user  
+ 
+ - **Method**
+ 
+     `DELETE`
+ 
+  - **Success Response**
+ 
+ 	     {
+          "success": "true",
+          "message": "user sucessfully deleted from group"
+           }
+
+
+### add admin
+  add admin in group
+      
+ - **URL**
+ 
+     `/group/:id/admin
+  
+  -**Parameters**
+  
+  
+  `_id`:group id
+  
+  -**body**
+   
+      - `user_id`: name of the user
+      
+ 
+ - **Method**
+ 
+     `post`
+ 
+  - **Success Response**
+ 
+ 	     {
+          "success": "true",
+          "message": "admin sucessfully added to group"
+           }
