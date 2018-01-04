@@ -2,6 +2,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 offset-3">
+        <div class="col-md-6 offset-10">
+          <router-link :to="{name:'DisplayGroup'}">
+            <b-button>Back</b-button>
+          </router-link>
+        </div>
+        <br>
         <b-alert :show="isGroupCreated">
           Group created successfully!
         </b-alert>
@@ -12,7 +18,6 @@
               <b-form-input type="text"
                             v-model="groupname"
                             :placeholder="$t('placeholderforgroupname')">
-
               </b-form-input>
             </b-form-group>
             <b-form-group :label="$t('labelfordescription')">
@@ -44,23 +49,23 @@
     },
     methods: {
       onSubmit () {
-        let formData = new FormData()
-        formData.append('groupname', this.groupname)
-        formData.append('description', this.description)
-
-        const config = {
-          headers: {'content-type': 'multipart/form-data'}
+        let data = {
+          name: this.groupname,
+          description: this.description
         }
-        axios.post('http://localhost:3000/group', formData, config)
+
+        axios.post('http://localhost:3000/group', data)
           .then((response) => {
             if (response.data.success === 'true') {
               this.isGroupCreated = true
             }
           })
       },
+
       onReset () {
         this.groupname = ''
         this.description = ''
+        this.isGroupCreated = false
       }
     }
   }

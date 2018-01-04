@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 Vue.use(Vuex)
 
 // Load vuex i18n module
@@ -29,19 +30,24 @@ const store = new Vuex.Store({
         radius: 50 // in km
       }
     },
-    images: [],
-    imageCategories: {
-      'all': 'All',
-      'architecture': 'Architecture',
-      'landscape': 'Landscape',
-      'portait': 'Portait',
-      'cityscape': 'Cityscape'
+    imageUpload: {
+      file: null,
+      imageUrl: null,
+      description: '',
+      isImageuploaded: false,
+      errorMessage: '',
+      location: {},
+      category: []
     },
-    groups: [
-      {groupname: 'Rai Group', id: '1', description: 'Rai kirat group is an old group'},
-      {groupname: 'Aryan Group', id: '2', description: 'Aryan group is a new group'},
-      {groupname: 'Dharan Group', id: '3', description: 'Dharan group is very famous group'}
-    ]
+    images: [],
+    imageCategories: [
+      {value: 'all', label: 'All'},
+      {value: 'architecture', label: 'Architecture'},
+      {value: 'landscape', label: 'Landscape'},
+      {value: 'portrait', label: 'Portrait'},
+      {value: 'cityscape', label: 'Cityscape'}
+    ],
+    groups: []
   },
 
   getters,

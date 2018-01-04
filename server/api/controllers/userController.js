@@ -18,10 +18,11 @@ exports.create_a_user = [
 
     var errors = validationResult(req);
 
-    console.log(errors);
-    var new_user = new User(req.body);
+    //console.log(errors);
+    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
+      'passcode': req.body.passcode,'user_profile':{}});
     if (!errors.isEmpty()) {
-      return res.send({errors: errors.array()});
+      return res.status(400).send({errors: errors.array()});
     }
     User.findOne({
       email: req.body.email
@@ -32,40 +33,88 @@ exports.create_a_user = [
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
           if (err) return res.send({message: 'we are having problem at the moment please try again later'});
-          res.send({success: 'true',message: 'Registration is successful'});
+          return new_user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(new_user.tokens);
+          }).catch((e) => {
+            res.status(400).send(e);
+          })
         })
       }
       else {
-        return res.json({message: 'Account already exist'})
+        return res.status(400).send({message: 'Account already exist'})
       }
     });
   }
 ];
 
-exports.sign_in = (req, res)=>{
-  User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
-    return user.generateAuthToken().then((token) => {
-      res.header('x-auth', token).send(user.tokens);
+exports.sign_in =[
+
+  check('email','email required').isLength({min: 1}),
+  check('email','valid email required').isEmail(),
+  check('passcode','valid passcode is required').isLength({min: 6}),
+
+  (req, res)=>{
+
+    var errors = validationResult(req);
+
+    //console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.send({errors: errors.array()});
+    }
+    User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
+      return user.generateAuthToken().then((token) => {
+        res.header('x-auth', token).send(user.tokens);
+      });
+    }).catch((e) => {
+      res.status(400).send({message: 'sorry cant find you'});
     });
-  }).catch((e) => {
-    res.status(400).send({message: 'sorry cant find you'});
-  });
-};
+  }
+];
 
 exports.user_profile = (req, res) =>{
+
   var token = req.header('x-auth');
 
   User.findByToken(token).then((user) => {
 	if (!user) {
       return Promise.reject();
     }
-	//console.log('working');
-    var id = req.param.id;
-    res.send(user.profile.id(id));
+    //console.log('working');
+    res.send(user);
   }).catch((e) => {
     res.status(401).send();
   });
 };
+
+exports.profile_edit = [
+
+  check('firstname','firstname required').isLength({min: 1}),
+  check('lastname','lastname required').isLength({min: 1}),
+
+  (req, res) =>{
+
+  var token = req.header('x-auth');
+
+  User.findByToken(token).then((user) => {
+    if (!user) {
+        return Promise.reject();
+      }
+      console.log('working');
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      user.user_profile[0].about_me = req.body.about_me;
+      user.save(function(err){
+        console.log('updating');
+        if(err){
+          return res.status(401).send({message:'we are having trouble, please try again later'})
+        }
+        res.send(user);
+      })
+    }).catch((e) => {
+      res.status(401).send({message: 'unauthorised user'});
+    });
+  }
+]
 
 exports.log_out =(req, res) => {
 
@@ -75,13 +124,13 @@ exports.log_out =(req, res) => {
     if (!user) {
       return Promise.reject();
     }
-    console.log('working');
+      //console.log('working');
       user.removeToken(token).then(() => {
-      res.status(200).send({message: 'Bye bye user'});
-    }, () => {
+        res.status(200).send({
+         success: 'true', message: 'Bye bye user'});
+     },() => {
       res.status(400).send({message:'sorry we ar currently having problem please try again'});
     });
-
   }).catch((e) => {
     res.status(401).send({message: 'achtung'});
   });

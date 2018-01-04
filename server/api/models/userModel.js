@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcrypt'),
-    jwt = require('jsonwebtoken');
+    jwt = require('jsonwebtoken'),
+     _ = require('lodash');
 
 var userProfileSchema = new Schema({
     about_me:{type: String, default: "None"},
@@ -36,6 +37,13 @@ var UserSchema = new Schema({
       }
     }]
 });
+
+UserSchema.methods.toJSON = function () {
+  var user = this;
+  var userObject = user.toObject();
+
+  return _.pick(userObject, ['_id','firstname','lastname','email','user_profile']);
+};
 
 UserSchema.methods.generateAuthToken = function () {
   var user = this;
