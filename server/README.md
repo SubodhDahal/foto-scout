@@ -296,7 +296,7 @@ Delete an image by id.
 
    `PUT`
 
--  **Parameters**
+- **Parameters**
 
    `categoryName`: Then name of the category
 
@@ -307,59 +307,61 @@ Delete an image by id.
 	          "message": "Category Updated successfully"
             }
 ### create a group
-- **URL**
+ - **URL**
 
     `/group`
 
-- **Method**
+ - **Method**
     
-    ´post´    
+    ´POST´    
 
 
-- **Success Response**
+ - **Success Response**
 
-	      {
+	         {
 	          "success": "true",
 	          "message": "group created"
-            }
+           }
             
 ### read group
-**URL**
+ - **URL**
 
     `/group/:id`
 
-- **Method**
+ - **Method**
 
     `GET`           
-    -  **Parameters**
+ - **Parameters**
     
-       `_id`:group id
+     `_id`:group id
+     
+ - **success response**      
+     group
+    
        
 ###update group  
-**URL**
+ - **URL**
 
-    `/group/:id`
+   `/group/:id`
 
-- **Method**
+ - **Method**
 
-    `put`     
+    `PUT`     
        
      
- **Parameters**
+  - **Parameters**
  
  
  `_id`:group id
  
  
- 
- 
- **body**
+ - **body**
 
-   - `name`: name of the group   
+   `name`: name of the group   
       
-   - `description`: dscription of the group
+   `description`: dscription of the group
 
-  - **Success Response**
+ - **Success Response**
 
 	      {
 	      
@@ -368,8 +370,8 @@ Delete an image by id.
             "group": "group"
             }
             
- ### delete group  
- Delete group by id.
+### delete group  
+     Delete group by id.
  
  - **URL**
  
@@ -379,42 +381,43 @@ Delete an image by id.
  
      `DELETE`
  
-  - **Success Response**
+ - **Success Response**
  
  	     {
           "success": "true",
           "message": "group successfully deleted"
            }
    
-   ### List of group
+### List of group
    
-   - **URL**
+ - **URL**
    
        `/group`
-   
-   - **Method**
+       
+ - **Method**
    
        `GET`
-   
-    - **Success Response**
+       
+ - **Success Response**
    
        List of groups     
          
    
-  ####   add user 
-  add user to the group
+#### add user 
+     add user to the group
       
  - **URL**
  
-     `/group/:id/
+     `/group/:id
      
-  -**Parameters**
+ - **Parameters**
     
     
     `_id`:group id
-  -**body**
+    
+ - **body**
    
-      - `user_id`: name of the user  
+     `user_id`: name of the user  
  
  - **Method**
  
@@ -429,58 +432,85 @@ Delete an image by id.
 
 
 ###   delete user 
-  delete user from group
+    delete user from group
       
  - **URL**
  
      `/group/:id/user
      
      
-  -**Parameters**
+ - **Parameters**
    
    
    `_id`:group id
   
-  -**body**
+ - **body**
    
-      - `user_id`: name of the user  
+     `user_id`: name of the user  
  
  - **Method**
  
      `DELETE`
  
-  - **Success Response**
+ - **Success Response**
  
  	     {
-          "success": "true",
-          "message": "user sucessfully deleted from group"
-           }
+         "message": "user sucessfully deleted from group"
+          }
+
+
 
 
 ### add admin
-  add admin in group
+     add admin in group
       
  - **URL**
  
-     `/group/:id/admin
+   `/group/:id/admin
   
-  -**Parameters**
+ - **Parameters**
   
   
-  `_id`:group id
+     `_id`:group id
   
-  -**body**
+ - **body**
    
-      - `user_id`: name of the user
+    `user_id`: name of the admin
       
  
  - **Method**
  
-     `post`
+   `POST `
  
-  - **Success Response**
+ - **Success Response**
  
- 	     {
-          "success": "true",
-          "message": "admin sucessfully added to group"
+ 	     { 
+ 	    
+        "message": "admin sucessfully added to group"
+           }
+### delete admin
+     delete admin in group
+      
+ - **URL**
+ 
+   `/group/:id/admin
+  
+ - **Parameters**
+    
+     `_id`:group id
+  
+ - **body**
+   
+    `user_id`: name of the admin
+      
+ 
+ - **Method**
+ 
+   `DELETE`
+ 
+ - **Success Response**
+ 
+ 	     { 
+ 	    
+        "message": "admin sucessfully deleted from group"
            }
