@@ -2,7 +2,14 @@
 var multer = require('multer'),
   mongoose = require('mongoose'),
   Image = mongoose.model('ImageUpload'),
+   dateFormat = require('dateformat'),
   ExifImage = require('exif').ExifImage;
+//get current date
+function getCurrentDate()
+{
+  var now = new Date();
+  return dateFormat(now, "isoDateTime")
+}
 
 /**
  * Search an image within certain radius of an location
@@ -10,6 +17,7 @@ var multer = require('multer'),
  * @param  {Object} res
  * @return {Object}
  */
+//search image by location
 exports.search_image_by_location = function(req, res) {
   var latitude = req.query.latitude,
     longitude = req.query.longitude,
@@ -66,6 +74,7 @@ function extractExifData (imagename, callback, errorCallback) {
   });
 }
 
+//generate unique image code
 function generateUniqueImageId()
 {
   var randtoken = require('rand-token').generator({
@@ -75,7 +84,9 @@ function generateUniqueImageId()
   return token;
 }
 
+// Image Upload
 exports.upload_an_image = function (req,res,next) {
+
   var file = req.files[0],
     imageName = file.filename,
     filePath = file.path.replace("public\\", "");   // remove public\ from filepath
@@ -102,12 +113,14 @@ exports.upload_an_image = function (req,res,next) {
           imageId:uniqueImageId,
           count:0
         },
-        comments:{
-          userId:"1",
-          imageId:uniqueImageId,//generate unique image code
-          comment:'',
-          date:Date()
-        },
+        comments:[
+          {
+            userId:"1",
+            imageId:uniqueImageId,//generate unique image code
+            text:"",
+            date: getCurrentDate()
+          }
+      ]
       }
 
       var upload_image = new Image(insertObj);
@@ -185,14 +198,18 @@ exports.update_image_like_couter=function(req,res,next) {
 };
 
 //Image comment
-/*exports.insert_comment=function(req,res,next){
-  var image_comment = new Image();
-  image_comment.comments.comment=req.body.comment;
-  image_comment.userId=req.body.userId;
-  image_comment.imageId=req.body.imageId;
-  image_comment.save(function (err, comment) {
-    if (err)
-      res.send(err);
-    res.json(comment);
-  });
-};*/
+exports.update_comment = function(req, res) {
+  Image.update({"comments.imageId": req.params.imageId}
+      , {
+      $push: {
+        comments: {
+          $each: [{date: getCurrentDate(), text: req.body.comment,imageId:req.params.imageId,userId:req.params.userId}]
+        }
+      }
+    }
+    ,(err, image) => {
+      if (err)
+        res.send(err)
+      res.json(image);
+    });
+};

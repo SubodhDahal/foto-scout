@@ -14,26 +14,6 @@ var storage = multer.diskStorage({
     });
   }
 });
-/*function tokenGenerate(filename)
-{
-  var randtoken = require('rand-token').generator({
-    string: 'filename'
-  });
-  var token = randtoken.generate(16),
-    imageName=token + ".jpg"
-  console.log(imageName);
-  return imageName;
-}*/
-
-// Generate a 16 character token:
-/*var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, './public/uploads/')
-  },
-  filename: function(req, file, cb) {
-    cb(null, tokenGenerate(file.originalname));
-  }
-});*/
 
 var upload = multer({
   storage: storage
@@ -71,6 +51,6 @@ module.exports = function(app) {
     .put(image.update_image_like_couter)
 
   //image comment
- /* app.route('/imageComment/:imageId/:userId')
-    .post(image.insert_comment)*/
+ app.route('/imageComment/:imageId/:userId')
+    .put(image.update_comment)
 };
