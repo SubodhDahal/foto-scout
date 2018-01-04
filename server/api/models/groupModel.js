@@ -13,7 +13,11 @@ var groupSchema = new Schema({
 
   users: {
     type: Array
-  }
+  },
+
+  admins:{
+    type: Array
+  },
 
 });
 

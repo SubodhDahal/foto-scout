@@ -95,4 +95,20 @@ exports.delete_user_from_group = function (req, res) {
   });
 };
 
+//add admin to the group
+exports.add_admin_to_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $addToSet: {
+      'admins': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
+
+    res.json({
+      message: 'admin successfully added to group',
+      group: group
+    });
+  });
+};
+
 
