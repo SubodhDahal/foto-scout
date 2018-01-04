@@ -10,5 +10,7 @@
   "labelforgroupname": "Gruppennamen",
   "placeholderforgroupname": "Geben Sie Ihre Gruppennamen",
   "labelforcreategroup": "Erstellen Gruppe",
-  "register": "Neu anmelden"
+  "register": "Neu anmelden",
+  "labelforimagecategory":"Bild Kategorie",
+  "selectforimagecategory":"Wählen Sie ein Bild Kategorie"
 }

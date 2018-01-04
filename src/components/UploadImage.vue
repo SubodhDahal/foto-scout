@@ -5,10 +5,14 @@
         <b-alert :show="isImageuploaded">
           Image uploaded successfully
         </b-alert>
+        <!--Throw error message while uploading the image-->
         <b-alert :show="errorMessage!=''" class="alert-danger">
           ERROR: {{ errorMessage }}
         </b-alert>
-
+        <div class="col-md-10 offset-2">
+          <h1 style="color:Green;"><u>Upload your Image:</u></h1>
+        </div>
+        <br>
         <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
@@ -23,28 +27,7 @@
           </b-form-file>
         </b-form-group>
 
-        <b-form-group :label="$t('labelfordescription')">
-          <!--textarea for description-->
-          <b-form-textarea
-            id="description"
-            v-model="description"
-            rows="4"
-            :placeholder="$t('descriptiontext')"
-          >
-          </b-form-textarea>
-        </b-form-group>
-
-        <b-form-group :label="$t('labelforlocation')"
-                      id="location"
-                      v-model="location.name">
-          <gmap-autocomplete
-            class="form-control p-3 mr-2 search-box"
-            :placeholder="$t('locationname')"
-            :value="location.name"
-            @place_changed="getAddressData"
-          >
-          </gmap-autocomplete>
-        </b-form-group>
+        <ImageDescriptionForm />
 
         <b-form-group>
           <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
@@ -61,39 +44,99 @@
 
 <script>
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
+  import ImageDescriptionForm from './ImageDescriptionForm'
 
   export default {
-    data () {
-      return {
-        file: null,
-        imageUrl: null,
-        description: '',
-        isImageuploaded: false,
-        errorMessage: '',
-        location: {}
+    components: {
+      ImageDescriptionForm
+    },
+
+    computed: {
+      /* get imageCategories and imageupload from VueX Store */
+      ...mapGetters([
+        'imageCategories',
+        'imageUploadData'
+      ]),
+
+      file: {
+        get () {
+          return this.$store.state.imageUpload.file
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            file: value
+          })
+        }
+
+      },
+
+      isImageuploaded: {
+        get () {
+          return this.$store.state.imageUpload.isImageuploaded
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            isImageuploaded: value
+          })
+        }
+      },
+
+      imageUrl: {
+        get () {
+          return this.$store.state.imageUpload.imageUrl
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            imageUrl: value
+          })
+        }
+      },
+
+      errorMessage: {
+        get () {
+          return this.$store.state.imageUpload.errorMessage
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            errorMessage: value
+          })
+        }
       }
     },
+
     /* function to preview upload images */
     methods: {
       onFilePicked (event) {
         const files = event.target.files
         const fileReader = new FileReader()
         fileReader.addEventListener('load', () => {
-          this.imageUrl = fileReader.result
+          this.$store.commit('setUploadData', {
+            imageUrl: fileReader.result
+          })
+          // this.imageUploadData.imageUrl = fileReader.result
         })
         fileReader.readAsDataURL(files[0])
-        this.image = files[0]
+        this.$store.commit('setUploadData', {
+          image: files[0]
+        })
       },
 
       /**
        *  reset the field of upload images
        **/
       onReset () {
-        this.file = null
-        this.text = ''
-        this.imageUrl = ''
+        this.$store.commit('setUploadData', {
+          file: null,
+          text: '',
+          imageUrl: '',
+          isImageuploaded: false
+        })
         this.$refs.fileInput.reset()
-        this.isImageuploaded = false
       },
 
       uploadImage () {
@@ -110,23 +153,15 @@
         axios.post('http://localhost:3000/upload', formData, config)
           .then((response) => {
             if (response.data.success === 'true') {
-              this.isImageuploaded = true
+              this.$store.commit('setUploadData', {
+                isImageuploaded: true
+              })
             } else {
-              this.errorMessage = response.data.message
+              this.$store.commit('setUploadData', {
+                errorMessage: response.data.message
+              })
             }
           })
-      },
-
-      /**
-       * save address data to location field
-       * @param addressData
-       */
-      getAddressData (addressData) {
-        this.location = {
-          lat: addressData.geometry.location.lat(),
-          lng: addressData.geometry.location.lng(),
-          name: addressData.formatted_address
-        }
       }
     }
   }
