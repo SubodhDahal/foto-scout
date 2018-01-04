@@ -23,5 +23,10 @@
   "labelforemailplace": "you@example.com",
   "labelforpassholder": "Password",
   "labelforconfpassholder": "Password",
-  "labelforregisterbuttion": "Register"
-}
+  "labelforregisterbuttion": "Register",
+  "labelforlogin": "Please Log in!",
+  "labelforloginemail": "Email",
+  "labelforloginpassword": "Password",
+  "labelforremember": "Remember Me",
+  "labelforlog-login": "Log in"
+  }

@@ -24,5 +24,10 @@
   "labelforemailplace": "Sie@beispiel.de",
   "labelforpassholder": "Passwort",
   "labelforconfpassholder": "Passwort",
-  "labelforregisterbuttion": "Anmelden"
+  "labelforregisterbuttion": "Anmelden",
+  "labelforlogin": "Bitte einloggen!",
+  "labelforloginpassword": "Passwort",
+  "labelforloginemail": " E-mail",
+  "labelforremember": "Eingeloggt bleiben",
+  "labelforlog-login": "Einloggen"
 }

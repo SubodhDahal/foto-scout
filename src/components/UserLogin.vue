@@ -1,26 +1,32 @@
 <template>
   <div class="container">
+    <b-alert class="col-md-4 offset-4 alert-danger" :show="isUserLoggedIn">
+          Logged In succesffully!
+    </b-alert>
+    <b-alert class="col-md-4 offset-4 alert-danger" :show="errorMessage!=''">
+          {{errorMessage}}
+    </b-alert>
     <div class="row">
       <div class="col-md-4 offset-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Please Login!</h3>
+            <h3 class="panel-title">{{$t('labelforlogin')}}</h3>
           </div>
           <div class="panel-body">
             <form accept-charset="UTF-8" role="form">
               <fieldset>
                 <div class="form-group">
-                  <input class="form-control" placeholder="E-mail" name="email" type="text">
+                  <input v-model="email" class="form-control" :placeholder="$t('labelforloginemail')" name="email" type="text">
                 </div>
                 <div class="form-group">
-                  <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                  <input v-model="passcode" class="form-control" :placeholder="$t('labelforloginpassword')" name="password" type="password" value="">
                 </div>
                 <div class="checkbox">
                   <label>
-                    <input name="remember" type="checkbox" value="Remember Me"> Remember Me
+                    <input v-model="remember" name="remember" type="checkbox" value="Remember Me"> {{$t('labelforremember')}}
                   </label>
                 </div>
-                  <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                  <input class="btn btn-lg btn-primary btn-block" type="submit" @click.prevent="onLogin" :value="$t('labelforlog-login')">
               </fieldset>
             </form>
           </div>
@@ -30,10 +36,42 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      isUserLoggedIn: false,
+      email: '',
+      passcode: '',
+      remember: false,
+      errorMessage: ''
+    }
+  },
+
+  methods: {
+    onLogin () {
+      let loginData = {
+        'email': this.email,
+        'passcode': this.passcode
+      }
+
+      axios.post('http://localhost:3000/login', loginData)
+        .then((response) => {
+          if (response.data.success === 'true') {
+            this.isUserLoggedIn = true
+          }
+        })
+        .catch((error) => {
+          this.errorMessage = error.response.data.message
+        })
+    }
+  }
+}
 
 </script>
 <style>
   body {
     padding-top: 20px;
+
   }
 </style>
