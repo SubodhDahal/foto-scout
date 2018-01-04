@@ -114,7 +114,7 @@ Editing user profile
 - **Method**
 
     `POST`
-    
+
 - **Body parameters**
 
      Use returned token value in headers key 'x-auth' for authentication
@@ -408,3 +408,41 @@ Delete an image by id.
 	          "success": "true",
 	          "message": "Category Updated successfully"
             }
+
+
+### **Image Like**
+
+- **URL**
+
+   `/imageLike/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Like Updated Successfully"
+          }
+
+### **Image Comment**
+
+- **URL**
+
+   `/imageComment/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+- **Body  parameter**
+
+  `comment:comments of image.`
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Comment Updated Successfully"
+          }

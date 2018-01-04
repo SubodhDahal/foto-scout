@@ -192,7 +192,7 @@ exports.update_image_like_couter=function(req,res,next) {
     {$inc: {"likes.count": 1}}, (err, like) => {
       if (err)
         res.send(err)
-      res.json(like);
+      res.json({success: 'true', message: 'Like Updated successfully'});
     });
 
 };
@@ -210,6 +210,6 @@ exports.update_comment = function(req, res) {
     ,(err, image) => {
       if (err)
         res.send(err)
-      res.json(image);
+      res.json({success: 'true', message: 'Comment Updated successfully'});
     });
 };
