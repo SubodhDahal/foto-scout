@@ -10,9 +10,9 @@
   "labelforgroupname": "Gruppennamen",
   "placeholderforgroupname": "Geben Sie Ihre Gruppennamen",
   "labelforcreategroup": "Erstellen Gruppe",
-  "register": "Neu anmelden",
-  "login": "Einloggen",
-  "labelfornewuser": "Neu Nutzer anmelden",
+  "register": "Registrieren",
+  "login": "Anmelden",
+  "labelfornewuser": "Neue Nutzer anmelden",
   "labelregissuccess": "User Registeration was successfull. Please Log in.",
   "labelforfirstname": "Vorname",
   "labelforlastname": "Nachname",
@@ -24,10 +24,10 @@
   "labelforemailplace": "Sie@beispiel.de",
   "labelforpassholder": "Passwort",
   "labelforconfpassholder": "Passwort",
-  "labelforregisterbuttion": "Anmelden",
-  "labelforlogin": "Bitte einloggen!",
+  "labelforregisterbuttion": "Registrieren",
+  "labelforlogin": "Bitte anmelden",
   "labelforloginpassword": "Passwort",
   "labelforloginemail": " E-mail",
-  "labelforremember": "Eingeloggt bleiben",
-  "labelforlog-login": "Einloggen"
+  "labelforremember": "Angemeldet bleiben",
+  "labelforlog-login": "Anmelden"
 }
