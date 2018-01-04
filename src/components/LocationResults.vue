@@ -27,7 +27,7 @@
         <p></p>
         <p>{{ images.length }} image{{ images.length > 1 ? 's' : '' }}</p>
         <p>
-          <router-link :to="{name:'SearchResults'}" v-if="images.length > 0">
+          <router-link :to="{name:'SearchResults', query: {lat: locationCoordinates.lat, lng: locationCoordinates.lng, radius: searchOptions.radius }}" v-if="images.length > 0">
             View images
           </router-link>
         </p>

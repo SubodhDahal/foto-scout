@@ -19,7 +19,26 @@
       ...mapGetters([
         'images'
       ])
+    },
 
+    mounted () {
+      // If there are no images in Vuex store, probably the page
+      // is reloaded so get images from the server
+      if (this.images.length === 0) {
+        let payload = {
+          lat: this.$route.query.lat,
+          lng: this.$route.query.lng,
+          radius: this.$route.query.radius
+        }
+
+        this.$store.dispatch('getImageResults', payload)
+          .then((res) => {
+            console.log('RES', res)
+          })
+          .catch((error) => {
+            console.log('ERROR', error)
+          })
+      }
     }
   }
 </script>
