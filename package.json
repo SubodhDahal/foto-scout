@@ -15,11 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-<<<<<<< HEAD
-    "bootstrap": "^4.0.0-beta.3",
-=======
     "bootstrap": "4.0.0-beta.2",
->>>>>>> 6073ea0a954f3ad535e500f17cdad2a857aeb9c8
     "bootstrap-vue": "^1.4.0",
     "popper.js": "^1.13.0",
     "vue": "^2.5.13",
