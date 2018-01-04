@@ -13,7 +13,7 @@ module.exports = function (app) {
   app.route('/group/:id')
     .put(group.update_group)
     .delete(group.delete_group)
-    //.post(group.add_user);
+    .post(group.add_user);
 };
 
 

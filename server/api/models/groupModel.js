@@ -16,10 +16,10 @@ var groupSchema = new Schema({
 
 module.exports = mongoose.model('Group', groupSchema);
 
- /*var userSchema = new Schema({
-  username: {
-    type: string,
+ var userSchema = new Schema({
+  name: {
+    type: String
   },
 });
- module.exports = mongoose.model('user', userSchema);*/
+ module.exports = mongoose.model('user', userSchema);
 
