@@ -55,7 +55,7 @@ export default new Router({
       component:UserLogin
     },
     {
-      path:'/edit-image',
+      path:'/edit-image/:id',
       name:'EditImage',
       component:EditImage
     }
