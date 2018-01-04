@@ -10,5 +10,6 @@
   "labelforgroupname": "Gruppennamen",
   "placeholderforgroupname": "Geben Sie Ihre Gruppennamen",
   "labelforcreategroup": "Erstellen Gruppe",
-  "register": "Neu anmelden"
+  "register": "Neu anmelden",
+  "login": "Einloggen"
 }
