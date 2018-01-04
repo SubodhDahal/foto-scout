@@ -1,9 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  group = mongoose.model('Group'),
+  group = mongoose.model('Group');
 
-  //create group
+// create group
 exports.create_a_group = function (req, res) {
   var new_group = new group(req.body);
   new_group.save(function (err, group) {
@@ -54,8 +54,8 @@ exports.delete_group = function (req, res) {
 };
 
 //Get All group list
-exports.list_all_group = function(req, res) {
-  group.find({}, function(err, group) {
+exports.list_all_group = function (req, res) {
+  group.find({}, function (err, group) {
     if (err)
       res.send(err);
     res.json(group);
@@ -64,20 +64,20 @@ exports.list_all_group = function(req, res) {
 
 
 //add user
- exports.add_user = function (req, res) {
-  var add_user = new user({
-    name: 'req.params.id'
-  });
+exports.add_user_to_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $addToSet: {
+      'users': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
 
-    add_user.save().then(function(){
-      add_user.findOne({name: 'req params.id'}).then (function(record)){
-        assert(record.add_user.length === 1);
-        done();
-      });
+    res.json({
+      message: 'User successfully added to group',
+      group: group
     });
+  });
 };
-
-
 
 
 
