@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   User = mongoose.model('User'),
   bcrypt = require('bcrypt'),
-  {validator,check,validationResult} = require('express-validator/check');
+  {validator,check,validationResult} = require('express-validator/check'),
+  fs = require('fs');
 
 exports.create_a_user = [
 
@@ -115,6 +116,32 @@ exports.profile_edit = [
     });
   }
 ]
+
+exports.set_profile_pic = (req,res) =>{
+
+  var token = req.header('x-auth');
+  User.findByToken(token).then((user) => {
+    if (!user) {
+      return Promise.reject();
+    }
+    var image_data = req.body.image_data;
+    console.log(image_data );
+    var user_profile_image = "user_" + "." +req.body.image_type;
+    fs.writeFile("../public/user_profile_pics", user_profile_image, new Buffer(image_data, "base64"),function(err){
+      if(!error){
+        user.user_profile[0].profile_pic = user_profile_image;
+        user.save(function(err){
+            if(err){
+              return res.status(400).send({message : 'unable to upload pic'})
+            }
+            res.send(user);
+        })
+      }
+    });
+  }).catch((e) => {
+    res.status(401).send({message: 'unauthorised user'});
+  });
+};
 
 exports.log_out =(req, res) => {
 

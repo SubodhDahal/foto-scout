@@ -19,6 +19,10 @@ module.exports = function(app) {
     app.route('/user/me/edit')
       .post(user.profile_edit);
 
+    //setting profile pic
+    app.route('/user/me/profile_pic')
+      .post(user.set_profile_pic);
+
 	  //logging out
 	  app.route('/user/me/logout')
 	   .delete(user.log_out);
