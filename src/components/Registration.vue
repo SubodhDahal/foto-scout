@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <h2>Register New User</h2>
+                <h2>{{$t('labelfornewuser')}}</h2>
                 <hr>
             </div>
         </div>
@@ -12,21 +12,21 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <b-alert :show="isUserRegistered">
-                  User registration was successful. Please login.
+                  {{$t('labelforregissuccess')}}
                 </b-alert>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="firstname">First Name</label>
+                <label for="firstname">{{$t('labelforfirstname')}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                         <input v-model="firstname" type="text" name="firstname" class="form-control" id="firstname"
-                               placeholder="Enter first name" required autofocus>
+                               :placeholder="$t('labelforenterfirstname')" required autofocus>
                     </div>
                 </div>
             </div>
@@ -40,14 +40,14 @@
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="lastname">Last Name</label>
+                <label for="lastname" >{{$t('labelforlastname')}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                         <input v-model="lastname" type="text" name="lastname" class="form-control" id="lastname"
-                               placeholder="Enter your lastname" required autofocus>
+                               :placeholder="$t('labelforenterlastname')" required autofocus>
                     </div>
                 </div>
             </div>
@@ -61,14 +61,14 @@
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="email">E-Mail Address</label>
+                <label for="email">{{$t('labelforemail')}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
                         <input v-model="email" type="text" name="email" class="form-control" id="email"
-                               placeholder="you@example.com" required autofocus>
+                               :placeholder="$t('labelforemailplace')" required autofocus>
                     </div>
                 </div>
             </div>
@@ -82,14 +82,14 @@
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="password">Password</label>
+                <label for="password">{{$t('labelforpassword')}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
                         <input v-model="passcode" type="password" name="password" class="form-control" id="password"
-                               placeholder="Password" required>
+                               :placeholder="$t('labelforpassholder')" required>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="password">Confirm Password</label>
+                <label for="password">{{$t('labelforpassconf')}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -110,7 +110,7 @@
                             <i class="fa fa-repeat"></i>
                         </div>
                         <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Password" required>
+                               id="password-confirm" :placeholder="$t('labelforconfpassholder')" required>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <button type="submit" class="btn btn-success" @click.prevent="onRegister">
-                    <i class="fa fa-user-plus"></i> Register
+                    <i class="fa fa-user-plus"></i> {{$t('labelforregisterbuttion')}}
                 </button>
             </div>
         </div>

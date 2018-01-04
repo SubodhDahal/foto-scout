@@ -11,5 +11,17 @@
   "placeholderforgroupname": "Enter your Group Name",
   "labelforcreategroup": "Create Group",
   "register": "Register",
-  "login": "Login"
+  "login": "Login",
+  "labelfornewuser": "Register New User",
+  "labelforfirstname": "First Name",
+  "labelforlastname": "Last Name",
+  "labelforemail": "E-mail Adress",
+  "labelforpassword": "Password",
+  "labelforpassconf": "Confirm Password",
+  "labelforenterfirstname": "Enter your first name",
+  "labelforenterlastname": "Enter your last name",
+  "labelforemailplace": "you@example.com",
+  "labelforpassholder": "Password",
+  "labelforconfpassholder": "Password",
+  "labelforregisterbuttion": "Register"
 }
