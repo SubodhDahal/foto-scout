@@ -2,7 +2,14 @@
 var multer = require('multer'),
   mongoose = require('mongoose'),
   Image = mongoose.model('ImageUpload'),
+   dateFormat = require('dateformat'),
   ExifImage = require('exif').ExifImage;
+//get current date
+function getCurrentDate()
+{
+  var now = new Date();
+  return dateFormat(now, "isoDateTime")
+}
 
 /**
  * Search an image within certain radius of an location
@@ -10,6 +17,7 @@ var multer = require('multer'),
  * @param  {Object} res
  * @return {Object}
  */
+//search image by location
 exports.search_image_by_location = function(req, res) {
   var latitude = req.query.latitude,
     longitude = req.query.longitude,
@@ -66,10 +74,23 @@ function extractExifData (imagename, callback, errorCallback) {
   });
 }
 
+//generate unique image code
+function generateUniqueImageId()
+{
+  var randtoken = require('rand-token').generator({
+    string: ''
+  });
+  var token = randtoken.generate(16);
+  return token;
+}
+
+// Image Upload
 exports.upload_an_image = function (req,res,next) {
+
   var file = req.files[0],
     imageName = file.filename,
     filePath = file.path.replace("public\\", "");   // remove public\ from filepath
+    var uniqueImageId=generateUniqueImageId();//generate unique image code
   try {
     var insertObj = {};
 
@@ -78,7 +99,6 @@ exports.upload_an_image = function (req,res,next) {
         path: filePath,
         originalname: imageName,
         description: req.body.description,
-        userId: 1,
         category:req.body.category,
 
         location: {
@@ -87,7 +107,20 @@ exports.upload_an_image = function (req,res,next) {
             parseFloat(req.body.latitude),
           ],
           type: 'Point'
-        }
+        },
+        likes:{
+          userId:"1",
+          imageId:uniqueImageId,
+          count:0
+        },
+        comments:[
+          {
+            userId:"1",
+            imageId:uniqueImageId,//generate unique image code
+            text:"",
+            date: getCurrentDate()
+          }
+      ]
       }
 
       var upload_image = new Image(insertObj);
@@ -151,4 +184,32 @@ exports.list_all_images = function(req, res) {
       res.send(err);
     res.json(image);
   });
+};
+
+//Image like {'post': {$ne : ""}}
+exports.update_image_like_couter=function(req,res,next) {
+  Image.update({"likes.imageId":req.params.imageId} && {"likes.userId":{$ne:req.params.userId}} && {"likes.count":0},  //$ne=not equal
+    {$inc: {"likes.count": 1}}, (err, like) => {
+      if (err)
+        res.send(err)
+      res.json({success: 'true', message: 'Like Updated successfully'});
+    });
+
+};
+
+//Image comment
+exports.update_comment = function(req, res) {
+  Image.update({"comments.imageId": req.params.imageId}
+      , {
+      $push: {
+        comments: {
+          $each: [{date: getCurrentDate(), text: req.body.comment,imageId:req.params.imageId,userId:req.params.userId}]
+        }
+      }
+    }
+    ,(err, image) => {
+      if (err)
+        res.send(err)
+      res.json({success: 'true', message: 'Comment Updated successfully'});
+    });
 };
