@@ -154,6 +154,21 @@ export default {
         .then((response) => {
           if (response.data.success === 'true') {
             this.isUserRegistered = true
+
+            let token = response.data.tokens[0].token
+
+            localStorage.setItem('authToken', token)
+
+            // redirect to home page after successful registration
+            this.$route.router.go('Home')
+
+            this.$store.dispatch('getUserDetails')
+              .then((res) => {
+                console.log('RES', res)
+              })
+              .catch((error) => {
+                console.log('ERROR', error)
+              })
           }
         })
         .catch((error) => {

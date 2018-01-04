@@ -1,4 +1,27 @@
 export default {
+  getUserDetails (context, payload) {
+    return new Promise((resolve, reject) => {
+      let config = {
+        headers: {
+          'x-auth': localStorage.getItem('authToken')
+        }
+      }
+
+      axios.get('http://149.222.135.188:3000/user/me', config)
+        .then(function (response) {
+          console.log(response)
+          context.commit('setUser', {
+            user: response.data
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
+  },
+
   /**
    * Get the image search results from the server
    * @param  {Object} context

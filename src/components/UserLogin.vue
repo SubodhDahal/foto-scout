@@ -57,9 +57,23 @@ export default {
 
       axios.post('http://localhost:3000/login', loginData)
         .then((response) => {
-          if (response.data.success === 'true') {
-            this.isUserLoggedIn = true
-          }
+          this.isUserLoggedIn = true
+
+          const tokens = response.data.tokens
+          var lastToken = tokens[tokens.length - 1]
+
+          // save auth token to localstorage
+          localStorage.setItem('authToken', lastToken.token)
+
+          this.$route.router.go('Home')
+
+          this.$store.dispatch('getUserDetails')
+            .then((res) => {
+              console.log('RES', res)
+            })
+            .catch((error) => {
+              console.log('ERROR', error)
+            })
         })
         .catch((error) => {
           this.errorMessage = error.response.data.message
