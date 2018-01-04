@@ -6,18 +6,28 @@ var mongoose = require('mongoose'),
 
 var userProfileSchema = new Schema({
     about_me:{type: String, default: "None"},
-    profile_pic:{type: String, default: "None"}
+    profile_pic:[{
+      path:{type: String,
+        required: true,
+        default: "user_profile_pics\\default_profile_pic.jpg"
+      },
+      original_name :{
+        type: String,
+        default: "default_profile_pic.jpg",
+        required: true
+      }
+    }]
 });
 
 var UserSchema = new Schema({
     firstname:{
       type: String,
-      require: true,
+      required: true,
     },
     lastname:{type: String},
     email:{
       type: String,
-      require: true,
+      required: true,
       unique: true
     },
     passcode:{

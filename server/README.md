@@ -139,22 +139,22 @@ Editing user profile
           ]
       }
 
-### Logging out
-Log out the user
+### Change Profile Picture
+Changing profile picture of the user
 
 - **URL**
 
-    `/user/me/logout`
+    `user/me/profile_pic`
 
 - **Method**
 
-    `DELETE`
+    `POST`
 
 - **Success Response**
 
       {
         "success": "true",
-        "message": "Bye bye user"
+        "message": "profile pic changes sucessfully"
       }
 
 

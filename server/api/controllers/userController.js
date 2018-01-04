@@ -21,7 +21,7 @@ exports.create_a_user = [
 
     //console.log(errors);
     var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
-      'passcode': req.body.passcode,'user_profile':{}});
+      'passcode': req.body.passcode,'user_profile':{profile_pic: {}}});
     if (!errors.isEmpty()) {
       return res.status(400).send({errors: errors.array()});
     }
@@ -33,7 +33,7 @@ exports.create_a_user = [
         console.log('creating user');
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
-          if (err) return res.send({message: 'we are having problem at the moment please try again later'});
+          if (err) return res.status(500).send({message: 'we are having problem at the moment please try again later'});
           return new_user.generateAuthToken().then((token) => {
             res.header('x-auth', token).send(new_user.tokens);
           }).catch((e) => {
@@ -60,14 +60,14 @@ exports.sign_in =[
 
     //console.log(errors);
     if (!errors.isEmpty()) {
-      return res.send({errors: errors.array()});
+      return res.status(400).send({errors: errors.array()});
     }
     User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
       return user.generateAuthToken().then((token) => {
         res.header('x-auth', token).send(user.tokens);
       });
     }).catch((e) => {
-      res.status(400).send({message: 'sorry cant find you'});
+      res.status(401).send({message: 'sorry cant find you'});
     });
   }
 ];
@@ -100,14 +100,14 @@ exports.profile_edit = [
     if (!user) {
         return Promise.reject();
       }
-      console.log('working');
+      //console.log('working');
       user.firstname = req.body.firstname;
       user.lastname = req.body.lastname;
       user.user_profile[0].about_me = req.body.about_me;
       user.save(function(err){
-        console.log('updating');
+        //console.log('updating');
         if(err){
-          return res.status(401).send({message:'we are having trouble, please try again later'})
+          return res.status(500).send({message:'we are having trouble, please try again later'})
         }
         res.send(user);
       })
@@ -124,19 +124,18 @@ exports.set_profile_pic = (req,res) =>{
     if (!user) {
       return Promise.reject();
     }
-    var image_data = req.body.image_data;
-    console.log(image_data );
-    var user_profile_image = "user_" + "." +req.body.image_type;
-    fs.writeFile("../public/user_profile_pics", user_profile_image, new Buffer(image_data, "base64"),function(err){
-      if(!error){
-        user.user_profile[0].profile_pic = user_profile_image;
-        user.save(function(err){
-            if(err){
-              return res.status(400).send({message : 'unable to upload pic'})
-            }
-            res.send(user);
-        })
+    console.log('working');
+    var file = req.files[0],
+      imageName = file.filename,
+      filePath = file.path.replace("public\\", "");   // remove public\ from filepath
+      //console.log(filePath);
+      user.user_profile[0].profile_pic[0].path = filePath;
+      user.user_profile[0].profile_pic[0].original_name = imageName;
+      user.save(function(err){
+      if(err){
+        return res.status(400).send({message: 'We are having problem, please try again later'})
       }
+       res.status(200).send({success: 'true', message: 'profile pic changes sucessfully'})
     });
   }).catch((e) => {
     res.status(401).send({message: 'unauthorised user'});
@@ -156,7 +155,7 @@ exports.log_out =(req, res) => {
         res.status(200).send({
          success: 'true', message: 'Bye bye user'});
      },() => {
-      res.status(400).send({message:'sorry we ar currently having problem please try again'});
+      res.status(500).send({message:'sorry we ar currently having problem please try again'});
     });
   }).catch((e) => {
     res.status(401).send({message: 'achtung'});
