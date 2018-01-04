@@ -31,10 +31,10 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put first name validation error messages here -->
-                        </span>
+                <div class="form-control-feedback" v-if="getErrors('firstname')">
+                  <span class="text-danger align-middle">
+                      {{ getErrors('firstname').msg  }}
+                  </span>
                 </div>
             </div>
         </div>
@@ -52,10 +52,10 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put name validation error messages here -->
-                        </span>
+                <div class="form-control-feedback" v-if="getErrors('lastname')">
+                  <span class="text-danger align-middle">
+                      {{ getErrors('lastname').msg  }}
+                  </span>
                 </div>
             </div>
         </div>
@@ -73,10 +73,10 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put e-mail validation error messages here -->
-                        </span>
+                <div class="form-control-feedback" v-if="getErrors('email')">
+                  <span class= "text-danger align-middle">
+                      {{ getErrors('email').msg  }}
+                  </span>
                 </div>
             </div>
         </div>
@@ -94,7 +94,8 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="form-control-feedback">
+                <div class="form-control-feedback" v-if="getErrors('passcode')">
+                  <span class="text-danger align-middle">Minimum 6 characters long</span>
                 </div>
             </div>
         </div>
@@ -135,7 +136,8 @@ export default {
       firstname: '',
       lastname: '',
       email: '',
-      passcode: ''
+      passcode: '',
+      errors: []
     }
   },
 
@@ -154,6 +156,13 @@ export default {
             this.isUserRegistered = true
           }
         })
+        .catch((error) => {
+          this.errors = error.response.data.errors
+        })
+    },
+
+    getErrors (param) {
+      return this.errors.find((error) => error.param === param)
     }
   }
 }
