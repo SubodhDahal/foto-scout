@@ -5,7 +5,7 @@ export default {
    * @param {Object} payload
    */
   setLocation (state, payload) {
-    state.search.location = { ...state.search.location, ...payload.location }
+    state.search.location = {...state.search.location, ...payload.location}
   },
 
   /**
@@ -33,5 +33,17 @@ export default {
    */
   setImages (state, payload) {
     state.images = payload.images
+  },
+
+  setGroups (state, payload) {
+    state.groups = payload.groups
+  },
+
+  setUploadData (state, payload) {
+    state.imageUpload = {...state.imageUpload, ...payload}
+  },
+
+  setImageCategory (state, payload) {
+    state.imageCategories = payload.imageCategories
   }
 }

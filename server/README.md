@@ -1,6 +1,3 @@
-
-
-
 # FotoScout API
 API for the FotoScout system
 
@@ -43,10 +40,13 @@ Register a new user
 
 - **Success Response**
 
-      {
-          "success": "true",
-          "message": "Registration is successful"
-      }
+      [
+          {
+              "access": "auth",
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTRiYjU5NzM2OGYzZjFkZWNjZmNiZTciLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE0OTExMTI3fQ.empAZxbb5njgn8zCIsx2W0xAUm58Axluy6RurpBCNrg",
+              "_id": "5a4bb597368f3f1deccfcbe9"
+          }
+      ]
 
 ### Login user
 Login a user into the system
@@ -73,6 +73,105 @@ Login a user into the system
       }]
 
 Use `token` in header with key `x-auth` to access protected routes.
+
+### User Profile
+View user profile
+
+- **URL**
+
+    `/user/me`
+
+- **Method**
+
+    `GET`
+
+- **Success Response**
+
+      {
+          "_id": "id",
+          "firstname": "firstname",
+          "lastname": "lastname",
+          "email": "email",
+          "user_profile": [
+              {
+                  "_id": "id",
+                  "profile_pic": "profile picture",
+                  "about_me": "about me"
+              }
+          ]
+      }
+
+### Edit User Profile
+Editing user profile
+
+- **URL**
+
+    `/user/me/edit`
+
+- **Method**
+
+    `POST`
+
+- **Body parameters**
+
+     Use returned token value in headers key 'x-auth' for authentication
+
+    - `firstname`: The First Name
+    - `lastname`: The Last Name
+    - `about_me`: Description of the User
+
+- **Success Response**
+
+      {
+          "_id": "id",
+          "firstname": "updated firstname",
+          "lastname": "updated lastname",
+          "email": "authorised user email",
+          "user_profile": [
+              {
+                  "_id": "id",
+                  "profile_pic": "profile picture",
+                  "about_me": "updated about me"
+              }
+          ]
+      }
+
+### Logging out
+Log out the user
+
+- **URL**
+
+    `/user/me/logout`
+
+- **Method**
+
+    `DELETE`
+
+- **Success Response**
+
+      {
+        "success": "true",
+        "message": "Bye bye user"
+      }
+
+
+### Logging out
+Log out the user
+
+- **URL**
+
+    `/user/me/logout`
+
+- **Method**
+
+    `DELETE`
+
+- **Success Response**
+
+      {
+        "success": "true",
+        "message": "Bye bye user"
+      }
 
 ## Photo management
 
@@ -242,6 +341,44 @@ Delete an image by id.
 							 },
 				    "__v" : 0
            }
+           
+### **Image Like**
+
+- **URL**
+
+   `/imageLike/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Like Updated Successfully"
+          }
+
+### **Image Comment**
+
+- **URL**
+
+   `/imageComment/(imageId/userId`)
+
+- **Method**
+
+    `put`
+
+- **Body  parameter**
+
+  `comment:comments of image.`
+ - **Success Response**
+
+	     {
+	         "success": "true",
+	         "message": "Comment Updated Successfully"
+          }
+          
 ### List of Categories
 
 - **URL**
@@ -306,8 +443,9 @@ Delete an image by id.
 	          "success": "true",
 	          "message": "Category Updated successfully"
             }
-### create a group
- - **URL**
+           
+### **Create a group**
+- **URL**
 
     `/group`
 
@@ -323,8 +461,9 @@ Delete an image by id.
 	          "message": "group created"
            }
             
-### read group
- - **URL**
+
+### Read group
+**URL**
 
     `/group/:id`
 
@@ -359,7 +498,7 @@ Delete an image by id.
 
    `name`: name of the group   
       
-   `description`: dscription of the group
+   `description`: description of the group
 
  - **Success Response**
 
@@ -370,7 +509,7 @@ Delete an image by id.
             "group": "group"
             }
             
-### delete group  
+### Delete group  
      Delete group by id.
  
  - **URL**
@@ -403,17 +542,16 @@ Delete an image by id.
        List of groups     
          
    
-#### add user 
-     add user to the group
+#### Add user 
+Add user to the group
       
  - **URL**
  
-     `/group/:id
+     `/group/:id`
      
  - **Parameters**
     
-    
-    `_id`:group id
+    `_id`: group id
     
  - **body**
    
@@ -432,17 +570,16 @@ Delete an image by id.
 
 
 ###   delete user 
-    delete user from group
+Delete user from group
       
  - **URL**
  
-     `/group/:id/user
+     `/group/:id/user`
      
      
  - **Parameters**
    
-   
-   `_id`:group id
+   `_id`: group id
   
  - **body**
    
@@ -456,22 +593,21 @@ Delete an image by id.
  
  	     {
          "message": "user sucessfully deleted from group"
-          }
+        }
 
 
 
 
 ### add admin
-     add admin in group
+ Add admin in group
       
  - **URL**
  
-   `/group/:id/admin
+   `/group/:id/admin`
   
  - **Parameters**
   
-  
-     `_id`:group id
+   `_id`: group id
   
  - **body**
    
@@ -485,9 +621,8 @@ Delete an image by id.
  - **Success Response**
  
  	     { 
- 	    
-        "message": "admin sucessfully added to group"
-           }
+         "message": "admin sucessfully added to group"
+       }
 ### delete admin
      delete admin in group
       

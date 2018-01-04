@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-2 offset-md-8">
-        /* router-link to link another component */
+        <!--routes to CreateGroup component-->
         <router-link :to="{name:'CreateGroup'}">
           <b-button class="danger float-right">
             Create Group
@@ -17,8 +17,8 @@
 
         <b-card no-body>
           <b-tabs pills card vertical>
-            <b-tab :title="group.groupname" v-for="(group,i) in groups" :key=group.id :active="i==0">
-              {{group.description}}
+            <b-tab v-for="group in groups" :title="group.name" :key="group._id">
+             {{ group.description}}
             </b-tab>
           </b-tabs>
         </b-card>
@@ -36,6 +36,16 @@
       ...mapGetters([
         'groups'
       ])
+    },
+
+    mounted () {
+      this.$store.dispatch('getGroupList')
+        .then((res) => {
+          console.log('RES', res)
+        })
+        .catch((error) => {
+          console.log('ERROR', error)
+        })
     }
   }
 </script>

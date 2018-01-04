@@ -9,5 +9,8 @@
   "labelforreset": "Reset",
   "labelforgroupname": "Group Name",
   "placeholderforgroupname": "Enter your Group Name",
-  "labelforcreategroup": "Create Group"
+  "labelforcreategroup": "Create Group",
+  "register": "Register",
+  "labelforimagecategory":"Image Category",
+  "selectforimagecategory":"Select Image Category"
 }
