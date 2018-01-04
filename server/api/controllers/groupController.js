@@ -79,6 +79,20 @@ exports.add_user_to_group = function (req, res) {
   });
 };
 
+//delete user
+exports.delete_user_from_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      'users': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
 
+    res.json({
+      message: 'User successfully deleted from group',
+      group: group
+    });
+  });
+};
 
 
