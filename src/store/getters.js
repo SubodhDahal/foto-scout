@@ -58,5 +58,9 @@ export default {
    */
   imageCategories (state) {
     return state.imageCategories
+  },
+
+  imageUploadData(state){
+    return state.imageUpload
   }
 }

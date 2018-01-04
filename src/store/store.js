@@ -30,14 +30,23 @@ const store = new Vuex.Store({
         radius: 50 // in km
       }
     },
+    imageUpload: {
+      file: null,
+      imageUrl: null,
+      description: '',
+      isImageuploaded: false,
+      errorMessage: '',
+      location: {},
+      category: []
+    },
     images: [],
     imageCategories: [
-      {value:'all',label:'All'},
-      {value:'architecture',label:'Architecture'},
-      {value:'landscape',label:'Landscape'},
-      {value:'portrait',label:'Portrait'},
-      {value:'cityscape',label:'Cityscape'}
-      ],
+      {value: 'all', label: 'All'},
+      {value: 'architecture', label: 'Architecture'},
+      {value: 'landscape', label: 'Landscape'},
+      {value: 'portrait', label: 'Portrait'},
+      {value: 'cityscape', label: 'Cityscape'}
+    ],
     groups: []
   },
 

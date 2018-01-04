@@ -32,7 +32,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/group')
         .then(function (response) {
-          // Save images data to Vuex store
+          // Save groups data to Vuex store
           context.commit('setGroups', {
             groups: response.data
           })

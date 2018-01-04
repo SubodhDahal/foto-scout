@@ -25,7 +25,7 @@
         </b-form-group>
         <strong>{{ $t('labelforimagecategory') }}</strong>
         <!--using vue-select plugin for image category-->
-        <v-select multiple :value.sync="selected" :options="imageCategories"
+        <v-select multiple :value.sync="category" :options="imageCategories"
                   :placeholder="$t('selectforimagecategory')"></v-select>
         <br>
         <b-form-group :label="$t('labelfordescription')">
@@ -70,47 +70,125 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    data () {
-      return {
-        file: null,
-        imageUrl: null,
-        description: '',
-        isImageuploaded: false,
-        errorMessage: '',
-        location: {},
-        selected: null
+    computed: {
+      /* get imageCategories and imageupload from VueX Store */
+      ...mapGetters([
+        'imageCategories',
+        'imageUploadData'
+      ]),
+
+      description: {
+        get () {
+          return this.$store.state.imageUpload.description
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            description: value
+          })
+        }
+      },
+      file: {
+        get () {
+          return this.$store.state.imageUpload.file
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            file: value
+          })
+        }
+
+      },
+      imageUrl: {
+        get () {
+          return this.$store.state.imageUpload.imageUrl
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            imageUrl: value
+          })
+        }
+      },
+      isImageuploaded: {
+        get () {
+          return this.$store.state.imageUpload.isImageuploaded
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            isImageuploaded: value
+          })
+        }
+      },
+      errorMessage: {
+        get () {
+          return this.$store.state.imageUpload.errorMessage
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            errorMessage: value
+          })
+        }
+      },
+      location: {
+        get () {
+          return this.$store.state.imageUpload.location
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            location: value
+          })
+        }
+      },
+      category: {
+        get () {
+          return this.$store.state.imageUpload.category
+        },
+
+        set (value) {
+          this.$store.commit('setUploadData', {
+            category: value
+          })
+        }
       }
     },
-    computed: {
-      /* get groups from VueX Store */
-      ...mapGetters([
-        'imageCategories'
-      ])
-    },
+
     components: {
       vSelect
     },
+
     /* function to preview upload images */
     methods: {
       onFilePicked (event) {
         const files = event.target.files
         const fileReader = new FileReader()
         fileReader.addEventListener('load', () => {
-          this.imageUrl = fileReader.result
+          this.$store.commit('setUploadData', {
+            imageUrl: fileReader.result
+          })
+          // this.imageUploadData.imageUrl = fileReader.result
         })
         fileReader.readAsDataURL(files[0])
-        this.image = files[0]
+        this.$store.commit('setUploadData', {
+          image: files[0]
+        })
       },
 
       /**
        *  reset the field of upload images
        **/
       onReset () {
-        this.file = null
-        this.text = ''
-        this.imageUrl = ''
+        this.$store.commit('setUploadData', {
+          file: null,
+          text: '',
+          imageUrl: '',
+          isImageuploaded: false
+        })
         this.$refs.fileInput.reset()
-        this.isImageuploaded = false
       },
 
       uploadImage () {
@@ -127,9 +205,13 @@
         axios.post('http://localhost:3000/upload', formData, config)
           .then((response) => {
             if (response.data.success === 'true') {
-              this.isImageuploaded = true
+              this.$store.commit('setUploadData', {
+                isImageuploaded: true
+              })
             } else {
-              this.errorMessage = response.data.message
+              this.$store.commit('setUploadData', {
+                errorMessage: response.data.message
+              })
             }
           })
       },
@@ -139,12 +221,15 @@
        * @param addressData
        */
       getAddressData (addressData) {
-        this.location = {
-          lat: addressData.geometry.location.lat(),
-          lng: addressData.geometry.location.lng(),
-          name: addressData.formatted_address
-        }
+        this.$store.commit('setUploadData', {
+          location: {
+            lat: addressData.geometry.location.lat(),
+            lng: addressData.geometry.location.lng(),
+            name: addressData.formatted_address
+          }
+        })
       },
+
       mounted () {
         this.$store.dispatch('getImageCategories')
           .then((res) => {
