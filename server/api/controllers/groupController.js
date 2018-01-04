@@ -111,4 +111,18 @@ exports.add_admin_to_group = function (req, res) {
   });
 };
 
+//delete admin from group
+exports.delete_admin_from_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      'admins': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
 
+    res.json({
+      message: 'admin successfully deleted from  group',
+      group: group
+    });
+  });
+};

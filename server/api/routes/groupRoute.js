@@ -9,7 +9,8 @@ module.exports = function (app) {
 
 
   app.route('/group/:id/admin')
-    .post(group.add_admin_to_group);
+    .post(group.add_admin_to_group)
+    .delete(group.delete_admin_from_group);
 
   app.route('/group')
     .get(group.list_all_group)
