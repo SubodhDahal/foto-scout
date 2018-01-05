@@ -2,9 +2,14 @@
 var multer = require('multer'),
   mongoose = require('mongoose'),
   Image = mongoose.model('ImageUpload'),
-   dateFormat = require('dateformat'),
+  User = mongoose.model('User'),
+  dateFormat = require('dateformat'),
   ExifImage = require('exif').ExifImage;
-//get current date
+
+/**
+ * Get current date
+ * @return {String}
+ */
 function getCurrentDate()
 {
   var now = new Date();
@@ -86,59 +91,77 @@ function generateUniqueImageId()
 
 // Image Upload
 exports.upload_an_image = function (req,res,next) {
+  if (req.files.length == 0) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'No image specified'
+    })
+  }
 
-  var file = req.files[0],
+  var token = req.header('x-auth'),
+    file = req.files[0],
     imageName = file.filename,
-    filePath = file.path.replace("public\\", "");   // remove public\ from filepath
-    var uniqueImageId=generateUniqueImageId();//generate unique image code
+    filePath = file.path.replace("public\\", ""),   // remove public\ from filepath
+    uniqueImageId = generateUniqueImageId(); // generate unique image code
+
   try {
-    var insertObj = {};
-
-    extractExifData(imageName, function (exifData) {
-      insertObj = {
-        path: filePath,
-        originalname: imageName,
-        description: req.body.description,
-        category:req.body.category,
-
-        location: {
-          coordinates: [
-            parseFloat(req.body.longitude),
-            parseFloat(req.body.latitude),
-          ],
-          type: 'Point'
-        },
-        likes:{
-          userId:"1",
-          imageId:uniqueImageId,
-          count:0
-        },
-        comments:[
-          {
-            userId:"1",
-            imageId:uniqueImageId,//generate unique image code
-            text:"",
-            date: getCurrentDate()
-          }
-      ]
+    User.findByToken(token).then((user) => {
+      if (!user) {
+        return Promise.reject();
       }
 
-      var upload_image = new Image(insertObj);
-      upload_image.save(function (err, image) {
-        if (err)
-          res.status(400).send(err);
+      var insertObj = {};
 
-        res.json({
-          success: 'true',
-          message: 'Image uploaded successfully'
+      extractExifData(imageName, function (exifData) {
+        insertObj = {
+          path: filePath,
+          originalname: imageName,
+          description: req.body.description,
+          category:req.body.category,
+
+          location: {
+            coordinates: [
+              parseFloat(req.body.longitude),
+              parseFloat(req.body.latitude),
+            ],
+            type: 'Point'
+          },
+
+          userId: user._id,
+
+          likes:{
+            userId:"1",
+            imageId:uniqueImageId,
+            count:0
+          },
+          comments:[
+            {
+              userId:"1",
+              imageId:uniqueImageId,//generate unique image code
+              text:"",
+              date: getCurrentDate()
+            }
+          ]
+        }
+
+        var upload_image = new Image(insertObj);
+        upload_image.save(function (err, image) {
+          if (err)
+            res.status(400).send(err);
+
+          res.json({
+            success: 'true',
+            message: 'Image uploaded successfully'
+          });
+        });
+      }, function(error) {
+        res.status(400).json({
+          status: 'error',
+          message: error.message
         });
       });
-    }, function(error) {
-      res.status(400).json({
-        status: 'error',
-        message: error.message
-      });
-    })
+    });
+
   } catch (error) {
     res.status(400).json({
       status: 'error',

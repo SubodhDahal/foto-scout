@@ -160,7 +160,7 @@
           })
           .catch((error) => {
             this.$store.commit('setUploadData', {
-              errorMessage: error.message
+              errorMessage: error.response.data.message
             })
           })
       }
