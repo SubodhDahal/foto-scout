@@ -17,10 +17,7 @@ var groupSchema = new Schema({
 
   admins:{
     type: Array
-  },
-
+  }
 });
 
-
 module.exports = mongoose.model('Group', groupSchema);
-

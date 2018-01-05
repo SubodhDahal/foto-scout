@@ -1,16 +1,31 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  group = mongoose.model('Group');
+  group = mongoose.model('Group'),
+  User = mongoose.model('User'),
+  {getUserByToken} = require('../common/users');
 
 // create group
 exports.create_a_group = function (req, res) {
-  var new_group = new group(req.body);
-  new_group.save(function (err, group) {
-    if (err)
-      res.send(err);
-    res.json({success: 'true', message: 'group created'});
-  });
+  var new_group = new group(req.body),
+    token = req.header('x-auth');
+
+  getUserByToken(token)
+    .then((user) => {
+      new_group.admins = [user.id];
+
+      new_group.save(function (err, group) {
+        if (err)
+          res.status(400).send(err);
+        res.json({success: 'true', message: 'Group created'});
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    })
 };
 
 // read group
