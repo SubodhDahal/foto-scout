@@ -142,10 +142,9 @@
       uploadImage () {
         let formData = new FormData()
         formData.append('image', this.file)
-        formData.append('description', this.description)
-        formData.append('latitude', this.location.lat)
-        formData.append('longitude', this.location.lng)
-
+        formData.append('description', this.imageUploadData.description)
+        formData.append('latitude', this.imageUploadData.location.lat)
+        formData.append('longitude', this.imageUploadData.location.lng)
         const config = {
           headers: {'content-type': 'multipart/form-data'}
         }
