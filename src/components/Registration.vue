@@ -2,8 +2,7 @@
  <div class="container">
     <form class="form-horizontal" role="form">
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <div class="col-md-6 offset-3">
                 <h2>{{$t('labelfornewuser')}}</h2>
                 <hr>
             </div>
@@ -12,7 +11,10 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <b-alert :show="isUserRegistered">
-                  {{$t('labelforregissuccess')}}
+                  {{ $t('labelforregissuccess') }}
+                </b-alert>
+                <b-alert :show="errorMessage!=''" class="alert-danger">
+                  ERROR: {{ errorMessage }}
                 </b-alert>
             </div>
         </div>
@@ -133,6 +135,7 @@ export default {
   data () {
     return {
       isUserRegistered: false,
+      errorMessage: '',
       firstname: '',
       lastname: '',
       email: '',
@@ -150,9 +153,13 @@ export default {
         'passcode': this.passcode
       }
 
+      // hide errors first
+      this.errorMessage = ''
+      this.errors = []
+
       axios.post('http://localhost:3000/register', registerData)
         .then((response) => {
-          if (response.data.success === 'true') {
+          if (response.data.status === 'success') {
             this.isUserRegistered = true
 
             let token = response.data.tokens[0].token
@@ -160,7 +167,7 @@ export default {
             localStorage.setItem('authToken', token)
 
             // redirect to home page after successful registration
-            this.$route.router.go('Home')
+            this.$router.push({name: 'Home'})
 
             this.$store.dispatch('getUserDetails')
               .then((res) => {
@@ -172,7 +179,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.errors = error.response.data.errors
+          if (error.response.data.status === 'error') {
+            this.errorMessage = error.response.data.message
+          } else {
+            this.errors = error.response.data.errors
+          }
         })
     },
 
