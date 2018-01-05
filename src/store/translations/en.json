@@ -28,5 +28,7 @@
   "labelforloginemail": "Email",
   "labelforloginpassword": "Password",
   "labelforremember": "Remember Me",
-  "labelforlog-login": "Log in"
+  "labelforlog-login": "Log in",
+  "labelforimagecategory":"Image Category",
+  "selectforimagecategory":"Select Image Category"
   }

@@ -31,14 +31,23 @@ const store = new Vuex.Store({
       }
     },
     user: {},
-    images: [],
-    imageCategories: {
-      'all': 'All',
-      'architecture': 'Architecture',
-      'landscape': 'Landscape',
-      'portait': 'Portait',
-      'cityscape': 'Cityscape'
+    imageUpload: {
+      file: null,
+      imageUrl: null,
+      description: '',
+      isImageuploaded: false,
+      errorMessage: '',
+      location: {},
+      category: []
     },
+    images: [],
+    imageCategories: [
+      {value: 'all', label: 'All'},
+      {value: 'architecture', label: 'Architecture'},
+      {value: 'landscape', label: 'Landscape'},
+      {value: 'portrait', label: 'Portrait'},
+      {value: 'cityscape', label: 'Cityscape'}
+    ],
     groups: []
   },
 

@@ -1,8 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  group = mongoose.model('Group'),
-  user = mongoose.model('User');
+  group = mongoose.model('Group');
+
+// create group
 exports.create_a_group = function (req, res) {
   var new_group = new group(req.body);
   new_group.save(function (err, group) {
@@ -12,6 +13,7 @@ exports.create_a_group = function (req, res) {
   });
 };
 
+// read group
 exports.read_group = function (req, res) {
   group.findById({
     _id: req.params.id
@@ -22,6 +24,7 @@ exports.read_group = function (req, res) {
   })
 };
 
+// update group
 exports.update_group = function (req, res) {
   group.findByIdAndUpdate(req.params.id, {
     $set: {
@@ -38,6 +41,7 @@ exports.update_group = function (req, res) {
   });
 };
 
+// delete group
 exports.delete_group = function (req, res) {
   group.remove({
     _id: req.params.id
@@ -50,8 +54,8 @@ exports.delete_group = function (req, res) {
 };
 
 //Get All group list
-exports.list_all_group = function(req, res) {
-  group.find({}, function(err, group) {
+exports.list_all_group = function (req, res) {
+  group.find({}, function (err, group) {
     if (err)
       res.send(err);
     res.json(group);
@@ -59,15 +63,66 @@ exports.list_all_group = function(req, res) {
 };
 
 
+//add user
+exports.add_user_to_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $addToSet: {
+      'users': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
 
-
-/*exports.add_user = function (req, res) {
-  var add_user = new user(req.body);
-  add_user.save(function (err, group) {
-    if (err)
-      res.send(err)
-    res.json({success: 'true', message: 'user added'});
+    res.json({
+      message: 'User successfully added to group',
+      group: group
+    });
   });
-};*/
+};
 
+//delete user
+exports.delete_user_from_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      'users': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
 
+    res.json({
+      message: 'User successfully deleted from group',
+      group: group
+    });
+  });
+};
+
+//add admin to the group
+exports.add_admin_to_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $addToSet: {
+      'admins': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
+
+    res.json({
+      message: 'admin successfully added to group',
+      group: group
+    });
+  });
+};
+
+//delete admin from group
+exports.delete_admin_from_group = function (req, res) {
+  group.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      'admins': req.body.user_id
+    }
+  }, {new: true}, function (err, group) {
+    if (err) res.send(err);
+
+    res.json({
+      message: 'admin successfully deleted from  group',
+      group: group
+    });
+  });
+};

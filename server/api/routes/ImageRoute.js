@@ -1,12 +1,17 @@
 'use strict';
 var multer = require('multer');
+var crypto=require("crypto");
 
+var upload = multer({ storage: storage });
 var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, './public/uploads/')
   },
-  filename: function(req, file, cb) {
-    cb(null, file.originalname);
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      //cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
+      cb(null, raw.toString('hex') + Date.now() + '.' + "jpg");
+    });
   }
 });
 
@@ -40,4 +45,12 @@ module.exports = function(app) {
     .put(image_category.update_category)
     .delete(image_category.delete_category)
     .get(image_category.read_category_by_id);
+
+  //image like
+  app.route('/imageLike/:imageId/:userId')
+    .put(image.update_image_like_couter)
+
+  //image comment
+ app.route('/imageComment/:imageId/:userId')
+    .put(image.update_comment)
 };

@@ -8,6 +8,7 @@ import UploadImage from '@/components/UploadImage'
 import DisplayGroup from '@/components/DisplayGroup'
 import CreateGroup from '@/components/CreateGroup'
 import UserLogin from '@/components/UserLogin'
+import EditImage from '@/components/EditImage'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path:'/login',
       name:'UserLogin',
       component:UserLogin
+    },
+    {
+      path:'/edit-image/:id',
+      name:'EditImage',
+      component:EditImage
     }
   ],
   mode:'history'

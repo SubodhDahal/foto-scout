@@ -29,5 +29,7 @@
   "labelforloginpassword": "Passwort",
   "labelforloginemail": "E-mail",
   "labelforremember": "Angemeldet bleiben",
-  "labelforlog-login": "Anmelden"
+  "labelforlog-login": "Anmelden",
+  "labelforimagecategory":"Bild Kategorie",
+  "selectforimagecategory":"Wählen Sie ein Bild Kategorie"
 }
