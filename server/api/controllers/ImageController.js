@@ -105,7 +105,7 @@ exports.upload_an_image = function (req,res,next) {
     uniqueImageId = generateUniqueImageId(); // generate unique image code
 
   try {
-    User.findByToken(token).then((user) => {
+    getUserByToken(token).then((user) => {
       if (!user) {
         return Promise.reject();
       }
@@ -129,11 +129,7 @@ exports.upload_an_image = function (req,res,next) {
 
           userId: user._id,
 
-          likes:{
-            userId:"1",
-            imageId:uniqueImageId,
-            count:0
-          },
+          likes: [],
           comments:[
             {
               userId:"1",
@@ -259,14 +255,27 @@ exports.get_users_images = function(req, res) {
 }
 
 //Image like {'post': {$ne : ""}}
-exports.update_image_like_couter=function(req,res,next) {
-  Image.update({"likes.imageId":req.params.imageId} && {"likes.userId":{$ne:req.params.userId}} && {"likes.count":0},  //$ne=not equal
-    {$inc: {"likes.count": 1}}, (err, like) => {
-      if (err)
-        res.send(err)
-      res.json({success: 'true', message: 'Like Updated successfully'});
-    });
+exports.update_image_like_couter = function(req,res,next) {
+  var token = req.header('x-auth');
 
+  getUserByToken(token)
+    .then((user) => {
+      Image.findByIdAndUpdate(req.params.id, {
+          $addToSet: {
+            'likes': user._id
+          }
+        }, {new: true}, function (err, group) {
+          if (err)
+            res.status(400).send(err);
+
+          res.json({
+            message: 'Like successfully added to group'
+          });
+        });
+    })
+    .catch((error) => {
+      console.log('ERROR', error)
+    });
 };
 
 //Image comment
@@ -281,7 +290,7 @@ exports.update_comment = function(req, res) {
     }
     ,(err, image) => {
       if (err)
-        res.send(err)
+        res.status(400).send(err)
       res.json({success: 'true', message: 'Comment Updated successfully'});
     });
 };

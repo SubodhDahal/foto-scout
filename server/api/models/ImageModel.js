@@ -41,7 +41,7 @@ var imageSchema = new mongoose.Schema({
     required:false
   },
   likes:{
-    type:Object
+    type: Array
   },
   comments:{
     type:Object

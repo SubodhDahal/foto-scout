@@ -7,6 +7,8 @@
         <b-button>Edit</b-button>
       </router-link>
 
+      <LikeImage :id="image._id" :likes="image.likes" />
+
       <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
         <img :src="`http://localhost:3000/${image.path}`" class="img-fluid" height="250"/>
       </router-link>
@@ -16,6 +18,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import LikeImage from './LikeImage'
 
   export default {
     props: {
@@ -29,6 +32,10 @@
       ...mapGetters([
         'userDetails'
       ])
+    },
+
+    components: {
+      LikeImage
     }
   }
 </script>
