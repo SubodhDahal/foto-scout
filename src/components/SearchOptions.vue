@@ -59,6 +59,10 @@
       ])
     },
 
+    mounted () {
+      this.$store.dispatch('getImageCategories')
+    },
+
     methods: {
       /**
        * Toggle the visibility of options
@@ -77,8 +81,8 @@
       options: {
         handler (newOptions) {
           // if 'All' is selected as category, remove others
-          if (newOptions.categories.indexOf('all') !== -1) {
-            newOptions.categories = ['all']
+          if (newOptions.categories.indexOf('0') !== -1) {
+            newOptions.categories = ['0']
           }
 
           this.$store.commit('setSearchOptions', {

@@ -62,7 +62,21 @@ export default {
    * @return {Object}
    */
   imageCategories (state) {
-    return state.imageCategories
+    let categories = [{
+      text: 'All',
+      value: '0'
+    }]
+
+    state.imageCategories.forEach((category) => {
+      categories.push({
+        text: category.categoryName,
+        value: category._id
+      })
+    })
+
+    console.log(categories)
+
+    return categories
   },
 
   /**
