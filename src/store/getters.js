@@ -60,7 +60,25 @@ export default {
     return state.imageCategories
   },
 
-  imageUploadData(state){
+  imageUploadData (state) {
     return state.imageUpload
+  },
+
+  /**
+   * Get details about the logged in user
+   * @param  {Object} state
+   * @return {Object}
+   */
+  userDetails (state) {
+    return state.user
+  },
+
+  /**
+   * Is a user currently logged in or not
+   * @param  {Object}  state
+   * @return {Boolean}
+   */
+  isUserLoggedIn (state) {
+    return state.isUserLoggedIn
   }
 }

@@ -1,16 +1,33 @@
 export default {
+  /**
+   * Get details about the user
+   * @param  {Object} context
+   * @param  {Object} payload
+   * @return {Promise}
+   */
   getUserDetails (context, payload) {
     return new Promise((resolve, reject) => {
+      let authToken = localStorage.getItem('authToken')
+
+      if (!authToken) {
+        reject({
+          message: 'No user logged in'
+        })
+      }
+
+      console.log('User has already logged in')
+
       let config = {
         headers: {
-          'x-auth': localStorage.getItem('authToken')
+          'x-auth': authToken
         }
       }
 
-      axios.get('http://149.222.135.188:3000/user/me', config)
+      console.log('Getting user information')
+      axios.get('http://localhost:3000/user/me', config)
         .then(function (response) {
-          console.log(response)
           context.commit('setUser', {
+            isUserLoggedIn: true,
             user: response.data
           })
           resolve(response)
@@ -51,6 +68,11 @@ export default {
     })
   },
 
+  /**
+   * Get the list of froups
+   * @param  {Object} context
+   * @return {Promise}
+   */
   getGroupList (context) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/group')
@@ -67,6 +89,12 @@ export default {
         })
     })
   },
+
+  /**
+   * Get the list of image categories
+   * @param  {Object} context
+   * @return {Promise}
+   */
   getImageCategories (context) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/ImageCategory')

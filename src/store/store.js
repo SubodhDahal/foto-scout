@@ -19,6 +19,8 @@ import translationsDe from './translations/de.json'
 const store = new Vuex.Store({
   state: {
     language: 'en',
+
+    // data regarding search options
     search: {
       location: {
         lat: 51.1657,
@@ -30,7 +32,11 @@ const store = new Vuex.Store({
         radius: 50 // in km
       }
     },
+
+    // Data regarding users
+    isUserLoggedIn: false,
     user: {},
+
     imageUpload: {
       file: null,
       imageUrl: null,

@@ -14,6 +14,12 @@
   export default {
     components: {
       AppHeader
+    },
+
+    mounted () {
+      // get user details on app load if s/he
+      // has already logged in previously
+      this.$store.dispatch('getUserDetails')
     }
   }
 </script>

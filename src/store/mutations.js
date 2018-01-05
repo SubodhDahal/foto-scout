@@ -32,6 +32,7 @@ export default {
    * @param {Object} payload
    */
   setUser (state, payload) {
+    state.isUserLoggedIn = payload.isUserLoggedIn
     state.user = payload.user
   },
 
