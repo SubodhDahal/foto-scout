@@ -32,7 +32,7 @@ exports.create_a_user = [
         console.log('creating user');
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
-          if (err) return res.send({message: 'we are having problem at the moment please try again later'});
+          if (err) return res.send({message: 'We are having problem at the moment please try again later'});
           return new_user.generateAuthToken().then((token) => {
             res.header('x-auth', token).send(new_user.tokens);
           }).catch((e) => {
