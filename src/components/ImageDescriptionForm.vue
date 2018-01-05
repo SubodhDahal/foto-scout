@@ -93,13 +93,7 @@
     },
 
     mounted () {
-//      this.$store.dispatch('getImageCategories')
-//        .then((res) => {
-//          console.log('RES', res)
-//        })
-//        .catch((error) => {
-//          console.log('ERROR', error)
-//        })
+      this.$store.dispatch('getImageCategories')
     },
 
     methods: {

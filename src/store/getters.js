@@ -63,12 +63,14 @@ export default {
    */
   imageCategories (state) {
     let categories = [{
+      label: 'All',
       text: 'All',
       value: '0'
     }]
 
     state.imageCategories.forEach((category) => {
       categories.push({
+        label: category.categoryName,
         text: category.categoryName,
         value: category._id
       })
