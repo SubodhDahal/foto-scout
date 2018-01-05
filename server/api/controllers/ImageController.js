@@ -207,7 +207,7 @@ exports.delete_an_image = function(req, res) {
     _id: req.params.ImageId
   }, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json({success: 'true', message: 'Image successfully deleted'});
   });
 };
@@ -215,7 +215,7 @@ exports.delete_an_image = function(req, res) {
 exports.read_an_image = function(req, res) {
   Image.findById(req.params.ImageId, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(image);
   });
 };
@@ -224,7 +224,7 @@ exports.read_an_image = function(req, res) {
 exports.list_all_images = function(req, res) {
   Image.find({}, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(image);
   });
 };

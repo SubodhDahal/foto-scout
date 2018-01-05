@@ -34,7 +34,7 @@ exports.read_group = function (req, res) {
     _id: req.params.id
   }, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(group);
   })
 };
@@ -47,7 +47,7 @@ exports.update_group = function (req, res) {
       description: req.body.description
     }
   }, {new: false}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.send({
       message: 'Group updated successfully',
@@ -62,7 +62,7 @@ exports.delete_group = function (req, res) {
     _id: req.params.id
   }, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json({success: 'true', message: 'Successfully deleted group'});
     // res.json({ message: 'group successfully deleted' });
   });
@@ -72,7 +72,7 @@ exports.delete_group = function (req, res) {
 exports.list_all_group = function (req, res) {
   group.find({}, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(group);
   });
 };
@@ -85,7 +85,7 @@ exports.add_user_to_group = function (req, res) {
       'users': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'User successfully added to group',
@@ -101,7 +101,7 @@ exports.delete_user_from_group = function (req, res) {
       'users': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'User successfully deleted from group',
@@ -117,7 +117,7 @@ exports.add_admin_to_group = function (req, res) {
       'admins': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'admin successfully added to group',
@@ -133,7 +133,7 @@ exports.delete_admin_from_group = function (req, res) {
       'admins': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'admin successfully deleted from  group',
