@@ -3,9 +3,21 @@
     <div class="row">
       <div class="col-md-6">
         <b-alert :show="imageUploadData.isImageuploaded">
-          Edit image successfully
+          Image updated successfully
         </b-alert>
+
+        <b-alert :show="imageUploadData.errorMessage!=''" class="alert-danger">
+          ERROR: {{ imageUploadData.errorMessage }}
+        </b-alert>
+
+        <h2 class="mb-4">Update image information</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
         <ImageDescriptionForm/>
+
         <b-form-group>
           <b-button type="submit" @click="editImage" variant="primary"> Update </b-button>
         </b-form-group>
@@ -28,17 +40,26 @@
       ImageDescriptionForm
     },
 
-    mounted () {
-      let imageId = this.$route.params.id
+    data () {
+      return {
+        imageId: this.$route.params.id
+      }
+    },
 
-      axios.get(`http://localhost:3000/upload/${imageId}`)
+    mounted () {
+      // Get the image details on image edit page load
+      axios.get(`http://localhost:3000/upload/${this.imageId}`)
         .then((response) => {
-          console.log(response)
           this.$store.commit('setUploadData', {
             file: null,
-            text: response.data.description,
+            description: response.data.description,
             imageUrl: 'http://localhost:3000/' + response.data.path,
             isImageuploaded: false
+          })
+        })
+        .catch((error) => {
+          this.$store.commit('setUploadData', {
+            errorMessage: error.message
           })
         })
     },
@@ -52,30 +73,24 @@
 
     methods: {
       editImage () {
-        let imageId = this.$route.params.id
-
-        let formData = new FormData()
-        formData.append('description', this.imageUploadData.description)
-        formData.append('latitude', this.imageUploadData.location.lat)
-        formData.append('longitude', this.imageUploadData.location.lng)
-        const config = {
-          headers: {'content-type': 'multipart/form-data'}
+        let data = {
+          description: this.imageUploadData.description,
+          latitude: this.imageUploadData.location.lat,
+          longitude: this.imageUploadData.location.lng
         }
 
-        axios.put(`http://localhost:3000/upload/${imageId}`, formData, config)
+        axios.put(`http://localhost:3000/upload/${this.imageId}`, data)
           .then((response) => {
-            if (response.data.success === 'true') {
-              this.$store.commit('setUploadData', {
-                isImageuploaded: true
-              })
-            } else {
-              this.$store.commit('setUploadData', {
-                errorMessage: response.data.message
-              })
-            }
+            this.$store.commit('setUploadData', {
+              isImageuploaded: true
+            })
+          })
+          .catch((error) => {
+            this.$store.commit('setUploadData', {
+              errorMessage: error.message
+            })
           })
       }
     }
   }
-
 </script>

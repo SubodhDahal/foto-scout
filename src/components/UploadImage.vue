@@ -3,16 +3,19 @@
     <div class="row">
       <div class="col-md-6">
         <b-alert :show="isImageuploaded">
-          Image uploaded successfully
+          Image updated successfully
         </b-alert>
-        <!--Throw error message while uploading the image-->
+
         <b-alert :show="errorMessage!=''" class="alert-danger">
           ERROR: {{ errorMessage }}
         </b-alert>
-        <div class="col-md-10 offset-2">
-          <h1 style="color:Green;"><u>Upload your Image:</u></h1>
-        </div>
-        <br>
+
+        <h2 class="mb-4">Upload image</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
         <!--Form-group for entities-->
         <b-form-group
           id="bformimageupload"
@@ -151,15 +154,14 @@
 
         axios.post('http://localhost:3000/upload', formData, config)
           .then((response) => {
-            if (response.data.success === 'true') {
-              this.$store.commit('setUploadData', {
-                isImageuploaded: true
-              })
-            } else {
-              this.$store.commit('setUploadData', {
-                errorMessage: response.data.message
-              })
-            }
+            this.$store.commit('setUploadData', {
+              isImageuploaded: true
+            })
+          })
+          .catch((error) => {
+            this.$store.commit('setUploadData', {
+              errorMessage: error.message
+            })
           })
       }
     }
