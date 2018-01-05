@@ -27,6 +27,15 @@ export default {
   },
 
   /**
+   * Save user data
+   * @param {Object} state
+   * @param {Object} payload
+   */
+  setUser (state, payload) {
+    state.user = payload.user
+  },
+
+  /**
    * Set the images search results
    * @param {Object} state
    * @param {Object} payload

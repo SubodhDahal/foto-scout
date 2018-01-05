@@ -20,7 +20,7 @@ exports.create_a_user = [
     var errors = validationResult(req);
 
     //console.log(errors);
-    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.firstname,'email': req.body.email,
+    var new_user = new User({'firstname': req.body.firstname,'lastname': req.body.lastname,'email': req.body.email,
       'passcode': req.body.passcode,'user_profile':{profile_pic: {}}});
     if (!errors.isEmpty()) {
       return res.status(400).send({errors: errors.array()});
@@ -33,7 +33,7 @@ exports.create_a_user = [
         console.log('creating user');
         new_user.passcode = bcrypt.hashSync(req.body.passcode, 10);
         new_user.save(function (err, new_user) {
-          if (err) return res.status(500).send({message: 'we are having problem at the moment please try again later'});
+          if (err) return res.status(500).send({message: 'We are having problem at the moment please try again later'});
           return new_user.generateAuthToken().then((token) => {
             res.header('x-auth', token).send({
               status: 'success',

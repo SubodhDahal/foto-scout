@@ -11,6 +11,7 @@
         <LanguageSelector />
         <br>
         <router-link :to="{name:'Registration'}">{{ $t('register') }}</router-link>
+        <router-link :to="{name:'UserLogin'}">{{ $t('login') }}</router-link>
       </div>
     </div>
   </header><!-- /header -->

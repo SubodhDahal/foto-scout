@@ -30,6 +30,7 @@ const store = new Vuex.Store({
         radius: 50 // in km
       }
     },
+    user: {},
     imageUpload: {
       file: null,
       imageUrl: null,

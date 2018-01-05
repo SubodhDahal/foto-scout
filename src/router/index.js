@@ -50,7 +50,7 @@ export default new Router({
       component:CreateGroup
     },
     {
-      path:'/user-login',
+      path:'/login',
       name:'UserLogin',
       component:UserLogin
     },
