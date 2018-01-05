@@ -1,7 +1,13 @@
 <template>
   <div>
-    <b-button @click.prevent="like" v-if="!isLiked">Like</b-button>
-    <div v-if="isLiked">Liked</div>
+    <b-button @click.prevent="like" v-if="!isLiked">
+      Like
+    </b-button>
+
+    <div v-if="isLiked">
+      <p>Liked</p>
+      <p>{{ likes.length }} like{{ likes.length > 1 ? 's' : '' }}</p>
+    </div>
   </div>
 </template>
 
@@ -26,6 +32,8 @@
 
       isLiked: {
         get () {
+          // check if current user is in list
+          // of likes of the image
           return this.likes.indexOf(this.userDetails._id) !== -1
         },
 

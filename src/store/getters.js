@@ -76,8 +76,6 @@ export default {
       })
     })
 
-    console.log(categories)
-
     return categories
   },
 
@@ -88,7 +86,13 @@ export default {
    * @return {Object}
    */
   imageUploadData (state) {
-    return state.imageUpload
+    let categoryIds = []
+
+    state.imageUpload.category.forEach((category) => {
+      categoryIds.push(category.value)
+    })
+
+    return {...state.imageUpload, categoryIds}
   },
 
   /**

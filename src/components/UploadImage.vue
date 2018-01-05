@@ -34,7 +34,7 @@
 
         <b-form-group>
           <b-button type="submit" @click="uploadImage" variant="primary">{{ $t('labelforsubmit') }}</b-button>
-          <b-button type="reset" variant="danger" @click="onReset">{{ $t('labelforreset') }}</b-button>
+          <b-button type="reset" variant="danger" @click="resetForm">{{ $t('labelforreset') }}</b-button>
         </b-form-group>
       </div>
 
@@ -112,6 +112,10 @@
       }
     },
 
+    mounted () {
+      this.resetForm()
+    },
+
     /* function to preview upload images */
     methods: {
       onFilePicked (event) {
@@ -132,7 +136,7 @@
       /**
        *  reset the field of upload images
        **/
-      onReset () {
+      resetForm () {
         this.$store.commit('setUploadData', {
           file: null,
           text: '',
@@ -140,6 +144,11 @@
           isImageuploaded: false
         })
         this.$refs.fileInput.reset()
+
+        this.$store.commit('setUploadData', {
+          isImageuploaded: false,
+          errorMessage: ''
+        })
       },
 
       uploadImage () {
@@ -148,6 +157,8 @@
         formData.append('description', this.imageUploadData.description)
         formData.append('latitude', this.imageUploadData.location.lat)
         formData.append('longitude', this.imageUploadData.location.lng)
+        formData.append('category', this.imageUploadData.categoryIds)
+
         const config = {
           headers: {'content-type': 'multipart/form-data'}
         }

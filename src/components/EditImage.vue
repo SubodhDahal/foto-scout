@@ -47,6 +47,11 @@
     },
 
     mounted () {
+      this.$store.commit('setUploadData', {
+        isImageuploaded: false,
+        errorMessage: ''
+      })
+
       // Get the image details on image edit page load
       axios.get(`http://localhost:3000/upload/${this.imageId}`)
         .then((response) => {
@@ -76,7 +81,8 @@
         let data = {
           description: this.imageUploadData.description,
           latitude: this.imageUploadData.location.lat,
-          longitude: this.imageUploadData.location.lng
+          longitude: this.imageUploadData.location.lng,
+          category: this.imageUploadData.categoryIds
         }
 
         axios.put(`http://localhost:3000/upload/${this.imageId}`, data)
