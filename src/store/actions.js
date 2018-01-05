@@ -39,6 +39,37 @@ export default {
     })
   },
 
+  logoutUser (context, payload) {
+    return new Promise((resolve, reject) => {
+      let authToken = localStorage.getItem('authToken')
+
+      if (!authToken) {
+        reject({
+          message: 'No user logged in'
+        })
+      }
+
+      let config = {
+        headers: {
+          'x-auth': authToken
+        }
+      }
+
+      axios.delete('http://localhost:3000/user/me/logout', config)
+        .then(function (response) {
+          context.commit('setUser', {
+            isUserLoggedIn: false,
+            user: {}
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
+  },
+
   /**
    * Get the image search results from the server
    * @param  {Object} context

@@ -15,7 +15,8 @@
           <router-link :to="{name:'UserLogin'}">{{ $t('login') }}</router-link>
         </template>
         <template v-if="isUserLoggedIn">
-          Welcome {{ userDetails.firstname }}
+          Welcome {{ userDetails.firstname }} | <br>
+          <a href="#" @click.prevent="logout">Logout</a>
         </template>
       </div>
     </div>
@@ -36,6 +37,12 @@
         'isUserLoggedIn',
         'userDetails'
       ])
+    },
+
+    methods: {
+      logout () {
+        this.$store.dispatch('logoutUser')
+      }
     }
   }
 </script>
