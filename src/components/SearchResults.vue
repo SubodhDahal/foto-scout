@@ -3,23 +3,16 @@
     <div class="row">
       <div class="col-md-4">
         <h2 class="d-inline">Image results in:</h2> {{ locationName }}
-
-        <div v-for="image in images" class="mt-4">
-          <router-link :to="{name:'EditImage',params:{id:image._id}}">
-            <b-button>Edit</b-button>
-          </router-link>
-
-          <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
-            <img :src="`http://localhost:3000/${image.path}`" class="img-fluid" height="250"/>
-          </router-link>
-        </div>
       </div>
+
+      <ImageGallery :images="images" />
     </div>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import ImageGallery from './ImageGallery'
 
   export default {
     computed: {
@@ -28,6 +21,10 @@
         'images',
         'locationName'
       ])
+    },
+
+    components: {
+      ImageGallery
     },
 
     mounted () {

@@ -36,6 +36,7 @@ const store = new Vuex.Store({
     // Data regarding users
     isUserLoggedIn: false,
     user: {},
+    userImages: [],
 
     imageUpload: {
       file: null,

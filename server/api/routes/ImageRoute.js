@@ -27,6 +27,9 @@ module.exports = function(app) {
   app.route('/images/search')
     .get(image.search_image_by_location);
 
+  app.route('/images/my')
+    .get(image.get_users_images);
+
   // Image Upload  Routes
   app.route('/upload')
     .get(image.list_all_images)

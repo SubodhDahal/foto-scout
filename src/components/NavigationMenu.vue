@@ -10,6 +10,12 @@
         </li>
 
         <li class="nav-item mr-4">
+          <router-link :to="{name:'UserImages'}">
+            My Images
+          </router-link>
+        </li>
+
+        <li class="nav-item mr-4">
           <router-link :to="{name:'DisplayGroup'}">
             Groups
           </router-link>

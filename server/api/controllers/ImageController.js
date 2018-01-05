@@ -4,7 +4,8 @@ var multer = require('multer'),
   Image = mongoose.model('ImageUpload'),
   User = mongoose.model('User'),
   dateFormat = require('dateformat'),
-  ExifImage = require('exif').ExifImage;
+  ExifImage = require('exif').ExifImage,
+  {getUserByToken} = require('../common/users');
 
 /**
  * Get current date
@@ -69,7 +70,6 @@ function extractExifData (imagename, callback, errorCallback) {
   new ExifImage({
     image: 'public/uploads/' + imagename
   }, function (error, exifData) {
-    console.log(error);
     if (error && error.code !== 'NO_EXIF_SEGMENT' && error.code !=='NOT_A_JPEG') {
       errorCallback(error);
       return;
@@ -228,6 +228,35 @@ exports.list_all_images = function(req, res) {
     res.json(image);
   });
 };
+
+/**
+ * Get all images uploaded by current user
+ * @param  {Object} req
+ * @param  {Object} res
+ */
+exports.get_users_images = function(req, res) {
+  var token = req.header('x-auth');
+
+  getUserByToken(token)
+    .then((user) => {
+      Image.find({
+        userId: user._id
+      }, function(err, images) {
+        if (err)
+          res.status(400).send(err);
+
+        res.json({
+          images
+        });
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    });
+}
 
 //Image like {'post': {$ne : ""}}
 exports.update_image_like_couter=function(req,res,next) {

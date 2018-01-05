@@ -12,7 +12,7 @@ exports.create_a_group = function (req, res) {
 
   getUserByToken(token)
     .then((user) => {
-      new_group.admins = [user.id];
+      new_group.admins = [user._id];
 
       new_group.save(function (err, group) {
         if (err)

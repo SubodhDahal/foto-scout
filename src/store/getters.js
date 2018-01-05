@@ -8,6 +8,11 @@ export default {
     return state.language
   },
 
+  /**
+   * Get the list of groups
+   * @param  {Object} state
+   * @return {Array}
+   */
   groups (state) {
     return state.groups
   },
@@ -60,6 +65,12 @@ export default {
     return state.imageCategories
   },
 
+  /**
+   * Get data regarding current image to
+   * be uploaded/updated
+   * @param  {Object} state
+   * @return {Object}
+   */
   imageUploadData (state) {
     return state.imageUpload
   },
@@ -71,6 +82,15 @@ export default {
    */
   userDetails (state) {
     return state.user
+  },
+
+  /**
+   * Get the images uploaded by user
+   * @param  {Object} state
+   * @return {Array}
+   */
+  userImages (state) {
+    return state.userImages
   },
 
   /**

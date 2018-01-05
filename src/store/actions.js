@@ -39,6 +39,43 @@ export default {
     })
   },
 
+  /**
+   * Get images uploaded by the user
+   * @param  {Object} context
+   * @return {Promise}
+   */
+  getUserImages (context) {
+    return new Promise((resolve, reject) => {
+      let authToken = localStorage.getItem('authToken')
+
+      if (!authToken) {
+        reject({
+          message: 'No user logged in'
+        })
+      }
+
+      console.log('User has already logged in')
+
+      let config = {
+        headers: {
+          'x-auth': authToken
+        }
+      }
+
+      axios.get('http://localhost:3000/images/my', config)
+        .then(function (response) {
+          context.commit('setUserImages', {
+            images: response.data.images
+          })
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          reject(error)
+        })
+    })
+  },
+
   logoutUser (context, payload) {
     return new Promise((resolve, reject) => {
       let authToken = localStorage.getItem('authToken')
