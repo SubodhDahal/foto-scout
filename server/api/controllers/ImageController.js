@@ -126,7 +126,7 @@ exports.upload_an_image = function (req,res,next) {
       var upload_image = new Image(insertObj);
       upload_image.save(function (err, image) {
         if (err)
-          res.send(err);
+          res.status(400).send(err);
 
         res.json({
           success: 'true',
@@ -134,13 +134,13 @@ exports.upload_an_image = function (req,res,next) {
         });
       });
     }, function(error) {
-      res.json({
+      res.status(400).json({
         status: 'error',
         message: error.message
       });
     })
   } catch (error) {
-    res.json({
+    res.status(400).json({
       status: 'error',
       message: error.message
     });
@@ -149,15 +149,35 @@ exports.upload_an_image = function (req,res,next) {
 
 //Update an image by id
 exports.update_an_image = function(req, res) {
+  var updateData = {
+    description: req.body.description,
+    category: req.body.category,
+  }
+
+  if (req.body.latitude && req.body.longitude) {
+    updateData['location'] = {
+      coordinates: [
+        parseFloat(req.body.longitude),
+        parseFloat(req.body.latitude),
+      ],
+      type: 'Point'
+    }
+  }
+
   Image.update({_id: req.params.ImageId},
-    {$set:
-      {description:req.body.description,imageCategoryId:req.body.imageCategoryId}
+    {
+      $set: updateData
     },(err, image) => {
       if (err)
-        res.send(err)
-      res.json("Image Updated successfully");
+        res.status(400).send(err)
+
+      res.json({
+          success: true,
+          message: 'Image updated successfully'
+        });
     });
 };
+
 //Delete an image by id
 exports.delete_an_image = function(req, res) {
   Image.remove({

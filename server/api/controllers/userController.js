@@ -35,14 +35,20 @@ exports.create_a_user = [
         new_user.save(function (err, new_user) {
           if (err) return res.status(500).send({message: 'We are having problem at the moment please try again later'});
           return new_user.generateAuthToken().then((token) => {
-            res.header('x-auth', token).send(new_user.tokens);
+            res.header('x-auth', token).send({
+              status: 'success',
+              tokens: new_user.tokens
+            });
           }).catch((e) => {
             res.status(400).send(e);
           })
         })
       }
       else {
-        return res.status(400).send({message: 'Account already exist'})
+        return res.status(400).send({
+          status: 'error',
+          message: 'Account already exists'
+        })
       }
     });
   }
@@ -64,7 +70,10 @@ exports.sign_in =[
     }
     User.findByCredentials(req.body.email, req.body.passcode).then((user) => {
       return user.generateAuthToken().then((token) => {
-        res.header('x-auth', token).send(user.tokens);
+        res.header('x-auth', token).send({
+          status: 'success',
+          tokens: user.tokens
+        });
       });
     }).catch((e) => {
       res.status(401).send({message: 'sorry cant find you'});
