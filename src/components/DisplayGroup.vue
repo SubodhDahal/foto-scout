@@ -9,6 +9,12 @@
           </b-button>
         </router-link>
       </div>
+
+      <div class="col-md-8 offset-2 mt-4" v-if="isGroupDeleted">
+        <b-alert :show="isGroupDeleted">
+          Group deleted successfully
+        </b-alert>
+      </div>
     </div>
 
     <div class="row mt-4">
@@ -25,39 +31,58 @@
         </b-list-group>
       </div>
 
-      <div class="col-md-5 white-bg br-5 p-3">
-        <router-link
-          class="btn btn-light float-right"
-          title="Edit"
-          :to="{name:'EditGroup',params:{id:activeGroup._id}}"
-          v-if="activeGroup.admins.indexOf(userDetails._id)!==-1">
-          <i class="fa fa-pencil" aria-hidden="true"></i>
-          Edit
-        </router-link>
-        <div class="clearfix"></div>
+      <div class="col-md-5 white-bg br-5">
+        <div class="py-3">
+          <div class="float-right"v-if="activeGroup.admins.indexOf(userDetails._id)!==-1">
+            <router-link
+              class="btn btn-light"
+              title="Edit"
+              :to="{name:'EditGroup',params:{id:activeGroup._id}}">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </router-link>
 
-        <p>{{ activeGroup.description }}</p>
+            <a href="#" class="btn btn-light" title="Delete" @click.prevent="deleteGroup(activeGroup._id)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="clearfix"></div>
 
-        <p>
-          <strong>Members:</strong>
-        </p>
+          <p>{{ activeGroup.description }}</p>
+
+          <p>
+            <strong>Members:</strong>
+          </p>
+        </div>
       </div>
     </div>
+
+    <simplert :useRadius="true"
+              :useIcon="true"
+              ref="simplert">
+    </simplert>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
   import { mapGetters } from 'vuex'
+  import Simplert from 'vue2-simplert'
 
   export default {
     data () {
       return {
+        isGroupDeleted: false,
+
         activeGroup: {
           _id: 0,
           name: '',
           description: ''
         }
       }
+    },
+
+    components: {
+      Simplert
     },
 
     computed: {
@@ -82,6 +107,39 @@
     methods: {
       setActive (group) {
         this.activeGroup = group
+      },
+
+      deleteGroup (id) {
+        let obj = {
+          title: 'Are you sure you want to delete the group?',
+          type: 'warning',
+          useConfirmBtn: true,
+          customConfirmBtnText: 'Yes',
+          onConfirm: () => {
+            let authToken = localStorage.getItem('authToken')
+
+            let config = {
+              headers: {
+                'x-auth': authToken
+              }
+            }
+
+            axios.delete(`http://localhost:3000/group/${id}`, config)
+              .then((response) => {
+                this.$store.dispatch('getGroupList')
+                  .then((response) => {
+                    this.isGroupDeleted = true
+
+                    this.setActive(this.groups[0])
+                  })
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
+        }
+
+        this.$refs.simplert.openSimplert(obj)
       }
     }
   }

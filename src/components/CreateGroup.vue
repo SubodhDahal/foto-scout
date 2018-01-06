@@ -30,7 +30,7 @@
             <b-form-group>
               <b-button type="submit" @click.prevent="onSubmit" variant="primary">{{ $t('labelforcreategroup') }}
               </b-button>
-              <b-button type="reset" @click.prevent="onReset" variant="danger">{{ $t('labelforreset') }}</b-button>
+              <b-button type="reset" @click.prevent="resetForm" variant="danger">{{ $t('labelforreset') }}</b-button>
             </b-form-group>
           </div>
         </b-form>
@@ -67,12 +67,14 @@
         axios.post('http://localhost:3000/group', data, config)
           .then((response) => {
             if (response.data.success === 'true') {
+              this.resetForm()
+
               this.isGroupCreated = true
             }
           })
       },
 
-      onReset () {
+      resetForm () {
         this.groupname = ''
         this.description = ''
         this.isGroupCreated = false
