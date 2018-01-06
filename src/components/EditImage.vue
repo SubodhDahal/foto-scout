@@ -78,6 +78,8 @@
 
     methods: {
       editImage () {
+        let authToken = localStorage.getItem('authToken')
+
         let data = {
           description: this.imageUploadData.description,
           latitude: this.imageUploadData.location.lat,
@@ -85,7 +87,13 @@
           category: this.imageUploadData.categoryIds
         }
 
-        axios.put(`http://localhost:3000/upload/${this.imageId}`, data)
+        const config = {
+          headers: {
+            'x-auth': authToken
+          }
+        }
+
+        axios.put(`http://localhost:3000/upload/${this.imageId}`, data, config)
           .then((response) => {
             this.$store.commit('setUploadData', {
               isImageuploaded: true

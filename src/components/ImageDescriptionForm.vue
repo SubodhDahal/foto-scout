@@ -20,7 +20,7 @@
                   id="location"
                   v-model="location.name">
       <gmap-autocomplete
-        class="form-control p-3 mr-2 search-box"
+        class="form-control px-3 py-2 mr-2 w-100"
         :placeholder="$t('locationname')"
         :value="location.name"
         @place_changed="getAddressData"

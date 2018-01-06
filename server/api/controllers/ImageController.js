@@ -116,7 +116,7 @@ exports.upload_an_image = function (req,res,next) {
   var token = req.header('x-auth'),
     file = req.files[0],
     imageName = file.filename,
-    filePath = file.path.replace("public\\", ""),   // remove public\ from filepath
+    filePath = file.path.replace("public\\", "").replace('public/', ''),   // remove public\ from filepath
     uniqueImageId = generateUniqueImageId(); // generate unique image code
 
   try {
@@ -170,6 +170,12 @@ exports.upload_an_image = function (req,res,next) {
           status: 'error',
           message: error.message
         });
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        status: 'error',
+        message: error.message
       });
     });
 

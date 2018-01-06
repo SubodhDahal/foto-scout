@@ -8,14 +8,20 @@ var mongoose = require('mongoose'),
  */
 exports.getUserByToken = function (token) {
   return new Promise((resolve, reject) => {
-    User.findByToken(token).then((user) => {
-      if (!user) {
+    User.findByToken(token)
+      .then((user) => {
+        if (!user) {
+          reject({
+            message: 'Couldn\'t find user'
+          })
+        } else {
+          resolve(user)
+        }
+      })
+      .catch((error) => {
         reject({
-          message: 'Couldn\'t find user'
+          message: 'Error occured while getting user information'
         })
-      } else {
-        resolve(user)
-      }
-    })
+      })
   })
 }

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6">
         <b-alert :show="isImageuploaded">
-          Image updated successfully
+          Image uploaded successfully
         </b-alert>
 
         <b-alert :show="errorMessage!=''" class="alert-danger">
@@ -141,17 +141,15 @@
           file: null,
           text: '',
           imageUrl: '',
+          errorMessage: '',
           isImageuploaded: false
         })
         this.$refs.fileInput.reset()
-
-        this.$store.commit('setUploadData', {
-          isImageuploaded: false,
-          errorMessage: ''
-        })
       },
 
       uploadImage () {
+        let authToken = localStorage.getItem('authToken')
+
         let formData = new FormData()
         formData.append('image', this.file)
         formData.append('description', this.imageUploadData.description)
@@ -160,11 +158,16 @@
         formData.append('category', this.imageUploadData.categoryIds)
 
         const config = {
-          headers: {'content-type': 'multipart/form-data'}
+          headers: {
+            'content-type': 'multipart/form-data',
+            'x-auth': authToken
+          }
         }
 
         axios.post('http://localhost:3000/upload', formData, config)
           .then((response) => {
+            this.resetForm()
+
             this.$store.commit('setUploadData', {
               isImageuploaded: true
             })
