@@ -7,6 +7,7 @@ import CarouselImage from '@/components/CarouselImage.vue'
 import UploadImage from '@/components/UploadImage'
 import DisplayGroup from '@/components/DisplayGroup'
 import CreateGroup from '@/components/CreateGroup'
+import UpdateGroup from '@/components/UpdateGroup'
 import UserLogin from '@/components/UserLogin'
 import EditImage from '@/components/EditImage'
 import UserImages from '@/components/UserImages'
@@ -54,6 +55,11 @@ export default new Router({
       path:'/create-group',
       name:'CreateGroup',
       component:CreateGroup
+    },
+    {
+      path:'/update-group/:id',
+      name:'EditGroup',
+      component:UpdateGroup
     },
     {
       path:'/login',

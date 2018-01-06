@@ -26,6 +26,16 @@
       </div>
 
       <div class="col-md-5 white-bg br-5 p-3">
+        <router-link
+          class="btn btn-light float-right"
+          title="Edit"
+          :to="{name:'EditGroup',params:{id:activeGroup._id}}"
+          v-if="activeGroup.admins.indexOf(userDetails._id)!==-1">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+          Edit
+        </router-link>
+        <div class="clearfix"></div>
+
         <p>{{ activeGroup.description }}</p>
 
         <p>
@@ -53,7 +63,8 @@
     computed: {
       /* get groups from VueX Store */
       ...mapGetters([
-        'groups'
+        'groups',
+        'userDetails'
       ])
     },
 
