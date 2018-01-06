@@ -36,7 +36,7 @@ export default new Router({
       component:UserImages
     },
     {
-      path:'/carousel-image/:id',
+      path:'/carousel-image/:id/:type',
       name:'CarouselImage',
       component:CarouselImage
     },

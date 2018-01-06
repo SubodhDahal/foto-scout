@@ -25,14 +25,14 @@ export default {
 
       console.log('Getting user information')
       axios.get('http://localhost:3000/user/me', config)
-        .then(function (response) {
+        .then((response) => {
           context.commit('setUser', {
             isUserLoggedIn: true,
             user: response.data
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })
@@ -63,13 +63,13 @@ export default {
       }
 
       axios.get('http://localhost:3000/images/my', config)
-        .then(function (response) {
+        .then((response) => {
           context.commit('setUserImages', {
             images: response.data.images
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })
@@ -93,14 +93,14 @@ export default {
       }
 
       axios.delete('http://localhost:3000/user/me/logout', config)
-        .then(function (response) {
+        .then((response) => {
           context.commit('setUser', {
             isUserLoggedIn: false,
             user: {}
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })
@@ -123,14 +123,14 @@ export default {
             categories: payload.categories
           }
         })
-        .then(function (response) {
+        .then((response) => {
           // Save images data to Vuex store
           context.commit('setImages', {
             images: response.data.images
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })
@@ -163,14 +163,14 @@ export default {
   getGroupList (context) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/group')
-        .then(function (response) {
+        .then((response) => {
           // Save groups data to Vuex store
           context.commit('setGroups', {
             groups: response.data
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })
@@ -185,14 +185,14 @@ export default {
   getImageCategories (context) {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3000/ImageCategory')
-        .then(function (response) {
+        .then((response) => {
           // Save imageCategory to Vuex store
           context.commit('setImageCategory', {
             imageCategories: response.data.imageCategories
           })
           resolve(response)
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           reject(error)
         })

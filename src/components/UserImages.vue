@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <ImageGallery :images="userImages" />
+    <ImageGallery :images="userImages" galleryType="user" />
   </div>
 </template>
 

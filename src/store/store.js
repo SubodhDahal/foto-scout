@@ -44,7 +44,10 @@ const store = new Vuex.Store({
       description: '',
       isImageuploaded: false,
       errorMessage: '',
-      location: {},
+      location: {
+        lat: '',
+        lng: ''
+      },
       category: []
     },
     images: [],

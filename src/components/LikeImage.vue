@@ -1,9 +1,9 @@
 <template>
   <div class="like-image">
-    <a href="#" @click.prevent="toggle" class="d-inline btn btn-light p-2">
-      <i class="fa fa-thumbs-o-up like-button" v-if="!isLiked" aria-hidden="true"></i>
+    <a href="#" @click.prevent="toggle" class="d-inline btn btn-light px-2 py-1">
+      <i class="fa fa-heart-o like-button" v-if="!isLiked" aria-hidden="true"></i>
 
-      <i class="fa fa-thumbs-up like-button" v-if="isLiked" aria-hidden="true" title="Liked"></i>
+      <i class="fa fa-heart like-button" v-if="isLiked" aria-hidden="true" title="Liked"></i>
 
       <span class="d-inline ml-2 likes-count">
         {{ likes.length }}
@@ -75,12 +75,13 @@
 <style>
   .like-image {
     position: absolute;
-    bottom: 15px;
-    left: 10px;
+    bottom: 10px;
+    left: 5px;
     width: 100%;
   }
 
   .like-button {
-    font-size: 1.5rem;
+    font-size: 1rem;
+    color: #f15151;
   }
 </style>

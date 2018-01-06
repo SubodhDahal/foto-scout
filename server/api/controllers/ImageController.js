@@ -5,6 +5,7 @@ var multer = require('multer'),
   User = mongoose.model('User'),
   dateFormat = require('dateformat'),
   ExifImage = require('exif').ExifImage,
+  {validator,check,validationResult} = require('express-validator/check'),
   {getUserByToken} = require('../common/users');
 
 /**
@@ -125,22 +126,12 @@ exports.upload_an_image = function (req,res,next) {
         return Promise.reject();
       }
 
-      var insertObj = {};
-
       extractExifData(imageName, function (exifData) {
-        insertObj = {
+        var insertObj = {
           path: filePath,
           originalname: imageName,
           description: req.body.description,
           category:req.body.category,
-
-          location: {
-            coordinates: [
-              parseFloat(req.body.longitude),
-              parseFloat(req.body.latitude),
-            ],
-            type: 'Point'
-          },
 
           userId: user._id,
 
@@ -153,6 +144,16 @@ exports.upload_an_image = function (req,res,next) {
               date: getCurrentDate()
             }
           ]
+        }
+
+        if (req.body.latitude !== '') {
+          insertObj.location = {
+            coordinates: [
+              parseFloat(req.body.longitude),
+              parseFloat(req.body.latitude),
+            ],
+            type: 'Point'
+          }
         }
 
         var upload_image = new Image(insertObj);
@@ -220,14 +221,19 @@ exports.update_an_image = function(req, res) {
 
 //Delete an image by id
 exports.delete_an_image = function(req, res) {
-  Image.remove({
-    _id: req.params.ImageId
-  }, function(err, image) {
-    if (err)
-      res.status(400).send(err);
-    res.json({success: 'true', message: 'Image successfully deleted'});
-  });
+  var token = req.header('x-auth');
+
+  getUserByToken(token).then((user) => {
+    Image.remove({
+      _id: req.params.ImageId
+    }, function(err, image) {
+      if (err)
+        res.status(400).send(err);
+      res.json({success: 'true', message: 'Image successfully deleted'});
+    });
+  })
 };
+
 // Get an image by Id
 exports.read_an_image = function(req, res) {
   Image.findById(req.params.ImageId, function(err, image) {

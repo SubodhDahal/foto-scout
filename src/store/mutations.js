@@ -63,8 +63,31 @@ export default {
     let foundImage = state.images.find((image) => image._id === payload.image._id)
     let foundIndex = state.images.indexOf(foundImage)
 
-    if (foundIndex !== -1) {
+    if (foundIndex > -1) {
       state.images[foundIndex] = payload.image
+    }
+  },
+
+  /**
+   * Remove the image with specified id from store
+   * @param  {Object} state
+   * @param  {Object} payload
+   */
+  removeImage (state, payload) {
+    let getImageIndex = (images, imageId) => {
+      let foundImage = images.find((image) => image._id === imageId)
+      return images.indexOf(foundImage)
+    }
+
+    let foundImagesIndex = getImageIndex(state.images, payload.id)
+    let foundUserImagesIndex = getImageIndex(state.userImages, payload.id)
+
+    if (foundImagesIndex > -1) {
+      state.images.splice(foundImagesIndex, 1)
+    }
+
+    if (foundUserImagesIndex > -1) {
+      state.userImages.splice(foundUserImagesIndex, 1)
     }
   },
 
