@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <b-button @click.prevent="like" v-if="!isLiked">
-      Like
-    </b-button>
+  <div class="like-image py-2 px-4">
+    <a href="#" @click.prevent="like" v-if="!isLiked" class="d-inline">
+      <i class="fa fa-thumbs-o-up like-button" aria-hidden="true"></i>
+    </a>
 
-    <div v-if="isLiked">
-      <p>Liked</p>
-      <p>{{ likes.length }} like{{ likes.length > 1 ? 's' : '' }}</p>
+    <div v-if="isLiked" class="d-inline">
+      <i class="fa fa-thumbs-up like-button mr-2" aria-hidden="true" title="Liked"></i>
     </div>
+
+    <span class="d-inline ml-3 likes-count">
+      {{ likes.length }} like{{ likes.length > 1 ? 's' : '' }}
+    </span>
   </div>
 </template>
 
@@ -60,3 +63,16 @@
     }
   }
 </script>
+
+<style>
+  .like-image {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,1) 100%);
+  }
+
+  .like-button {
+    font-size: 2.5rem;
+  }
+</style>

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        My images
+        <h2>My images</h2>
       </div>
     </div>
 

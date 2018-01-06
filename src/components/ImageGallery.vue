@@ -1,5 +1,11 @@
 <template>
   <div class="row">
+    <div class="col-md-12 mt-4">
+      <h4 v-if="images.length == 0">
+        No images found
+      </h4>
+    </div>
+
     <div v-for="image in images" class="mt-4 col-md-4">
       <router-link
         :to="{name:'EditImage',params:{id:image._id}}"
@@ -7,11 +13,13 @@
         <b-button>Edit</b-button>
       </router-link>
 
-      <LikeImage :id="image._id" :likes="image.likes" />
+      <div class="image">
+        <LikeImage :id="image._id" :likes="image.likes" />
 
-      <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
-        <img :src="`http://localhost:3000/${image.path}`" class="img-fluid w-100" height="250"/>
-      </router-link>
+        <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
+          <img :src="`http://localhost:3000/${image.path}`" class="img-fluid w-100" height="250"/>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -39,3 +47,9 @@
     }
   }
 </script>
+
+<style>
+  .image {
+    position: relative;
+  }
+</style>
