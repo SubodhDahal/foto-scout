@@ -47,9 +47,11 @@ exports.search_image_by_location = function(req, res) {
     }
   }
 
+  var categories = req.query.categories ? req.query.categories : null;
+
   // search by category only if categories are specified
   // or all is not selected as a category
-  if (typeof req.query.categories !== 'undefined'
+  if (categories
     && req.query.categories.indexOf('0') === -1) {
     searchParameters.category = {
       $in: req.query.categories
