@@ -36,7 +36,7 @@
        */
       currentSlide () {
         var found = this.images.find((image) => {
-          return image.id === this.$route.params.id
+          return image._id === this.$route.params.id
         })
         return this.images.indexOf(found)
       }

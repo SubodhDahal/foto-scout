@@ -55,6 +55,20 @@ export default {
   },
 
   /**
+   * Update a specific image details
+   * @param  {Object} state
+   * @param  {Object} payload
+   */
+  updateImage (state, payload) {
+    let foundImage = state.images.find((image) => image._id === payload.image._id)
+    let foundIndex = state.images.indexOf(foundImage)
+
+    if (foundIndex !== -1) {
+      state.images[foundIndex] = payload.image
+    }
+  },
+
+  /**
    * Set the user groups
    * @param {Object} state
    * @param {Object} payload

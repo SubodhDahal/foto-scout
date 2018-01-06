@@ -57,7 +57,7 @@
 
         axios.put(`http://localhost:3000/imageLike/${this.id}`, {}, config)
           .then((response) => {
-            this.isLiked = true
+            this.likes.push(this.userDetails._id)
           })
       }
     }

@@ -56,8 +56,6 @@ exports.search_image_by_location = function(req, res) {
     }
   }
 
-  console.log(searchParameters)
-
   return Image.find(searchParameters)
     .limit(10).exec(function(err, images) {
       if (err) {

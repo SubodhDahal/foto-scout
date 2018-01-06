@@ -138,6 +138,24 @@ export default {
   },
 
   /**
+   * Update image information for a specific image
+   * @param  {Object} context
+   * @param  {Object} payload
+   * @return {Promise}
+   */
+  updateImageInfo (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get(`http://localhost:3000/upload/${payload.imageId}`)
+        .then((response) => {
+          context.commit('updateImage', {
+            image: response.data
+          })
+          resolve(response)
+        })
+    })
+  },
+
+  /**
    * Get the list of froups
    * @param  {Object} context
    * @return {Promise}
