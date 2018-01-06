@@ -60,7 +60,7 @@ exports.search_image_by_location = function(req, res) {
   }
 
   return Image.find(searchParameters)
-    .limit(10).exec(function(err, images) {
+    .exec(function(err, images) {
       if (err) {
         return res.status(500)
                   .json(err);
