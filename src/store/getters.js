@@ -8,6 +8,11 @@ export default {
     return state.language
   },
 
+  /**
+   * Get the list of groups
+   * @param  {Object} state
+   * @return {Array}
+   */
   groups (state) {
     return state.groups
   },
@@ -57,10 +62,63 @@ export default {
    * @return {Object}
    */
   imageCategories (state) {
-    return state.imageCategories
+    let categories = [{
+      label: 'All',
+      text: 'All',
+      value: '0'
+    }]
+
+    state.imageCategories.forEach((category) => {
+      categories.push({
+        label: category.categoryName,
+        text: category.categoryName,
+        value: category._id
+      })
+    })
+
+    return categories
   },
 
-  imageUploadData(state){
-    return state.imageUpload
+  /**
+   * Get data regarding current image to
+   * be uploaded/updated
+   * @param  {Object} state
+   * @return {Object}
+   */
+  imageUploadData (state) {
+    let categoryIds = []
+
+    state.imageUpload.category.forEach((category) => {
+      categoryIds.push(category.value)
+    })
+
+    return {...state.imageUpload, categoryIds}
+  },
+
+  /**
+   * Get details about the logged in user
+   * @param  {Object} state
+   * @return {Object}
+   */
+  userDetails (state) {
+    return state.user
+  },
+
+  /**
+   * Get the images uploaded by user
+   * @param  {Object} state
+   * @return {Array}
+   */
+  userImages (state) {
+    return state.userImages
+  },
+
+  /**
+   * Is a user currently logged in or not
+   * @param  {Object}  state
+   * @return {Boolean}
+   */
+  isUserLoggedIn (state) {
+    return state.isUserLoggedIn
   }
 }

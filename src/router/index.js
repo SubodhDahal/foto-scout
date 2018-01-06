@@ -9,6 +9,7 @@ import DisplayGroup from '@/components/DisplayGroup'
 import CreateGroup from '@/components/CreateGroup'
 import UserLogin from '@/components/UserLogin'
 import EditImage from '@/components/EditImage'
+import UserImages from '@/components/UserImages'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
      path:'/search-results',
       name:'SearchResults',
       component:SearchResults
+    },
+    {
+      path:'/profile/images',
+      name:'UserImages',
+      component:UserImages
     },
     {
       path:'/carousel-image/:id',

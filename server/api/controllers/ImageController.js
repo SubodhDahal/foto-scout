@@ -2,9 +2,15 @@
 var multer = require('multer'),
   mongoose = require('mongoose'),
   Image = mongoose.model('ImageUpload'),
-   dateFormat = require('dateformat'),
-  ExifImage = require('exif').ExifImage;
-//get current date
+  User = mongoose.model('User'),
+  dateFormat = require('dateformat'),
+  ExifImage = require('exif').ExifImage,
+  {getUserByToken} = require('../common/users');
+
+/**
+ * Get current date
+ * @return {String}
+ */
 function getCurrentDate()
 {
   var now = new Date();
@@ -64,7 +70,6 @@ function extractExifData (imagename, callback, errorCallback) {
   new ExifImage({
     image: 'public/uploads/' + imagename
   }, function (error, exifData) {
-    console.log(error);
     if (error && error.code !== 'NO_EXIF_SEGMENT' && error.code !=='NOT_A_JPEG') {
       errorCallback(error);
       return;
@@ -86,59 +91,73 @@ function generateUniqueImageId()
 
 // Image Upload
 exports.upload_an_image = function (req,res,next) {
+  if (req.files.length == 0) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'No image specified'
+    })
+  }
 
-  var file = req.files[0],
+  var token = req.header('x-auth'),
+    file = req.files[0],
     imageName = file.filename,
-    filePath = file.path.replace("public\\", "");   // remove public\ from filepath
-    var uniqueImageId=generateUniqueImageId();//generate unique image code
+    filePath = file.path.replace("public\\", ""),   // remove public\ from filepath
+    uniqueImageId = generateUniqueImageId(); // generate unique image code
+
   try {
-    var insertObj = {};
-
-    extractExifData(imageName, function (exifData) {
-      insertObj = {
-        path: filePath,
-        originalname: imageName,
-        description: req.body.description,
-        category:req.body.category,
-
-        location: {
-          coordinates: [
-            parseFloat(req.body.longitude),
-            parseFloat(req.body.latitude),
-          ],
-          type: 'Point'
-        },
-        likes:{
-          userId:"1",
-          imageId:uniqueImageId,
-          count:0
-        },
-        comments:[
-          {
-            userId:"1",
-            imageId:uniqueImageId,//generate unique image code
-            text:"",
-            date: getCurrentDate()
-          }
-      ]
+    getUserByToken(token).then((user) => {
+      if (!user) {
+        return Promise.reject();
       }
 
-      var upload_image = new Image(insertObj);
-      upload_image.save(function (err, image) {
-        if (err)
-          res.status(400).send(err);
+      var insertObj = {};
 
-        res.json({
-          success: 'true',
-          message: 'Image uploaded successfully'
+      extractExifData(imageName, function (exifData) {
+        insertObj = {
+          path: filePath,
+          originalname: imageName,
+          description: req.body.description,
+          category:req.body.category,
+
+          location: {
+            coordinates: [
+              parseFloat(req.body.longitude),
+              parseFloat(req.body.latitude),
+            ],
+            type: 'Point'
+          },
+
+          userId: user._id,
+
+          likes: [],
+          comments:[
+            {
+              userId:"1",
+              imageId:uniqueImageId,//generate unique image code
+              text:"",
+              date: getCurrentDate()
+            }
+          ]
+        }
+
+        var upload_image = new Image(insertObj);
+        upload_image.save(function (err, image) {
+          if (err)
+            res.status(400).send(err);
+
+          res.json({
+            success: 'true',
+            message: 'Image uploaded successfully'
+          });
+        });
+      }, function(error) {
+        res.status(400).json({
+          status: 'error',
+          message: error.message
         });
       });
-    }, function(error) {
-      res.status(400).json({
-        status: 'error',
-        message: error.message
-      });
-    })
+    });
+
   } catch (error) {
     res.status(400).json({
       status: 'error',
@@ -184,7 +203,7 @@ exports.delete_an_image = function(req, res) {
     _id: req.params.ImageId
   }, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json({success: 'true', message: 'Image successfully deleted'});
   });
 };
@@ -192,7 +211,7 @@ exports.delete_an_image = function(req, res) {
 exports.read_an_image = function(req, res) {
   Image.findById(req.params.ImageId, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(image);
   });
 };
@@ -201,20 +220,62 @@ exports.read_an_image = function(req, res) {
 exports.list_all_images = function(req, res) {
   Image.find({}, function(err, image) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(image);
   });
 };
 
-//Image like {'post': {$ne : ""}}
-exports.update_image_like_couter=function(req,res,next) {
-  Image.update({"likes.imageId":req.params.imageId} && {"likes.userId":{$ne:req.params.userId}} && {"likes.count":0},  //$ne=not equal
-    {$inc: {"likes.count": 1}}, (err, like) => {
-      if (err)
-        res.send(err)
-      res.json({success: 'true', message: 'Like Updated successfully'});
-    });
+/**
+ * Get all images uploaded by current user
+ * @param  {Object} req
+ * @param  {Object} res
+ */
+exports.get_users_images = function(req, res) {
+  var token = req.header('x-auth');
 
+  getUserByToken(token)
+    .then((user) => {
+      Image.find({
+        userId: user._id
+      }, function(err, images) {
+        if (err)
+          res.status(400).send(err);
+
+        res.json({
+          images
+        });
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    });
+}
+
+//Image like {'post': {$ne : ""}}
+exports.update_image_like_couter = function(req,res,next) {
+  var token = req.header('x-auth');
+
+  getUserByToken(token)
+    .then((user) => {
+      Image.findByIdAndUpdate(req.params.id, {
+          $addToSet: {
+            'likes': user._id
+          }
+        }, {new: true}, function (err, group) {
+          if (err)
+            res.status(400).send(err);
+
+          res.json({
+            message: 'Like successfully added to group'
+          });
+        });
+    })
+    .catch((error) => {
+      console.log('ERROR', error)
+    });
 };
 
 //Image comment
@@ -229,7 +290,7 @@ exports.update_comment = function(req, res) {
     }
     ,(err, image) => {
       if (err)
-        res.send(err)
+        res.status(400).send(err)
       res.json({success: 'true', message: 'Comment Updated successfully'});
     });
 };

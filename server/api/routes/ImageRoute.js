@@ -27,6 +27,9 @@ module.exports = function(app) {
   app.route('/images/search')
     .get(image.search_image_by_location);
 
+  app.route('/images/my')
+    .get(image.get_users_images);
+
   // Image Upload  Routes
   app.route('/upload')
     .get(image.list_all_images)
@@ -47,8 +50,8 @@ module.exports = function(app) {
     .get(image_category.read_category_by_id);
 
   //image like
-  app.route('/imageLike/:imageId/:userId')
-    .put(image.update_image_like_couter)
+  app.route('/imageLike/:id')
+    .put(image.update_image_like_couter);
 
   //image comment
  app.route('/imageComment/:imageId/:userId')

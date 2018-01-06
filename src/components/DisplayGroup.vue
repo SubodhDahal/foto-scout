@@ -8,20 +8,29 @@
             Create Group
           </b-button>
         </router-link>
-
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-8 offset-2 mt-4">
+    <div class="row mt-4">
+      <div class="col-md-3 offset-2">
+        <b-list-group>
+          <b-list-group-item
+            href="#"
+            v-for="group in groups"
+            :key="group._id"
+            :active="group._id==activeGroup._id"
+            @click.prevent="setActive(group)">
+            {{ group.name }}
+          </b-list-group-item>
+        </b-list-group>
+      </div>
 
-        <b-card no-body>
-          <b-tabs pills card vertical>
-            <b-tab v-for="group in groups" :title="group.name" :key="group._id">
-             {{ group.description}}
-            </b-tab>
-          </b-tabs>
-        </b-card>
+      <div class="col-md-5 white-bg br-5 p-3">
+        <p>{{ activeGroup.description }}</p>
+
+        <p>
+          <strong>Members:</strong>
+        </p>
       </div>
     </div>
   </div>
@@ -31,6 +40,16 @@
   import { mapGetters } from 'vuex'
 
   export default {
+    data () {
+      return {
+        activeGroup: {
+          _id: 0,
+          name: '',
+          description: ''
+        }
+      }
+    },
+
     computed: {
       /* get groups from VueX Store */
       ...mapGetters([
@@ -41,11 +60,18 @@
     mounted () {
       this.$store.dispatch('getGroupList')
         .then((res) => {
+          this.activeGroup = this.groups.length ? this.groups[0] : {}
           console.log('RES', res)
         })
         .catch((error) => {
           console.log('ERROR', error)
         })
+    },
+
+    methods: {
+      setActive (group) {
+        this.activeGroup = group
+      }
     }
   }
 </script>

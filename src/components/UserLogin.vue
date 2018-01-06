@@ -65,7 +65,8 @@ export default {
           // save auth token to localstorage
           localStorage.setItem('authToken', lastToken.token)
 
-          this.$route.router.go('Home')
+          // redirect to home page after successful registration
+          this.$router.push({name: 'Home'})
 
           this.$store.dispatch('getUserDetails')
             .then((res) => {

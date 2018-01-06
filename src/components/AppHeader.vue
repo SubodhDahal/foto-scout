@@ -10,19 +10,29 @@
       <div class="col-12 col-md-2 text-center">
         <LanguageSelector />
         <br>
-        <router-link :to="{name:'Registration'}">{{ $t('register') }}</router-link>
-        <router-link :to="{name:'UserLogin'}">{{ $t('login') }}</router-link>
+        <template v-if="!isUserLoggedIn">
+          <router-link :to="{name:'Registration'}">{{ $t('register') }}</router-link> |
+          <router-link :to="{name:'UserLogin'}">{{ $t('login') }}</router-link>
+        </template>
       </div>
     </div>
   </header><!-- /header -->
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import LanguageSelector from './LanguageSelector'
 
   export default {
     components: {
       LanguageSelector
+    },
+
+    computed: {
+      ...mapGetters([
+        'isUserLoggedIn',
+        'userDetails'
+      ])
     }
   }
 </script>

@@ -1,16 +1,31 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  group = mongoose.model('Group');
+  group = mongoose.model('Group'),
+  User = mongoose.model('User'),
+  {getUserByToken} = require('../common/users');
 
 // create group
 exports.create_a_group = function (req, res) {
-  var new_group = new group(req.body);
-  new_group.save(function (err, group) {
-    if (err)
-      res.send(err);
-    res.json({success: 'true', message: 'group created'});
-  });
+  var new_group = new group(req.body),
+    token = req.header('x-auth');
+
+  getUserByToken(token)
+    .then((user) => {
+      new_group.admins = [user._id];
+
+      new_group.save(function (err, group) {
+        if (err)
+          res.status(400).send(err);
+        res.json({success: 'true', message: 'Group created'});
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    })
 };
 
 // read group
@@ -19,7 +34,7 @@ exports.read_group = function (req, res) {
     _id: req.params.id
   }, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(group);
   })
 };
@@ -32,7 +47,7 @@ exports.update_group = function (req, res) {
       description: req.body.description
     }
   }, {new: false}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.send({
       message: 'Group updated successfully',
@@ -47,7 +62,7 @@ exports.delete_group = function (req, res) {
     _id: req.params.id
   }, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json({success: 'true', message: 'Successfully deleted group'});
     // res.json({ message: 'group successfully deleted' });
   });
@@ -57,7 +72,7 @@ exports.delete_group = function (req, res) {
 exports.list_all_group = function (req, res) {
   group.find({}, function (err, group) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(group);
   });
 };
@@ -70,7 +85,7 @@ exports.add_user_to_group = function (req, res) {
       'users': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'User successfully added to group',
@@ -86,7 +101,7 @@ exports.delete_user_from_group = function (req, res) {
       'users': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'User successfully deleted from group',
@@ -102,7 +117,7 @@ exports.add_admin_to_group = function (req, res) {
       'admins': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'admin successfully added to group',
@@ -118,7 +133,7 @@ exports.delete_admin_from_group = function (req, res) {
       'admins': req.body.user_id
     }
   }, {new: true}, function (err, group) {
-    if (err) res.send(err);
+    if (err) res.status(400).send(err);
 
     res.json({
       message: 'admin successfully deleted from  group',

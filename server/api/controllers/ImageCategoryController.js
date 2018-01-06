@@ -5,8 +5,11 @@ var mongoose = require('mongoose'),
 exports.get_category = function(req, res) {
   ImageCategory.find({}, function(err, category) {
     if (err)
-      res.send(err);
-    res.json(category);
+      res.status(400).send(err);
+    res.json({
+      status: 'success',
+      imageCategories: category
+    });
   });
 };
 
@@ -15,7 +18,7 @@ exports.create_category=function(req,res,next){
   var new_category = new ImageCategory(req.body);
   new_category.save(function (err, category) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(category);
     //  res.send('Image upload successfully');
   });
@@ -24,7 +27,7 @@ exports.create_category=function(req,res,next){
 exports.update_category = function(req, res) {
   ImageCategory.update({_id: req.params.CategoryId},{$set: {categoryName:req.body.categoryName}},(err, category) => {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json("Category Updated successfully");
   });
 };
@@ -34,7 +37,7 @@ exports.delete_category = function(req, res) {
     _id: req.params.CategoryId
   }, function(err, category) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json({success: 'true', message: 'Successfully Deleted Category'});
   });
 };
@@ -43,7 +46,7 @@ exports.delete_category = function(req, res) {
 exports.read_category_by_id = function(req, res) {
   ImageCategory.findById(req.params.CategoryId, function(err, category) {
     if (err)
-      res.send(err);
+      res.status(400).send(err);
     res.json(category);
   });
 };

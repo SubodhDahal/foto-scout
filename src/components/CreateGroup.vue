@@ -54,7 +54,15 @@
           description: this.description
         }
 
-        axios.post('http://localhost:3000/group', data)
+        let authToken = localStorage.getItem('authToken')
+
+        let config = {
+          headers: {
+            'x-auth': authToken
+          }
+        }
+
+        axios.post('http://localhost:3000/group', data, config)
           .then((response) => {
             if (response.data.success === 'true') {
               this.isGroupCreated = true

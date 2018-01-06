@@ -26,28 +26,22 @@ var imageSchema = new mongoose.Schema({
     required: false,
     validate: descriptionValidator
   },
-  GPSLatitude:{
-    type:String,
-    required:false
+  userId: {
+    type: String,
   },
-  GPSLongitude:{
-    type:String,
-    required:false
+  location: {
+    type: Object
   },
-  location:{
-    type:Object
+  metadata: {
+    type: Object,
+    required: false
   },
-  metadata:
-    {
-      type: Object,
-      required: false
-    },
   category:{
     type: Array,
     required:false
   },
   likes:{
-    type:Object
+    type: Array
   },
   comments:{
     type:Object

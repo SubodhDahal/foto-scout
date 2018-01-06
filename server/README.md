@@ -10,6 +10,10 @@ API for the FotoScout system
 # install dependencies
 npm install
 
+# install seed data to database
+# (only needs to be run once)
+npm run seed
+
 # run the node server
 node app.js
 ```
