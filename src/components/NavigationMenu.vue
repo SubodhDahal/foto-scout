@@ -48,6 +48,9 @@
     methods: {
       logout () {
         this.$store.dispatch('logoutUser')
+          .then(() => {
+            this.$router.push({name: 'Home'})
+          })
       }
     }
   }
