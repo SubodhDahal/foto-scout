@@ -269,22 +269,42 @@ exports.get_users_images = function(req, res) {
     });
 }
 
-//Image like {'post': {$ne : ""}}
+/**
+ * Like/dislike an image
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 exports.update_image_like_couter = function(req,res,next) {
   var token = req.header('x-auth');
 
   getUserByToken(token)
     .then((user) => {
-      Image.findByIdAndUpdate(req.params.id, {
+      if (req.params.action === 'like') {
+        var parameters = {
           $addToSet: {
             'likes': user._id
           }
-        }, {new: true}, function (err, group) {
+        }
+      } else {
+        var parameters = {
+          $pull: {
+            'likes': user._id
+          }
+        }
+      }
+
+      Image.findByIdAndUpdate(
+        req.params.id,
+        parameters,
+        {new: true},
+        function (err, group) {
           if (err)
             res.status(400).send(err);
 
           res.json({
-            message: 'Like successfully added to image'
+            message: 'Like successfully updated to image'
           });
         });
     })

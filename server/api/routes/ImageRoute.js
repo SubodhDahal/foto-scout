@@ -50,7 +50,7 @@ module.exports = function(app) {
     .get(image_category.read_category_by_id);
 
   //image like
-  app.route('/imageLike/:id')
+  app.route('/imageLike/:id/:action')
     .put(image.update_image_like_couter);
 
   //image comment
