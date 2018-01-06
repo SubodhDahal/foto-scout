@@ -3,12 +3,16 @@
     <div class="col-md-12">
       <div class="form-group form-inline mt-5">
         <gmap-autocomplete
-          class="form-control p-3 mr-2 w-100"
+          class="form-control p-3 mr-2 search-box"
           :placeholder="$t('searchText')"
           :value="locationName"
           @place_changed="changeLocation"
         >
         </gmap-autocomplete>
+
+        <button class="btn btn-primary py-3 px-4" type="submit" @click.prevent="getImageResults">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
 
@@ -72,3 +76,9 @@
     }
   }
 </script>
+
+<style>
+  .search-box {
+    width: 90% !important;
+  }
+</style>

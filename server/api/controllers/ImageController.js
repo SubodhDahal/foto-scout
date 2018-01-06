@@ -44,8 +44,14 @@ exports.search_image_by_location = function(req, res) {
       $geoWithin: {
         $centerSphere: centerSphere
       }
-    },
-    category: {
+    }
+  }
+
+  // search by category only if categories are specified
+  // or all is not selected as a category
+  if (typeof req.query.categories !== 'undefined'
+    && req.query.categories.indexOf('0') === -1) {
+    searchParameters.category = {
       $in: req.query.categories
     }
   }
