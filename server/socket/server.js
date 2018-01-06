@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+var chatModel = require('./api/models/chatModel');
 users = [];
 connections = [];
 
@@ -34,7 +35,7 @@ io.on('connection', function(socket){
         //to boardcast message
         socket.on('send message', function(data){
           console.log(data);
-          io.sockets.emit('new message', {msg: data});
+          io.sockets.emit('new message', {msg: data, user: socket.username});
         });
 
         //to add new users
@@ -50,6 +51,23 @@ io.on('connection', function(socket){
         };
 });
 
-
-
-
+// //connect to mongodb
+// mongoose.connect('mongodb://localhost/FotoScoutDB');
+//
+// mongoose.connection.on('open', function (ref) {
+//   console.log('Connected to mongo server.');
+// });
+// mongoose.connection.on('error', function (err) {
+//   console.log('Could not connect to mongo server!');
+//   console.log(err);
+// });
+// module.exports.online=mongoose.model('online',new Schema({
+//   handle:String,
+//   connection_id:String
+// }));
+// module.exports.messages=mongoose.model('message',new Schema({
+//   message : String,
+//   sender  : String,
+//   reciever: String,
+//   date    : Date
+// }));
