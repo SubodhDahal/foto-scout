@@ -119,7 +119,8 @@ export default {
           params: {
             latitude: payload.lat,
             longitude: payload.lng,
-            radius: payload.radius
+            radius: payload.radius,
+            categories: payload.categories
           }
         })
         .then(function (response) {

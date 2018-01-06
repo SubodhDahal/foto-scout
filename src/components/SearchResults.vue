@@ -4,9 +4,9 @@
       <div class="col-md-4">
         <h2 class="d-inline">Image results in:</h2> {{ locationName }}
       </div>
-
-      <ImageGallery :images="images" />
     </div>
+
+    <ImageGallery :images="images" />
   </div>
 </template>
 

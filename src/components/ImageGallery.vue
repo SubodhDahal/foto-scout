@@ -10,7 +10,7 @@
       <LikeImage :id="image._id" :likes="image.likes" />
 
       <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
-        <img :src="`http://localhost:3000/${image.path}`" class="img-fluid" height="250"/>
+        <img :src="`http://localhost:3000/${image.path}`" class="img-fluid w-100" height="250"/>
       </router-link>
     </div>
   </div>

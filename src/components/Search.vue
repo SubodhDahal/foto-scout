@@ -54,9 +54,11 @@
        * Get the images for the selected location
        */
       getImageResults () {
+        console.log('here')
         let payload = {
           ...this.locationCoordinates,
-          radius: this.searchOptions.radius
+          radius: this.searchOptions.radius,
+          categories: this.searchOptions.categories
         }
 
         this.$store.dispatch('getImageResults', payload)

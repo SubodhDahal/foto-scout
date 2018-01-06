@@ -39,12 +39,21 @@ exports.search_image_by_location = function(req, res) {
                       parseFloat(latitude)
                     ], maxDistance];
 
-  return Image.find({
+  var searchParameters = {
     location: {
       $geoWithin: {
         $centerSphere: centerSphere
       }
-    }}).limit(10).exec(function(err, images) {
+    },
+    category: {
+      $in: req.query.categories
+    }
+  }
+
+  console.log(searchParameters)
+
+  return Image.find(searchParameters)
+    .limit(10).exec(function(err, images) {
       if (err) {
         return res.status(500)
                   .json(err);
@@ -269,7 +278,7 @@ exports.update_image_like_couter = function(req,res,next) {
             res.status(400).send(err);
 
           res.json({
-            message: 'Like successfully added to group'
+            message: 'Like successfully added to image'
           });
         });
     })
