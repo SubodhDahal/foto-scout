@@ -1,14 +1,14 @@
 <template>
-  <div class="like-image py-2 px-4">
-    <a href="#" @click.prevent="toggle"  class="d-inline">
+  <div class="like-image">
+    <a href="#" @click.prevent="toggle" class="d-inline btn btn-light p-2">
       <i class="fa fa-thumbs-o-up like-button" v-if="!isLiked" aria-hidden="true"></i>
 
-      <i class="fa fa-thumbs-up like-button mr-2" v-if="isLiked" aria-hidden="true" title="Liked"></i>
-    </a>
+      <i class="fa fa-thumbs-up like-button" v-if="isLiked" aria-hidden="true" title="Liked"></i>
 
-    <span class="d-inline ml-3 likes-count">
-      {{ likes.length }} like{{ likes.length > 1 ? 's' : '' }}
-    </span>
+      <span class="d-inline ml-2 likes-count">
+        {{ likes.length }}
+      </span>
+    </a>
   </div>
 </template>
 
@@ -75,12 +75,12 @@
 <style>
   .like-image {
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
+    left: 10px;
     width: 100%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,1) 100%);
   }
 
   .like-button {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
   }
 </style>

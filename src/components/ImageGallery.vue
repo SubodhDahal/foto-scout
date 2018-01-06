@@ -7,13 +7,16 @@
     </div>
 
     <div v-for="image in images" class="mt-4 col-md-4">
-      <router-link
-        :to="{name:'EditImage',params:{id:image._id}}"
-        v-if="image.userId==userDetails._id">
-        <b-button>Edit</b-button>
-      </router-link>
-
       <div class="image">
+        <div class="user-controls">
+          <router-link
+            class="btn btn-light"
+            :to="{name:'EditImage',params:{id:image._id}}"
+            v-if="image.userId==userDetails._id">
+            Edit
+          </router-link>
+        </div>
+
         <LikeImage :id="image._id" :likes="image.likes" />
 
         <router-link :to="{name:'CarouselImage',params:{id:image._id}}">
@@ -51,5 +54,11 @@
 <style>
   .image {
     position: relative;
+  }
+
+  .user-controls {
+    position: absolute;
+    right: 5px;
+    top: 5px;
   }
 </style>
