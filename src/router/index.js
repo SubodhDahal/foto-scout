@@ -9,6 +9,7 @@ import CreateGroup from '@/components/CreateGroup'
 import UpdateGroup from '@/components/UpdateGroup'
 import Registration from '@/components/User/Registration.vue'
 import UserLogin from '@/components/User/Login'
+import Profile from '@/components/User/Profile'
 import EditImage from '@/components/EditImage'
 import UserImages from '@/components/UserImages'
 
@@ -23,13 +24,18 @@ export default new Router({
     },
     {
       path:'/register',
-       name:'Registration',
-       component:Registration
+      name:'Registration',
+      component:Registration
     },
     {
       path:'/login',
       name:'UserLogin',
       component:UserLogin
+    },
+    {
+      path:'/profile',
+      name:'Profile',
+      component:Profile
     },
     {
       path:'/profile/images',

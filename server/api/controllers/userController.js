@@ -118,7 +118,10 @@ exports.profile_edit = [
         if(err){
           return res.status(500).send({message:'we are having trouble, please try again later'})
         }
-        res.send(user);
+        res.send({
+          status: 'success',
+          user
+        });
       })
     }).catch((e) => {
       res.status(401).send({message: 'unauthorised user'});

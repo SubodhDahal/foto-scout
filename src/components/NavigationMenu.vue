@@ -32,6 +32,9 @@
             Welcome {{ userDetails.firstname }}
           </li>
           <li class="nav-item mr-4">
+            <router-link :to="{name:'Profile'}">Profile</router-link>
+          </li>
+          <li class="nav-item mr-4">
             <a href="#" @click.prevent="logout">Logout</a>
           </li>
         </ul>
