@@ -2,6 +2,7 @@
 //web socket
 var express = require('express');
 var app = express();
+var mongoose = require('mongoose');
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var chatModel = require('./api/models/chatModel');
@@ -11,6 +12,18 @@ connections = [];
 //server connection
 server.listen(process.env.PORT || 3000);
 console.log ('Server is running.....');
+
+var chatModel = mongoose.model('Chat');
+//connect to mongodb
+mongoose.connect('mongodb://localhost/FotoScoutDB');
+
+mongoose.connection.on('open', function (ref) {
+  console.log('Connected to mongo server.');
+});
+mongoose.connection.on('error', function (err) {
+  console.log('Could not connect to mongo server!');
+  console.log(err);
+});
 
 //routing
 app.get ('/', function(req, res){
@@ -34,8 +47,16 @@ io.on('connection', function(socket){
 
         //to boardcast message
         socket.on('send message', function(data){
-          console.log(data);
-          io.sockets.emit('new message', {msg: data, user: socket.username});
+          var newMsg = new chatModel({msg: '' + data});
+
+          console.log('saving newMsg: ' + newMsg);
+
+          newMsg.save(function(err){
+            console.log('saved, err = ' + err);
+            if(err) throw err;
+            console.log('echoeing back data =' + data);
+            io.sockets.emit('new message',{msg: data, user: socket.username});
+            });
         });
 
         //to add new users
@@ -49,25 +70,5 @@ io.on('connection', function(socket){
         function updateUsernames () {
               io.sockets.emit('get users', users);
         };
-});
 
-// //connect to mongodb
-// mongoose.connect('mongodb://localhost/FotoScoutDB');
-//
-// mongoose.connection.on('open', function (ref) {
-//   console.log('Connected to mongo server.');
-// });
-// mongoose.connection.on('error', function (err) {
-//   console.log('Could not connect to mongo server!');
-//   console.log(err);
-// });
-// module.exports.online=mongoose.model('online',new Schema({
-//   handle:String,
-//   connection_id:String
-// }));
-// module.exports.messages=mongoose.model('message',new Schema({
-//   message : String,
-//   sender  : String,
-//   reciever: String,
-//   date    : Date
-// }));
+});

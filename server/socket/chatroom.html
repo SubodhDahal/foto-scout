@@ -317,7 +317,7 @@
 </head>
 <body>
 
-            <div class="container" style="margin-top: 20px">
+<div class="container" style="margin-top: 20px">
 
               <div id="userFormArea" class="row">
                 <div class="col-md-12">
@@ -326,145 +326,41 @@
                       <label>Enter Username</label>
                       <input class="form-control" id="username"/>
                       <br/>
-                      <input type="submit" class="btn btn-primary " value="Login">
+                      <input type="submit" class="btn btn-primary " value="Login" id="btn1">
                     </div>
                   </form>
                 </div>
               </div>
-            </div>
-
-
-            <div class="col-md-12">
-
-
-              <div class="col-md-12">
-                <div class="chat_container">
-                  <div class="row">
-
-                    <div class="col-sm-4 col-md-3 mob-clearfix">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="card-container">
-                            <div class="card">
-                              <div class="front">
-                                <div class="cover">
-
-                                </div>
-                                <div class="user cover-img">
-                                  <img src="https://placehold.it/300x300" class="img-circle" alt="">
-                                </div>
-                                <div class="content">
-                                  <div class="main">
-                                    <h3 class="name">Username || Fullname</h3>
-                                    <p class="profession-online">
-                                      <i class="fa fa-circle online" aria-hidden="true"></i>
-                                      Online
-                                    </p>
-                                  </div>
-                                  <div class="footer">
-                                    <i class="fa fa-mail-forward"></i>
-                                    <a href="#">
-                                      View My Profile
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
 
 
 
-                    <div class="col-sm-5 col-md-6 message_section">
-                      <div class="row">
-                        <div class="new_message_head">
-                          <div class="pull-left">
-                            <button class="club_name">
-                              Group Name
-                            </button>
-                          </div>
-                          <div class="pull-right">
-                          </div>
-                        </div>
-
-                        <div class="chat_area">
-                          <div class="chat" id="chat">
-
-                          </div>
-                        </div>
-
-                        <div class="message_write">
-                          <form action="#" id="messageForm">
-
-                            <textarea class="form-control" name="message" id="message" placeholder="Type a message"></textarea>
-                            <div class="clearfix"></div>
-                            <div class="chat_bottom">
-                              <input type="submit" class="btn btn-success" value="Send Message" />
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3 col-md-3 mob-50 mob-clearfix">
 
 
-                      <div class="new_message_head">
-                        <div class="pull-left">
-                          <button class="club_fans">
-                            <i class="fa fa-users" aria-hidden="true" style="padding-right:15px; color:#4aa1f3 !important;"></i>
-                            Online group Member <span id="numValue"></span>
-                          </button>
-                          <ul class="list-group" id="users">
-                          </ul>
-                        </div>
-                      </div>
+
+
+                <div id="messageArea" class="row">
+                  <div class="col-md-4">
+                    <div class="well">
+                      <h3> Online Users</h3>
+                      <ul class="list-group" id="users"></ul>
                     </div>
                   </div>
+                  <div class="col-md-8">
+                    <div class="chat" id="chat">
+
+                    </div>
+
+                    <form id="messageForm">
+                      <div class="form-group">
+                        <label>Enter Message</label>
+                        <textarea class="form-control" id="message"></textarea>
+                        <br>
+                        <input type="submit" class="btn btn-success" value="Send Message" />
+                      </div>
+                    </form>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-
-
-
-
-            <!--/* new design */-->
-
-
-
-<!--/* old design */-->
-
-
-
-                <!--<div id="messageArea" class="row">-->
-                  <!--<div class="col-md-4">-->
-                    <!--<div class="well">-->
-                      <!--<h3> Online Users</h3>-->
-                      <!--<ul class="list-group" id="users"></ul>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div class="col-md-8">-->
-                    <!--<div class="chat" id="chat">-->
-
-                    <!--</div>-->
-
-                    <!--<form id="messageForm">-->
-                      <!--<div class="form-group">-->
-                        <!--<label>Enter Message</label>-->
-                        <!--<textarea class="form-control" id="message"></textarea>-->
-                        <!--<br>-->
-                        <!--<input type="submit" class="btn btn-success" value="Send Message" />-->
-                      <!--</div>-->
-                    <!--</form>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-        <!--</div>-->
+</div>
 
   <script>
     $(function(){
