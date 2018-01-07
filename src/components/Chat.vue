@@ -13,7 +13,8 @@
         <b-list-group>
           <b-list-group-item
             href="#"
-            v-for="user in activeUsers">
+            :key="index"
+            v-for="(user, index) in activeUsers">
             {{ user }}
           </b-list-group-item>
         </b-list-group>
@@ -22,8 +23,14 @@
       <div class="col-md-5">
         <h4>Messages:</h4>
 
+        <ul class="p-0 messages">
+          <li v-for="message in messages" class="card p-2 px-4 mb-2">
+            <strong>{{ message.user }}</strong> {{ message.msg }}
+          </li>
+        </ul>
+
         <b-form-group>
-          <b-form-textarea v-model="messageText" rows="4">
+          <b-form-textarea v-model="messageText" rows="2" placeholder="Write your message">
           </b-form-textarea>
         </b-form-group>
 
@@ -34,11 +41,6 @@
           <div class="clearfix"></div>
         </b-form-group>
 
-        <ul>
-          <li v-for="message in messages">
-            <strong>{{ message.user }}</strong> {{ message.msg }}
-          </li>
-        </ul>
       </div>
     </div>
   </div>
@@ -66,7 +68,7 @@
     },
 
     created () {
-      this.socket = io('http://localhost:3030/')
+      this.socket = io('http://localhost:3000/')
 
       // listen for new messges
       this.socket.on('new message', (data) => {
@@ -105,5 +107,8 @@
 </script>
 
 <style>
-
+  .messages {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 </style>
