@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-10 offset-md-1 mb-2">
-        <h2>Group chat</h2>
+        <h2>Group chat: {{ groupName }}</h2>
         <hr>
       </div>
     </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import { mapGetters } from 'vuex'
   import io from 'socket.io-client'
 
@@ -44,6 +45,7 @@
     data () {
       return {
         groupId: this.$route.params.groupId,
+        groupName: '',
         userName: '',
         messageText: '',
         messages: [],
@@ -59,6 +61,11 @@
     },
 
     created () {
+      axios.get(`http://localhost:3000/group/${this.groupId}`)
+        .then((response) => {
+          this.groupName = response.data.group.name
+        })
+
       this.socket = io('http://localhost:3000/')
 
       // listen for new messges
@@ -97,10 +104,6 @@
         console.log('Sending user info')
         this.socket.emit('new user', this.userName, (data) => {
         })
-      },
-
-      $route (to, from) {
-        this.getActiveUsers()
       }
     }
   }

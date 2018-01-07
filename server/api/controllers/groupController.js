@@ -84,34 +84,56 @@ exports.list_all_group = function (req, res) {
 
 //add user
 exports.add_user_to_group = function (req, res) {
-  group.findByIdAndUpdate(req.params.id, {
-    $addToSet: {
-      'users': req.body.user_id
-    }
-  }, {new: true}, function (err, group) {
-    if (err) res.status(400).send(err);
+  let token = req.header('x-auth');
 
-    res.json({
-      message: 'User successfully added to group',
-      group: group
-    });
-  });
+  getUserByToken(token)
+    .then((user) => {
+      group.findByIdAndUpdate(req.params.id, {
+        $addToSet: {
+          'users': user._id
+        }
+      }, {new: true}, function (err, group) {
+        if (err) res.status(400).send(err);
+
+        res.json({
+          message: 'User successfully added to group',
+          group: group
+        });
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    })
 };
 
 //delete user
 exports.delete_user_from_group = function (req, res) {
-  group.findByIdAndUpdate(req.params.id, {
-    $pull: {
-      'users': req.body.user_id
-    }
-  }, {new: true}, function (err, group) {
-    if (err) res.status(400).send(err);
+  let token = req.header('x-auth');
 
-    res.json({
-      message: 'User successfully deleted from group',
-      group: group
-    });
-  });
+  getUserByToken(token)
+    .then((user) => {
+      group.findByIdAndUpdate(req.params.id, {
+        $pull: {
+          'users': user._id
+        }
+      }, {new: true}, function (err, group) {
+        if (err) res.status(400).send(err);
+
+        res.json({
+          message: 'User successfully deleted from group',
+          group: group
+        });
+      });
+    })
+    .catch(({message}) => {
+      res.status(400).send({
+        status: 'error',
+        message
+      })
+    })
 };
 
 //add admin to the group
