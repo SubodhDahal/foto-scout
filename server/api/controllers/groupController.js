@@ -35,7 +35,11 @@ exports.read_group = function (req, res) {
   }, function (err, group) {
     if (err)
       res.status(400).send(err);
-    res.json(group);
+
+    res.json({
+      status: 'success',
+      group
+    });
   })
 };
 

@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <b-button @click.prevent="like" v-if="!isLiked">
-      Like
-    </b-button>
+  <div class="like-image">
+    <a href="#" @click.prevent="toggle" class="d-inline btn btn-light px-2 py-1">
+      <i class="fa fa-heart-o like-button" v-if="!isLiked" aria-hidden="true"></i>
 
-    <div v-if="isLiked">
-      <p>Liked</p>
-      <p>{{ likes.length }} like{{ likes.length > 1 ? 's' : '' }}</p>
-    </div>
+      <i class="fa fa-heart like-button" v-if="isLiked" aria-hidden="true" title="Liked"></i>
+
+      <span class="d-inline ml-2 likes-count">
+        {{ likes.length }}
+      </span>
+    </a>
   </div>
 </template>
 
@@ -40,11 +41,15 @@
         set (value) {
           return value
         }
+      },
+
+      action () {
+        return this.isLiked ? 'unlike' : 'like'
       }
     },
 
     methods: {
-      like () {
+      toggle () {
         let authToken = localStorage.getItem('authToken')
         let config = {
           headers: {
@@ -52,11 +57,31 @@
           }
         }
 
-        axios.put(`http://localhost:3000/imageLike/${this.id}`, {}, config)
+        axios.put(`http://localhost:3000/imageLike/${this.id}/${this.action}`, {}, config)
           .then((response) => {
-            this.isLiked = true
+            if (this.action === 'like') {
+              // add current user to the list of likes for the image
+              this.likes.push(this.userDetails._id)
+            } else {
+              // remove current user from the list of likes for the image
+              this.likes.pop(this.userDetails._id)
+            }
           })
       }
     }
   }
 </script>
+
+<style>
+  .like-image {
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    width: 100%;
+  }
+
+  .like-button {
+    font-size: 1rem;
+    color: #f15151;
+  }
+</style>

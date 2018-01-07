@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
-        <h2 class="d-inline">Image results in:</h2> {{ locationName }}
+      <div class="col-md-12">
+        <h2 class="d-inline">Image results in:</h2>
+        <h3 class="d-inline">{{ locationName }}</h3>
       </div>
-
-      <ImageGallery :images="images" />
     </div>
+
+    <ImageGallery :images="images" />
   </div>
 </template>
 

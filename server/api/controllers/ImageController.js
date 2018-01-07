@@ -5,6 +5,7 @@ var multer = require('multer'),
   User = mongoose.model('User'),
   dateFormat = require('dateformat'),
   ExifImage = require('exif').ExifImage,
+  {validator,check,validationResult} = require('express-validator/check'),
   {getUserByToken} = require('../common/users');
 
 /**
@@ -39,12 +40,27 @@ exports.search_image_by_location = function(req, res) {
                       parseFloat(latitude)
                     ], maxDistance];
 
-  return Image.find({
+  var searchParameters = {
     location: {
       $geoWithin: {
         $centerSphere: centerSphere
       }
-    }}).limit(10).exec(function(err, images) {
+    }
+  }
+
+  var categories = req.query.categories ? req.query.categories : null;
+
+  // search by category only if categories are specified
+  // or all is not selected as a category
+  if (categories
+    && req.query.categories.indexOf('0') === -1) {
+    searchParameters.category = {
+      $in: req.query.categories
+    }
+  }
+
+  return Image.find(searchParameters)
+    .exec(function(err, images) {
       if (err) {
         return res.status(500)
                   .json(err);
@@ -101,7 +117,7 @@ exports.upload_an_image = function (req,res,next) {
   var token = req.header('x-auth'),
     file = req.files[0],
     imageName = file.filename,
-    filePath = file.path.replace("public\\", ""),   // remove public\ from filepath
+    filePath = file.path.replace("public\\", "").replace('public/', ''),   // remove public\ from filepath
     uniqueImageId = generateUniqueImageId(); // generate unique image code
 
   try {
@@ -110,22 +126,12 @@ exports.upload_an_image = function (req,res,next) {
         return Promise.reject();
       }
 
-      var insertObj = {};
-
       extractExifData(imageName, function (exifData) {
-        insertObj = {
+        var insertObj = {
           path: filePath,
           originalname: imageName,
           description: req.body.description,
           category:req.body.category,
-
-          location: {
-            coordinates: [
-              parseFloat(req.body.longitude),
-              parseFloat(req.body.latitude),
-            ],
-            type: 'Point'
-          },
 
           userId: user._id,
 
@@ -138,6 +144,16 @@ exports.upload_an_image = function (req,res,next) {
               date: getCurrentDate()
             }
           ]
+        }
+
+        if (req.body.latitude !== '') {
+          insertObj.location = {
+            coordinates: [
+              parseFloat(req.body.longitude),
+              parseFloat(req.body.latitude),
+            ],
+            type: 'Point'
+          }
         }
 
         var upload_image = new Image(insertObj);
@@ -155,6 +171,12 @@ exports.upload_an_image = function (req,res,next) {
           status: 'error',
           message: error.message
         });
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        status: 'error',
+        message: error.message
       });
     });
 
@@ -199,14 +221,19 @@ exports.update_an_image = function(req, res) {
 
 //Delete an image by id
 exports.delete_an_image = function(req, res) {
-  Image.remove({
-    _id: req.params.ImageId
-  }, function(err, image) {
-    if (err)
-      res.status(400).send(err);
-    res.json({success: 'true', message: 'Image successfully deleted'});
-  });
+  var token = req.header('x-auth');
+
+  getUserByToken(token).then((user) => {
+    Image.remove({
+      _id: req.params.ImageId
+    }, function(err, image) {
+      if (err)
+        res.status(400).send(err);
+      res.json({success: 'true', message: 'Image successfully deleted'});
+    });
+  })
 };
+
 // Get an image by Id
 exports.read_an_image = function(req, res) {
   Image.findById(req.params.ImageId, function(err, image) {
@@ -254,22 +281,42 @@ exports.get_users_images = function(req, res) {
     });
 }
 
-//Image like {'post': {$ne : ""}}
+/**
+ * Like/dislike an image
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 exports.update_image_like_couter = function(req,res,next) {
   var token = req.header('x-auth');
 
   getUserByToken(token)
     .then((user) => {
-      Image.findByIdAndUpdate(req.params.id, {
+      if (req.params.action === 'like') {
+        var parameters = {
           $addToSet: {
             'likes': user._id
           }
-        }, {new: true}, function (err, group) {
+        }
+      } else {
+        var parameters = {
+          $pull: {
+            'likes': user._id
+          }
+        }
+      }
+
+      Image.findByIdAndUpdate(
+        req.params.id,
+        parameters,
+        {new: true},
+        function (err, group) {
           if (err)
             res.status(400).send(err);
 
           res.json({
-            message: 'Like successfully added to group'
+            message: 'Like successfully updated to image'
           });
         });
     })

@@ -9,8 +9,8 @@
         </div>
         <br>
 
-        <b-alert :show="isGroupCreated">
-          Group created successfully!
+        <b-alert :show="isGroupUpdated">
+          Group updated successfully!
         </b-alert>
 
         <b-form>
@@ -28,9 +28,9 @@
               </b-form-textarea>
             </b-form-group>
             <b-form-group>
-              <b-button type="submit" @click.prevent="onSubmit" variant="primary">{{ $t('labelforcreategroup') }}
+              <b-button type="submit" @click.prevent="onSubmit" variant="primary">
+                Update Group
               </b-button>
-              <b-button type="reset" @click.prevent="resetForm" variant="danger">{{ $t('labelforreset') }}</b-button>
             </b-form-group>
           </div>
         </b-form>
@@ -44,11 +44,23 @@
   export default {
     data () {
       return {
-        isGroupCreated: false,
+        isGroupUpdated: false,
+        groupId: this.$route.params.id,
         description: ' ',
         groupname: ''
       }
     },
+
+    mounted () {
+      axios.get(`http://localhost:3000/group/${this.groupId}`)
+        .then((response) => {
+          if (response.data.status === 'success') {
+            this.description = response.data.group.description
+            this.groupname = response.data.group.name
+          }
+        })
+    },
+
     methods: {
       onSubmit () {
         let data = {
@@ -64,20 +76,10 @@
           }
         }
 
-        axios.post('http://localhost:3000/group', data, config)
+        axios.put(`http://localhost:3000/group/${this.groupId}`, data, config)
           .then((response) => {
-            if (response.data.success === 'true') {
-              this.resetForm()
-
-              this.isGroupCreated = true
-            }
+            this.isGroupUpdated = true
           })
-      },
-
-      resetForm () {
-        this.groupname = ''
-        this.description = ''
-        this.isGroupCreated = false
       }
     }
   }

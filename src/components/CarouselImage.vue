@@ -9,7 +9,7 @@
                 :value="currentSlide()"
     >
       <b-carousel-slide
-        v-for="image in images"
+        v-for="image in imagesList"
         :img-src="`http://localhost:3000/${image.path}`"
         :caption="image.description"
         :key="image.id">
@@ -25,8 +25,17 @@
     computed: {
       /* get images from VueX Store */
       ...mapGetters([
-        'images'
-      ])
+        'images',
+        'userImages'
+      ]),
+
+      imagesList () {
+        if (this.$route.params.type === 'user') {
+          return this.userImages
+        } else {
+          return this.images
+        }
+      }
     },
 
     methods: {
@@ -35,10 +44,10 @@
        * @return {Integer}
        */
       currentSlide () {
-        var found = this.images.find((image) => {
-          return image.id === this.$route.params.id
+        var found = this.imagesList.find((image) => {
+          return image._id === this.$route.params.id
         })
-        return this.images.indexOf(found)
+        return this.imagesList.indexOf(found)
       }
     }
   }

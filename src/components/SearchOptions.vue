@@ -80,11 +80,6 @@
        */
       options: {
         handler (newOptions) {
-          // if 'All' is selected as category, remove others
-          if (newOptions.categories.indexOf('0') !== -1) {
-            newOptions.categories = ['0']
-          }
-
           this.$store.commit('setSearchOptions', {
             options: newOptions
           })
