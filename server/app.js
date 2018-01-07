@@ -42,11 +42,14 @@ server.listen(port);
 
 var connections = [],
   onlineUsers = [];
-//server-socket.io
+
+// Socket.io listener
 io.on('connection', function(socket) {
   //to connect user
   connections.push(socket);
   console.log('connected: %s user is connected', connections.length);
+
+  io.sockets.emit('activeUsersCount', connections.length);
 
   //to disconnect user
   socket.on('disconnect',function(data){
@@ -65,26 +68,33 @@ io.on('connection', function(socket) {
     // newMsg.save(function(err){
       // console.log('saved, err = ' + err);
       // if(err) throw err;
-      console.log('echoeing back data =' + data);
-      io.sockets.emit('new message',{msg: data, user: socket.username});
+      console.log('echoeing back data', data);
+      io.sockets.emit('new message',{
+        msg: data.message,
+        user: data.username,
+        groupId: data.groupId
+      });
       // });
   });
 
   //to add new onlineUsers
-  socket.on('new user', function (data, callback) {
-    console.log('got new user', data)
-    callback(true);
-    socket.username = data;
+  socket.on('new user', function (username, callback) {
+    console.log('got new user', username)
+    console.log('USERS', connections.length)
+    socket.username = username;
 
-    if (onlineUsers.indexOf(socket.username) === -1) {
-      onlineUsers.push(socket.username);
+    if (onlineUsers.indexOf(username) === -1) {
+      console.log('New user', username)
+      onlineUsers.push(username);
       updateUsernames();
     }
+
+    callback(true);
   });
 
   function updateUsernames () {
     console.log('Update onlineUsers', onlineUsers)
-    io.sockets.emit('get onlineUsers', onlineUsers);
+    io.sockets.emit('get users', onlineUsers);
   }
 });
 

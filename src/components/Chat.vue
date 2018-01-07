@@ -1,34 +1,25 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-10 offset-md-1 mb-2">
         <h2>Group chat</h2>
+        <hr>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-3 offset-md-2">
-        <h4>Active users</h4>
-
-        <b-list-group>
-          <b-list-group-item
-            href="#"
-            :key="index"
-            v-for="(user, index) in activeUsers">
-            {{ user }}
-          </b-list-group-item>
-        </b-list-group>
-      </div>
-
-      <div class="col-md-5">
-        <h4>Messages:</h4>
+      <div class="col-md-5 offset-md-1">
+        <h4>Messages</h4>
 
         <ul class="p-0 messages">
           <li v-for="message in messages" class="card p-2 px-4 mb-2">
             <strong>{{ message.user }}</strong> {{ message.msg }}
           </li>
         </ul>
+      </div>
 
+      <div class="col-md-5">
+        <h4>Write message</h4>
         <b-form-group>
           <b-form-textarea v-model="messageText" rows="2" placeholder="Write your message">
           </b-form-textarea>
@@ -40,7 +31,6 @@
           </b-button>
           <div class="clearfix"></div>
         </b-form-group>
-
       </div>
     </div>
   </div>
@@ -54,6 +44,7 @@
     data () {
       return {
         groupId: this.$route.params.groupId,
+        userName: '',
         messageText: '',
         messages: [],
         activeUsers: [],
@@ -71,8 +62,11 @@
       this.socket = io('http://localhost:3000/')
 
       // listen for new messges
-      this.socket.on('new message', (data) => {
-        this.messages.push(data)
+      this.socket.on('new message', (message) => {
+        // show only the message intended for this group
+        if (message.groupId === this.groupId) {
+          this.messages.push(message)
+        }
       })
 
       this.getActiveUsers()
@@ -80,22 +74,28 @@
 
     methods: {
       sendMessage () {
-        this.socket.emit('send message', this.messageText)
+        this.socket.emit('send message', {
+          username: this.userName,
+          message: this.messageText,
+          groupId: this.groupId
+        })
+
         this.messageText = ''
       },
 
       getActiveUsers () {
-        this.socket.on('get users', (user) => {
-          this.activeUsers = user
+        this.socket.on('get users', (users) => {
+          console.log('active users', users)
+          this.activeUsers = users
         })
       }
     },
 
     watch: {
       userDetails (user) {
-        let userName = `${user.firstname} ${user.lastname}`
-
-        this.socket.emit('new user', userName, (data) => {
+        this.userName = `${user.firstname} ${user.lastname}`
+        console.log('Sending user info')
+        this.socket.emit('new user', this.userName, (data) => {
         })
       },
 
