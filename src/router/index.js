@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Registration from '@/components/Registration.vue'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
 import UploadImage from '@/components/UploadImage'
 import DisplayGroup from '@/components/DisplayGroup'
 import CreateGroup from '@/components/CreateGroup'
 import UpdateGroup from '@/components/UpdateGroup'
-import UserLogin from '@/components/UserLogin'
+import Registration from '@/components/User/Registration.vue'
+import UserLogin from '@/components/User/Login'
+import Profile from '@/components/User/Profile'
 import EditImage from '@/components/EditImage'
 import UserImages from '@/components/UserImages'
 
@@ -23,18 +24,28 @@ export default new Router({
     },
     {
       path:'/register',
-       name:'Registration',
-       component:Registration
-     },
+      name:'Registration',
+      component:Registration
+    },
     {
-     path:'/search-results',
-      name:'SearchResults',
-      component:SearchResults
+      path:'/login',
+      name:'UserLogin',
+      component:UserLogin
+    },
+    {
+      path:'/profile',
+      name:'Profile',
+      component:Profile
     },
     {
       path:'/profile/images',
       name:'UserImages',
       component:UserImages
+    },
+    {
+     path:'/search-results',
+      name:'SearchResults',
+      component:SearchResults
     },
     {
       path:'/carousel-image/:id/:type',
@@ -60,11 +71,6 @@ export default new Router({
       path:'/update-group/:id',
       name:'EditGroup',
       component:UpdateGroup
-    },
-    {
-      path:'/login',
-      name:'UserLogin',
-      component:UserLogin
     },
     {
       path:'/edit-image/:id',

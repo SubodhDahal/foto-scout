@@ -116,9 +116,15 @@ exports.profile_edit = [
       user.save(function(err){
         //console.log('updating');
         if(err){
-          return res.status(500).send({message:'we are having trouble, please try again later'})
+          return res.status(500).send({
+            status: 'error',
+            message: 'Issues while updating profile. Please try again later.'
+          })
         }
-        res.send(user);
+        res.send({
+          status: 'success',
+          user
+        });
       })
     }).catch((e) => {
       res.status(401).send({message: 'unauthorised user'});
