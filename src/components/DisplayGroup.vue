@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <div class="row">
+      <div class="col-md-12">
+        <h2>Groups</h2>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col-md-2 offset-md-8">
         <!--routes to CreateGroup component-->
         <router-link :to="{name:'CreateGroup'}">
@@ -45,7 +51,15 @@
               <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
           </div>
+          <router-link
+              class="btn btn-light float-right"
+              title="Edit"
+              :to="{name:'Chat', params:{groupId:activeGroup._id}}">
+              Start Chat
+            </router-link>
+
           <div class="clearfix"></div>
+
 
           <p>{{ activeGroup.description }}</p>
 

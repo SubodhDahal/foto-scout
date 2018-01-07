@@ -12,6 +12,7 @@ import UserLogin from '@/components/User/Login'
 import Profile from '@/components/User/Profile'
 import EditImage from '@/components/EditImage'
 import UserImages from '@/components/UserImages'
+import Chat from '@/components/Chat'
 
 Vue.use(Router)
 
@@ -76,7 +77,12 @@ export default new Router({
       path:'/edit-image/:id',
       name:'EditImage',
       component:EditImage
-    }
+    },
+    {
+      path:'/chat/:groupId',
+      name:'Chat',
+      component:Chat
+    },
   ],
   mode:'history'
 })
