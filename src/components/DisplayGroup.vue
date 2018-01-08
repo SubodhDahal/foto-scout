@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-8 offset-2">
         <h2>Groups</h2>
+        <hr>
       </div>
     </div>
 
@@ -10,7 +11,7 @@
       <div class="col-md-2 offset-md-8">
         <!--routes to CreateGroup component-->
         <router-link :to="{name:'CreateGroup'}">
-          <b-button class="danger float-right">
+          <b-button class="danger float-right w-100">
             Create Group
           </b-button>
         </router-link>
@@ -37,8 +38,8 @@
         </b-list-group>
       </div>
 
-      <div class="col-md-5 white-bg br-5">
-        <div class="py-3">
+      <div class="col-md-5">
+        <div class="white-bg p-3 br-5 group-desc">
           <div class="float-right">
             <router-link
               class="btn btn-light"
@@ -230,3 +231,9 @@
     }
   }
 </script>
+
+<style>
+  .group-desc {
+    min-height: 200px;
+  }
+</style>

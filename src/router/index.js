@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// import custom created components
 import Home from '@/components/Home'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
