@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3 float-right">
+  <div class="float-right">
     <Language name="English" locale="en" flag="UK" />
     <Language name="Deutsch" locale="de" flag="DE" />
   </div>

@@ -44,8 +44,10 @@
 </script>
 
 <style>
+
   .selected-language {
     padding: 0 1px 2px 1px;
-    box-shadow: -1px -1px 0px #fff, 1px 1px 4px #000;
+    box-shadow: 1px 1px 0px #fff, 1px 1px 4px #000;
+    border-radius: 2px; padding: 2px!important;
   }
 </style>
