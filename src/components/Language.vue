@@ -33,6 +33,8 @@
        * @param  {String} language
        */
       change (language) {
+        localStorage.setItem('language', language)
+
         this.$store.commit('changeLanguage', {
           language
         })
