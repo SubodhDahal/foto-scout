@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-2">
-        <h2>Groups</h2>
+        <h2>{{ $t('groups') }}</h2>
         <hr>
       </div>
     </div>
@@ -12,7 +12,7 @@
         <!--routes to CreateGroup component-->
         <router-link :to="{name:'CreateGroup'}">
           <b-button class="danger float-right w-100">
-            Create Group
+            {{ $t('group-create') }}
           </b-button>
         </router-link>
       </div>

@@ -18,18 +18,18 @@
           <template v-if="isUserLoggedIn">
             <li class="menu-has-children">
               <router-link :to="{name:'UserImages'}" exact>
-                Images
+                {{ $t('images') }}
               </router-link>
 
               <ul>
                 <li>
                   <router-link :to="{name:'UserImages'}" exact>
-                    My Images
+                    {{ $t('my-images') }}
                   </router-link>
                 </li>
                 <li>
                   <router-link :to="{name:'UploadImage'}">
-                    Upload
+                    {{ $t('upload') }}
                   </router-link>
                 </li>
               </ul>
@@ -37,22 +37,24 @@
 
             <li>
               <router-link :to="{name:'DisplayGroup'}">
-                Groups
+                {{ $t('groups') }}
               </router-link>
             </li>
 
             <li class="menu-has-children">
               <router-link :to="{name:'Profile'}" exact>
-                Profile
+                {{ $t('profile') }}
               </router-link>
               <ul>
                 <li>
                   <router-link :to="{name:'Profile'}">
-                    My Account
+                    {{ $t('my-account') }}
                   </router-link>
                 </li>
                 <li>
-                  <a href="#" @click.prevent="logout">Logout</a>
+                  <a href="#" @click.prevent="logout">
+                    {{ $t('logout') }}
+                  </a>
                 </li>
               </ul>
             </li>
@@ -60,10 +62,14 @@
 
           <template v-if="!isUserLoggedIn">
             <li>
-              <router-link :to="{name:'Registration'}">{{ $t('register') }}</router-link>
+              <router-link :to="{name:'Registration'}">
+                {{ $t('register') }}
+              </router-link>
             </li>
             <li>
-              <router-link :to="{name:'UserLogin'}">{{ $t('login') }}</router-link>
+              <router-link :to="{name:'UserLogin'}">
+                {{ $t('login') }}
+              </router-link>
             </li>
           </template>
 

@@ -2,14 +2,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-10 offset-md-1 mb-2">
-        <h2>Group chat: {{ groupName }}</h2>
+        <h2>{{ $t('group-chat') }}: {{ groupName }}</h2>
         <hr>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-5 offset-md-1">
-        <h4>Messages</h4>
+        <h4>{{ $t('messages') }}</h4>
 
         <ul class="p-0 messages">
           <li v-for="message in messages" class="card p-2 px-4 mb-2">
@@ -19,15 +19,18 @@
       </div>
 
       <div class="col-md-5">
-        <h4>Write message</h4>
+        <h4>{{ $t('message-write') }}</h4>
         <b-form-group>
-          <b-form-textarea v-model="messageText" rows="2" placeholder="Write your message">
+          <b-form-textarea
+            v-model="messageText"
+            rows="2"
+            :placeholder="$t('message-yours')">
           </b-form-textarea>
         </b-form-group>
 
         <b-form-group>
           <b-button type="submit" @click.prevent="sendMessage" variant="primary" class="float-right">
-            Send
+            {{ $t('send') }}
           </b-button>
           <div class="clearfix"></div>
         </b-form-group>

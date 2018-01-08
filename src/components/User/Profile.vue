@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-5 offset-4">
-        <h2>Update Profile</h2>
+        <h2>{{ $t('profile-update') }}</h2>
         <hr>
       </div>
     </div>

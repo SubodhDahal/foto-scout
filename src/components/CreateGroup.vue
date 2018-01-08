@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-2">
-        <h2>Create Group</h2>
+        <h2>{{ $t('group-create') }}</h2>
         <hr>
       </div>
     </div>
@@ -10,7 +10,9 @@
     <div class="row">
       <div class="col-md-2 offset-8">
         <router-link :to="{name:'DisplayGroup'}">
-          <b-button class="w-100">Back</b-button>
+          <b-button class="w-100">
+            {{ $t('back') }}
+          </b-button>
         </router-link>
       </div>
 

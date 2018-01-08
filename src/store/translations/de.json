@@ -31,5 +31,30 @@
   "labelforremember": "Angemeldet bleiben",
   "labelforlog-login": "Anmelden",
   "labelforimagecategory":"Bild Kategorie",
-  "selectforimagecategory":"Wählen Sie ein Bild Kategorie"
+  "selectforimagecategory": "Wählen Sie ein Bild Kategorie",
+  "show-advanced-options": "Erweiterte Optionen anzeigen",
+  "hide-advanced-options": "Erweiterte Optionen ausblenden",
+  "search-radius": "Suchradius (in km):",
+  "categories": "Kategorien:",
+
+  "image": "Bild",
+  "images": "Bilder",
+  "my-images": "Meine Bilder",
+  "images-view": "Bilder anzeigen",
+  "search-results": "Suchergebnisse in",
+  "upload": "Hochladen",
+  "groups": "Gruppen",
+  "profile": "Profil",
+  "my-account": "Mein Konto",
+  "logout": "Ausloggen",
+
+  "group-create": "Gruppe erstellen",
+  "group-chat": "Gruppenchat",
+  "messages": "Mitteilungen",
+  "message-write": "Nachricht schreiben",
+  "message-yours": "Deine Nachricht",
+  "send": "Senden",
+  "back": "Zurück",
+
+  "profile-update": "Profil aktualisieren"
 }
