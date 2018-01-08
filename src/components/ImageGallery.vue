@@ -27,7 +27,11 @@
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </router-link>
 
-            <a href="#" class="btn btn-light" title="Delete" @click.prevent="deleteImage(image._id)">
+            <a href="#"
+              class="btn btn-light"
+              title="Delete"
+              v-if="image.userId==userDetails._id"
+              @click.prevent="deleteImage(image._id)">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
           </div>
