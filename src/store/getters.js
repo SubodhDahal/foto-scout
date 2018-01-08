@@ -8,6 +8,10 @@ export default {
     return state.language
   },
 
+  flashMessage (state) {
+    return state.flashMessage
+  },
+
   /**
    * Get the list of groups
    * @param  {Object} state

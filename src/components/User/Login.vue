@@ -68,6 +68,10 @@ export default {
           // redirect to home page after successful registration
           this.$router.push({name: 'Home'})
 
+          this.$store.dispatch('setFlashMessage', {
+            message: 'You\'ve been logged in'
+          })
+
           this.$store.dispatch('getUserDetails')
             .then((res) => {
               console.log('RES', res)

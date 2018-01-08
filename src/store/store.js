@@ -41,6 +41,8 @@ const store = new Vuex.Store({
     user: {},
     userImages: [],
 
+    flashMessage: '',
+
     imageUpload: {
       file: null,
       imageUrl: null,

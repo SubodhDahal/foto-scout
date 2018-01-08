@@ -126,6 +126,9 @@
 </script>
 
 <style>
+  .gm-style .gm-style-iw {
+    color: #333;
+  }
   /* Hide the close button on info window */
   .gm-style .gm-style-iw + div {
     display: none; /* <-- this will generally work on the fly. */
