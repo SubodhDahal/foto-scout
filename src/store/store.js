@@ -16,7 +16,7 @@ import translationsEn from './translations/en.json'
 import translationsDe from './translations/de.json'
 
 // get selected language from localstorage
-let language = localStorage.getItem('language', 'en')
+let language = localStorage.getItem('language') || 'en'
 
 // Initialize the Vuex store
 const store = new Vuex.Store({
