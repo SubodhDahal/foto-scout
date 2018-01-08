@@ -1,7 +1,7 @@
 'use strict';
 var multer = require('multer');
 var crypto=require("crypto");
-
+var mime=require('mime');
 var upload = multer({ storage: storage });
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -9,6 +9,7 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {
+      if(err) return cb(err)
       //cb(null, raw.toString('hex') + Date.now() + '.' + mime.extension(file.mimetype));
       cb(null, raw.toString('hex') + Date.now() + '.' + "jpg");
     });
