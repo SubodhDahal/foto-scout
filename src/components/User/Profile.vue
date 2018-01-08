@@ -64,7 +64,7 @@
 
     <div class="row">
         <div class="col-md-2 offset-2 field-label-responsive">
-            <label for="lastname">About Me</label>
+            <label for="lastname">{{ $t('about-me') }}</label>
         </div>
         <div class="col-md-5">
             <div class="form-group">

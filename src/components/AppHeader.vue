@@ -43,7 +43,7 @@
 
             <li class="menu-has-children">
               <router-link :to="{name:'Profile'}" exact>
-                {{ $t('profile') }}
+                {{ $t('profile') }} <span>({{ userDetails.firstname }})</span>
               </router-link>
               <ul>
                 <li>
@@ -96,7 +96,8 @@
 
     computed: {
       ...mapGetters([
-        'isUserLoggedIn'
+        'isUserLoggedIn',
+        'userDetails'
       ])
     },
 
@@ -105,6 +106,10 @@
         this.$store.dispatch('logoutUser')
           .then(() => {
             this.$router.push({name: 'Home'})
+
+            this.$store.commit('setFlashMessage', {
+              message: 'You\'ve been logged out'
+            })
           })
       }
     }
@@ -226,6 +231,10 @@
     padding: 15px;
     float: right;
     margin: 0;
+  }
+
+  #nav-menu-container a span {
+    color: #2a4f8f;
   }
 
   /* Nav Meu Styling */

@@ -10,7 +10,7 @@
           ERROR: {{ errorMessage }}
         </b-alert>
 
-        <h2 class="mb-4">Upload image</h2>
+        <h2 class="mb-4">{{ $t('upload-image') }}</h2>
       </div>
     </div>
 
