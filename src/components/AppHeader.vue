@@ -10,20 +10,20 @@
       <nav class="justify-content-end" id="nav-menu-container">
         <ul class="nav-menu">
           <li>
-            <router-link to="/" title="Home" exact>
+            <router-link :to="{name:'Home'}" title="Home" exact>
               <i class="fa fa-home" aria-hidden="true"></i>
             </router-link>
           </li>
 
           <template v-if="isUserLoggedIn">
             <li class="menu-has-children">
-              <router-link :to="{name:'UserImages'}">
+              <router-link :to="{name:'UserImages'}" exact>
                 Images
               </router-link>
 
               <ul>
                 <li>
-                  <router-link :to="{name:'UserImages'}">
+                  <router-link :to="{name:'UserImages'}" exact>
                     My Images
                   </router-link>
                 </li>
@@ -42,7 +42,7 @@
             </li>
 
             <li class="menu-has-children">
-              <router-link :to="{name:'Profile'}">
+              <router-link :to="{name:'Profile'}" exact>
                 Profile
               </router-link>
               <ul>
