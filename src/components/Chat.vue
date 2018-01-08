@@ -79,6 +79,8 @@
         }
       })
 
+      this.setUserName(this.userDetails)
+
       this.getActiveUsers()
     },
 
@@ -98,15 +100,24 @@
           console.log('active users', users)
           this.activeUsers = users
         })
+      },
+
+      setUserName (user) {
+        if (typeof user.firstname === 'undefined' &&
+          typeof user.lastname === 'undefined') {
+          return
+        }
+
+        this.userName = `${user.firstname} ${user.lastname}`
+        console.log('Sending user info')
+        this.socket.emit('new user', this.userName, (data) => {
+        })
       }
     },
 
     watch: {
       userDetails (user) {
-        this.userName = `${user.firstname} ${user.lastname}`
-        console.log('Sending user info')
-        this.socket.emit('new user', this.userName, (data) => {
-        })
+        this.setUserName(user)
       }
     }
   }
