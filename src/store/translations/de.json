@@ -43,9 +43,11 @@
   "images-view": "Bilder anzeigen",
   "search-results": "Suchergebnisse in",
   "upload": "Hochladen",
+  "upload-image": "Bild hochladen",
   "groups": "Gruppen",
   "profile": "Profil",
   "my-account": "Mein Konto",
+  "about-me": "Über mich",
   "logout": "Ausloggen",
 
   "group-create": "Gruppe erstellen",

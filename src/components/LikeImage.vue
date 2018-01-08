@@ -1,6 +1,9 @@
 <template>
   <div class="like-image">
-    <a href="#" @click.prevent="toggle" class="d-inline btn btn-light px-2 py-1">
+    <a href="#"
+      @click.prevent="toggle"
+      class="d-inline btn btn-light px-2 py-1"
+      :class="{'disabled': !isUserLoggedIn}">
       <i class="fa fa-heart-o like-button" v-if="!isLiked" aria-hidden="true"></i>
 
       <i class="fa fa-heart like-button" v-if="isLiked" aria-hidden="true" title="Liked"></i>
@@ -28,7 +31,8 @@
 
     computed: {
       ...mapGetters([
-        'userDetails'
+        'userDetails',
+        'isUserLoggedIn'
       ]),
 
       isLiked: {
@@ -83,5 +87,9 @@
   .like-button {
     font-size: 1rem;
     color: #f15151;
+  }
+
+  .like-button .btn.disabled, .like-button .btn:disabled {
+    opacity: 0.85;
   }
 </style>

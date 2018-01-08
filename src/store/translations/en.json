@@ -42,9 +42,11 @@
   "images-view": "View images",
   "search-results": "Search results in",
   "upload": "Upload",
+  "upload-image": "Upload Image",
   "groups": "Groups",
   "profile": "Profile",
   "my-account": "My Account",
+  "about-me": "About me",
   "logout": "Logout",
 
   "group-create": "Create Group",
