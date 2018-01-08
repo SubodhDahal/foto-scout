@@ -2,8 +2,6 @@
   <div class="main">
     <AppHeader />
 
-    <NavigationMenu />
-
     <div class="mt-4">
       <router-view></router-view>
     </div>
@@ -12,12 +10,10 @@
 
 <script>
   import AppHeader from './components/AppHeader'
-  import NavigationMenu from './components/NavigationMenu'
 
   export default {
     components: {
-      AppHeader,
-      NavigationMenu
+      AppHeader
     },
 
     mounted () {

@@ -10,7 +10,7 @@ users = [];
 connections = [];
 
 //server connection
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3030);
 console.log ('Server is running.....');
 
 var chatModel = mongoose.model('Chat');
@@ -61,6 +61,7 @@ io.on('connection', function(socket){
 
         //to add new users
         socket.on('new user', function (data, callback) {
+          console.log('got new user', data)
               callback(true);
               socket.username = data;
               users.push(socket.username);

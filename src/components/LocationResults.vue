@@ -25,10 +25,14 @@
       :position="location.marker.position"
       :opened="true">
         <p></p>
-        <p>{{ images.length }} image{{ images.length > 1 ? 's' : '' }}</p>
+        <p>
+          {{ images.length }}
+          <template v-if="images.length <=1 ">{{ $t('image') }}</template>
+          <template v-if="images.length > 1">{{ $t('images') }}</template>
+        </p>
         <p>
           <router-link :to="{name:'SearchResults', query: {lat: locationCoordinates.lat, lng: locationCoordinates.lng, radius: searchOptions.radius, name: locationName, 'categories[]': searchOptions.categories }}" v-if="images.length > 0">
-            View images
+            {{ $t('images-view') }}
           </router-link>
         </p>
     </gmap-info-window>

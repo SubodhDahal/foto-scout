@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-5 offset-4">
-        <h2>Update Profile</h2>
+        <h2>{{ $t('profile-update') }}</h2>
         <hr>
       </div>
     </div>
@@ -70,7 +70,7 @@
             <div class="form-group">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-info"></i></div>
-                    <textarea name="about_me" cols="5" rows="5" class="form-control" v-model="about_me" required></textarea>
+                    <textarea name="about_me" cols="5" rows="5" class="form-control" v-model="about_me"></textarea>
                 </div>
             </div>
         </div>
@@ -117,7 +117,17 @@
       ])
     },
 
+    mounted () {
+      this.setUserDetails(this.userDetails)
+    },
+
     methods: {
+      setUserDetails (user) {
+        this.firstname = user.firstname
+        this.lastname = user.lastname
+        this.about_me = user.about_me
+      },
+
       updateProfile () {
         let updateData = {
           'firstname': this.firstname,
@@ -167,10 +177,7 @@
 
     watch: {
       userDetails (user) {
-        console.log('user', user)
-        this.firstname = user.firstname
-        this.lastname = user.lastname
-        this.about_me = user.about_me
+        this.setUserDetails(user)
       }
     }
   }

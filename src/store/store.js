@@ -15,10 +15,13 @@ import actions from './actions'
 import translationsEn from './translations/en.json'
 import translationsDe from './translations/de.json'
 
+// get selected language from localstorage
+let language = localStorage.getItem('language') || 'en'
+
 // Initialize the Vuex store
 const store = new Vuex.Store({
   state: {
-    language: 'en',
+    language: language,
 
     // data regarding search options
     search: {
@@ -68,7 +71,7 @@ Vue.use(vuexI18n.plugin, store)
 Vue.i18n.add('en', translationsEn)
 Vue.i18n.add('de', translationsDe)
 
-// Set English as the default locale
-Vue.i18n.set('en')
+// Set language locale
+Vue.i18n.set(language)
 
 export default store

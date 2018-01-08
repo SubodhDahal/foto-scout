@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2 class="d-inline">Image results in:</h2>
+        <h2 class="d-inline">{{ $t('search-results') }}:</h2>
         <h3 class="d-inline">{{ locationName }}</h3>
       </div>
     </div>

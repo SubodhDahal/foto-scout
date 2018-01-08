@@ -2,14 +2,15 @@
   <div class="mb-4">
     <div class="mx-3">
       <a href="#" @click.prevent="toggle">
-        {{ isVisible ? 'Hide' : 'Show' }} Advanced Options
+        <template v-if="isVisible">{{ $t('hide-advanced-options') }}</template>
+        <template v-if="!isVisible">{{ $t('show-advanced-options') }}</template>
       </a>
     </div>
 
     <div v-if="isVisible" class="my-3">
       <div class="col-md-12">
         <b-form-group
-          label="Search Radius (in km):"
+          :label="$t('search-radius')"
           label-for="search-radius"
           class="float-left pt-2 pr-2"
         >
@@ -24,7 +25,7 @@
       </div>
 
       <div class="col-md-12">
-        <b-form-group label="Categories:">
+        <b-form-group :label="$t('categories')">
           <b-form-checkbox-group
             id="categories"
             name="categories"

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// import custom created components
 import Home from '@/components/Home'
 import SearchResults from '@/components/SearchResults.vue'
 import CarouselImage from '@/components/CarouselImage.vue'
@@ -12,6 +14,7 @@ import UserLogin from '@/components/User/Login'
 import Profile from '@/components/User/Profile'
 import EditImage from '@/components/EditImage'
 import UserImages from '@/components/UserImages'
+import Chat from '@/components/Chat'
 
 Vue.use(Router)
 
@@ -76,7 +79,12 @@ export default new Router({
       path:'/edit-image/:id',
       name:'EditImage',
       component:EditImage
-    }
+    },
+    {
+      path:'/chat/:groupId',
+      name:'Chat',
+      component:Chat
+    },
   ],
   mode:'history'
 })

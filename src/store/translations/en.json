@@ -30,5 +30,30 @@
   "labelforremember": "Remember Me",
   "labelforlog-login": "Log in",
   "labelforimagecategory":"Image Category",
-  "selectforimagecategory":"Select Image Category"
-  }
+  "selectforimagecategory":"Select Image Category",
+  "show-advanced-options": "Show Advanced Options",
+  "hide-advanced-options": "Hide Advanced Options",
+  "search-radius": "Search Radius (in km):",
+  "categories": "Categories:",
+
+  "image": "Image",
+  "images": "Images",
+  "my-images": "My Images",
+  "images-view": "View images",
+  "search-results": "Search results in",
+  "upload": "Upload",
+  "groups": "Groups",
+  "profile": "Profile",
+  "my-account": "My Account",
+  "logout": "Logout",
+
+  "group-create": "Create Group",
+  "group-chat": "Group chat",
+  "messages": "Messages",
+  "message-write": "Write message",
+  "message-yours": "Your message",
+  "send": "Send",
+  "back": "Back",
+
+  "profile-update": "Update Profile"
+}
