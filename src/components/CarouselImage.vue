@@ -29,6 +29,10 @@
         'userImages'
       ]),
 
+      /**
+       * Get the list of images
+       * @return {Array}
+       */
       imagesList () {
         if (this.$route.params.type === 'user') {
           return this.userImages
@@ -56,7 +60,7 @@
 <style>
   .carousel-item img {
     margin: 0 auto;
-    min-height: 500px;
+    height: 80vh;
     width: auto !important;
   }
 </style>
