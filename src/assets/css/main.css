@@ -1,12 +1,13 @@
 body {
-  background: url(/static/images/bg2.jpg);
+  background: url(/static/images/bg.jpg);
   background-size: cover;
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #fff;
+  color: #22301F;
   height: 100%;
   padding-top: 0!important;
+
 }
 
 .main {
