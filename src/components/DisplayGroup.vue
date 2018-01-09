@@ -40,6 +40,7 @@
 
       <div class="col-md-5">
         <div class="white-bg p-3 br-5 group-desc">
+          <h1>{{ activeGroup.name }}</h1>
           <div class="float-right">
             <router-link
               class="btn btn-light"

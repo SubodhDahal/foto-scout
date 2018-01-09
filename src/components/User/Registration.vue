@@ -77,7 +77,7 @@
             <div class="col-md-3">
                 <div class="form-control-feedback" v-if="getErrors('email')">
                   <span class= "text-danger align-middle">
-                      {{ getErrors('email').msg  }}
+                    {{ getErrors('email').msg  }}
                   </span>
                 </div>
             </div>
@@ -97,7 +97,9 @@
             </div>
             <div class="col-md-3">
                 <div class="form-control-feedback" v-if="getErrors('passcode')">
-                  <span class="text-danger align-middle">Minimum 6 characters long</span>
+                  <span class="text-danger align-middle">
+                    {{ getErrors('passcode').msg  }}
+                  </span>
                 </div>
             </div>
         </div>
@@ -111,16 +113,25 @@
                         <div class="input-group-addon" style="width: 2.6rem">
                             <i class="fa fa-repeat"></i>
                         </div>
-                        <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" :placeholder="$t('labelforconfpassholder')" required>
+                        <input
+                          type="password"
+                          name="password-confirmation"
+                          class="form-control"
+                          id="password-confirm"
+                          v-model="passcodeConfirm"
+                          :placeholder="$t('labelforconfpassholder')"
+                          required>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-success" @click.prevent="onRegister">
+            <div class="col-md-6 offset-md-3">
+                <button
+                  type="submit"
+                  class="btn btn-success mt-2"
+                  :disabled="!isFormValid"
+                  @click.prevent="onRegister">
                     <i class="fa fa-user-plus"></i> {{$t('labelforregisterbuttion')}}
                 </button>
             </div>
@@ -140,12 +151,49 @@ export default {
       lastname: '',
       email: '',
       passcode: '',
+      passcodeConfirm: '',
       errors: []
     }
   },
 
+  computed: {
+    /**
+     * Check if the form is valid
+     * @return {Boolean}
+     */
+    isFormValid () {
+      return this.firstname !== '' &&
+        this.lastname !== '' &&
+        this.email !== '' &&
+        this.passcode !== ''
+    }
+  },
+
   methods: {
+    /**
+     * Check if the passwords match
+     * @return {Boolean}
+     */
+    doPasswordsmatch () {
+      if (this.passcode !== this.passcodeConfirm) {
+        this.errors = [{
+          'param': 'passcode',
+          'msg': 'Passwords don\'t match'
+        }]
+        return false
+      }
+
+      return true
+    },
+
+    /**
+     * Register user
+     */
     onRegister () {
+      if (!this.doPasswordsmatch()) {
+        return
+      }
+
       let registerData = {
         'firstname': this.firstname,
         'lastname': this.lastname,
@@ -168,6 +216,10 @@ export default {
 
             // redirect to home page after successful registration
             this.$router.push({name: 'Home'})
+
+            this.$store.commit('setFlashMessage', {
+              message: 'You\'ve been successfully registered and logged in'
+            })
 
             this.$store.dispatch('getUserDetails')
               .then((res) => {
