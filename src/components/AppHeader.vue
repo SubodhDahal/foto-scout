@@ -3,7 +3,7 @@
     <div class="container">
       <div id="logo" class="pull-left">
         <router-link :to="{name:'Home'}">
-          <img src="/static/images/logo.png" alt="" title=""/>
+          <img src="/static/images/foto-scout-logo.png" alt="" title=""/>
         </router-link>
       </div>
 
@@ -120,11 +120,6 @@
   #header {
     padding: 15px 0 0 0;
     height: 92px;
-    left: 0;
-    top: 0;
-    right: 0;
-    transition: all 0.5s;
-    z-index: 997;
   }
 
   #header #logo {
@@ -136,7 +131,6 @@
     margin: 0;
     padding: 6px 0;
     line-height: 1;
-    font-family: "Poppins", sans-serif;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -147,7 +141,7 @@
   }
 
   #header #logo img {
-    max-height: 70px;
+    max-height: 90px;
     padding: 0;
     margin: 0;
   }
