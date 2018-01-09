@@ -91,6 +91,8 @@ function extractExifData (imagename, callback, errorCallback) {
       return;
     }
 
+    console.log('exifData', exifData)
+
     callback(exifData)
   });
 }

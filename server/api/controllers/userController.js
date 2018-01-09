@@ -98,29 +98,31 @@ exports.user_profile = (req, res) =>{
 
 exports.profile_edit = [
 
-  check('firstname','firstname required').isLength({min: 1}),
-  check('lastname','lastname required').isLength({min: 1}),
+  check('firstname', 'Firstname is required').isLength({min: 1}),
+  check('lastname', 'Lastname is required').isLength({min: 1}),
 
-  (req, res) =>{
+  (req, res) => {
+    var token = req.header('x-auth');
 
-  var token = req.header('x-auth');
-
-  User.findByToken(token).then((user) => {
-    if (!user) {
+    User.findByToken(token).then((user) => {
+      if (!user) {
         return Promise.reject();
       }
+
       //console.log('working');
       user.firstname = req.body.firstname;
       user.lastname = req.body.lastname;
       user.user_profile[0].about_me = req.body.about_me;
+
       user.save(function(err){
         //console.log('updating');
-        if(err){
+        if (err) {
           return res.status(500).send({
             status: 'error',
             message: 'Issues while updating profile. Please try again later.'
           })
         }
+
         res.send({
           status: 'success',
           user
@@ -142,7 +144,7 @@ exports.set_profile_pic = (req,res) =>{
     console.log('working');
     var file = req.files[0],
       imageName = file.filename,
-      filePath = file.path.replace("public\\", "");   // remove public\ from filepath
+      filePath = file.path.replace("public\\", "").replace('public/', '');   // remove public\ from filepath
       //console.log(filePath);
       user.user_profile[0].profile_pic[0].path = filePath;
       user.user_profile[0].profile_pic[0].original_name = imageName;
