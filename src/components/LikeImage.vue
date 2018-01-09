@@ -68,7 +68,8 @@
               this.likes.push(this.userDetails._id)
             } else {
               // remove current user from the list of likes for the image
-              this.likes.pop(this.userDetails._id)
+              let index = this.likes.indexOf(this.userDetails._id)
+              this.likes.splice(index, 1)
             }
           })
       }
