@@ -17,6 +17,14 @@
       </div>
 
       <router-view></router-view>
+
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            Copyright &copy; 2018 FotoScout
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +51,9 @@
     },
 
     methods: {
+      /**
+       * Remove the flash message
+       */
       dismissFlashMessage () {
         this.$store.commit('setFlashMessage', {
           message: ''
