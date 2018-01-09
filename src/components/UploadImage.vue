@@ -139,14 +139,22 @@
       resetForm () {
         this.$store.commit('setUploadData', {
           file: null,
-          text: '',
+          description: '',
           imageUrl: '',
+          category: [],
+          location: {
+            lat: '',
+            lng: ''
+          },
           errorMessage: '',
           isImageuploaded: false
         })
         this.$refs.fileInput.reset()
       },
 
+      /**
+       * Upload image to server
+       */
       uploadImage () {
         let authToken = localStorage.getItem('authToken')
 

@@ -27,6 +27,15 @@ export default {
   },
 
   /**
+   * Set flash message
+   * @param {Object} state
+   * @param {Object} payload
+   */
+  setFlashMessage (state, payload) {
+    state.flashMessage = payload.message
+  },
+
+  /**
    * Save user data
    * @param {Object} state
    * @param {Object} payload

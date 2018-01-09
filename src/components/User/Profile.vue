@@ -122,12 +122,18 @@
     },
 
     methods: {
+      /**
+       * Set user details
+       */
       setUserDetails (user) {
         this.firstname = user.firstname
         this.lastname = user.lastname
-        this.about_me = user.about_me
+        this.about_me = user.user_profile[0].about_me
       },
 
+      /**
+       * Update user profile
+       */
       updateProfile () {
         let updateData = {
           'firstname': this.firstname,
@@ -170,12 +176,21 @@
           })
       },
 
+      /**
+       * Get errors if any
+       * @param  {String} param
+       * @return {Object}
+       */
       getErrors (param) {
         return this.errors.find((error) => error.param === param)
       }
     },
 
     watch: {
+      /**
+       * Watch user details change
+       * @param  {Object} user
+       */
       userDetails (user) {
         this.setUserDetails(user)
       }
