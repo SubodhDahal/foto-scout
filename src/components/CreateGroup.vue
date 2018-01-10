@@ -16,8 +16,8 @@
         </router-link>
       </div>
 
-      <div class="col-md-8 offset-2">
-        <b-alert :show="isGroupCreated">
+      <div class="col-md-8 offset-2 mt-4">
+        <b-alert :show="isGroupCreated" dismissible>
           Group created successfully!
         </b-alert>
       </div>
