@@ -51,6 +51,7 @@
   "logout": "Ausloggen",
 
   "group-create": "Gruppe erstellen",
+  "group-update": "Gruppe aktualisieren",
   "group-chat": "Gruppenchat",
   "messages": "Mitteilungen",
   "message-write": "Nachricht schreiben",

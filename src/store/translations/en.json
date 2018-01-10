@@ -50,6 +50,7 @@
   "logout": "Logout",
 
   "group-create": "Create Group",
+  "group-update": "Update Group",
   "group-chat": "Group chat",
   "messages": "Messages",
   "message-write": "Write message",

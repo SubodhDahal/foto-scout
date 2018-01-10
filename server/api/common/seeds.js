@@ -16,10 +16,16 @@ var imageCategories = [{
     categoryName: 'Landscape'
   },
   {
+    categoryName: 'Nature'
+  },
+  {
     categoryName: 'Portrait'
   },
   {
     categoryName: 'Cityscape'
+  },
+  {
+    categoryName: 'Travel'
   }]
 
 imageCategory.create(imageCategories, function(err, category) {
