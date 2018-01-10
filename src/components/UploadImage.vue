@@ -2,11 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <b-alert :show="isImageuploaded">
+        <b-alert :show="isImageuploaded" dismissible>
           Image uploaded successfully
         </b-alert>
 
-        <b-alert :show="errorMessage!=''" class="alert-danger">
+        <b-alert :show="errorMessage!=''" class="alert-danger" dismissible>
           ERROR: {{ errorMessage }}
         </b-alert>
 

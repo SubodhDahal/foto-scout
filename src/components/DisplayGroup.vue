@@ -18,7 +18,7 @@
       </div>
 
       <div class="col-md-8 offset-2 mt-4" v-if="isAlertShown">
-        <b-alert :show="isAlertShown">
+        <b-alert :show="isAlertShown" dismissible>
           {{ alertMessage }}
         </b-alert>
       </div>
