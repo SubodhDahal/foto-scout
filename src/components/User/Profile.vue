@@ -9,10 +9,10 @@
 
     <div class="row">
       <div class="col-md-5 offset-md-4">
-        <b-alert :show="isUserUpdated">
+        <b-alert :show="isUserUpdated" dismissible>
           User profile updated successfully
         </b-alert>
-        <b-alert :show="errorMessage!=''" class="alert-danger">
+        <b-alert :show="errorMessage!=''" class="alert-danger" dismissible>
           ERROR: {{ errorMessage }}
         </b-alert>
       </div>

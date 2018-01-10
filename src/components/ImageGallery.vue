@@ -8,7 +8,7 @@
       </div>
 
       <div class="col-md-6" v-if="isImageDeleted">
-        <b-alert :show="isImageDeleted">
+        <b-alert :show="isImageDeleted" dismissible>
           Image deleted successfully
         </b-alert>
       </div>

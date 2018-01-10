@@ -10,10 +10,10 @@
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <b-alert :show="isUserRegistered">
+                <b-alert :show="isUserRegistered" dismissible>
                   {{ $t('labelforregissuccess') }}
                 </b-alert>
-                <b-alert :show="errorMessage!=''" class="alert-danger">
+                <b-alert :show="errorMessage!=''" class="alert-danger" dismissible>
                   ERROR: {{ errorMessage }}
                 </b-alert>
             </div>

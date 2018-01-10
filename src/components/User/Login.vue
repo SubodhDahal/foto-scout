@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <b-alert class="col-md-4 offset-4 alert-danger" :show="errorMessage!=''">
+    <b-alert class="col-md-4 offset-4 alert-danger" :show="errorMessage!=''" dismissible>
       {{errorMessage}}
     </b-alert>
 
